@@ -89,12 +89,31 @@ if ! grep -qs '\.local/bin' "$HOME/.zprofile" 2>/dev/null; then
 fi
 
 # 6. BASE global tier: config, the five hooks, the BASE section in ~/.claude/CLAUDE.md
-if [[ -f "$HOME/.base-gbl/manifest.toml" ]]; then
-  ok "BASE global tier already installed"
-elif [[ -x "$BIN_DIR/base" ]] && "$BIN_DIR/base" install >/dev/null 2>&1; then
+# base install only wires hooks into a settings file that already exists, so make sure it does.
+mkdir -p "$CLAUDE_DIR"
+[[ -f "$CLAUDE_DIR/settings.json" ]] || echo '{}' > "$CLAUDE_DIR/settings.json"
+hooks_wired() {
+python3 - "$CLAUDE_DIR/settings.json" <<'PY'
+import json, sys
+try:
+    s = json.load(open(sys.argv[1]))
+except Exception:
+    sys.exit(1)
+events = {"SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "Stop"}
+found = set()
+for ev, groups in (s.get("hooks") or {}).items():
+    for g in groups:
+        for h in g.get("hooks", []):
+            if "base hook" in h.get("command", ""): found.add(ev)
+sys.exit(0 if events <= found else 1)
+PY
+}
+if [[ -f "$HOME/.base-gbl/manifest.toml" ]] && hooks_wired; then
+  ok "BASE global tier already installed and hooked"
+elif [[ -x "$BIN_DIR/base" ]] && "$BIN_DIR/base" install >/dev/null 2>&1 && hooks_wired; then
   ok "BASE installed (global tier, hooks, CLAUDE.md section)"
 else
-  fail "base install did not complete"
+  fail "base install did not complete or did not wire its hooks"
 fi
 
 # 6b. Match the Caddy team's BASE settings: no per-response diagnostic block; memory mirrors to files too
@@ -172,17 +191,9 @@ fi
 echo
 echo "== Verification =="
 [[ -x "$BIN_DIR/base" ]] && "$BIN_DIR/base" --version >/dev/null 2>&1 && ok "base --version answers" || fail "base does not run"
-python3 - "$CLAUDE_DIR/settings.json" <<'PY' && ok "the five BASE hooks are wired in ~/.claude/settings.json" || fail "BASE hooks missing from ~/.claude/settings.json"
-import json, sys
-s = json.load(open(sys.argv[1]))
-events = {"SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "Stop"}
-found = set()
-for ev, groups in (s.get("hooks") or {}).items():
-    for g in groups:
-        for h in g.get("hooks", []):
-            if "base hook" in h.get("command", ""): found.add(ev)
-sys.exit(0 if events <= found else 1)
-PY
+hooks_wired && ok "the five BASE hooks are wired in ~/.claude/settings.json" || fail "BASE hooks missing from ~/.claude/settings.json"
+grep -qs "BASE CLI" "$CLAUDE_DIR/CLAUDE.md" && ok "BASE section present in ~/.claude/CLAUDE.md" || fail "BASE section missing from ~/.claude/CLAUDE.md"
+[[ -f "$REPO/.mcp.json" ]] && grep -qs "base-mcp" "$REPO/.mcp.json" && ok ".mcp.json points at this workspace's BASE MCP server" || echo "skip  .mcp.json (no BASE MCP server)"
 for d in commands/paul paul-framework commands/seed commands/skillsmith skillsmith-specs commands/base skills/base base-framework; do
   [[ -d "$CLAUDE_DIR/$d" ]] && ok "~/.claude/$d present" || fail "~/.claude/$d missing"
 done
