@@ -38,7 +38,7 @@ You need two files:
 
 If either is missing, ask for it in one plain sentence ("Where is the transcript file from
 your session? It came in your Blueprint package email."). If they can't find the package:
-> No problem. Email hi@meetcaddy.com and the Caddy team will resend it.
+> No problem. Email support@meetcaddy.com and the Caddy team will resend it.
 
 **Viability check.** A real session transcript is long (a one to three hour conversation runs
 to many thousands of words — as a floor, anything under about 2,000 characters is certainly
@@ -207,7 +207,7 @@ Ten sections, all required:
    machine terms, each glossed plainly.
 10. **The honest page** — what this document is and is not (their property; a plan, not a
     promise of outcomes), what the machine never does (the guardrails, in their language),
-    and where help lives (hi@meetcaddy.com). No engagement-credit content — that subject
+    and where help lives (support@meetcaddy.com). No engagement-credit content — that subject
     stays out of this document entirely.
 
 ## Step 6b — Write your standing orders (BLUEPRINT-DIRECTIVES.md)
@@ -287,7 +287,7 @@ week, split it and put the week-sized piece first. Then **validate your own work
 project parses cleanly. Only report success after it does. If initialization fails: fix and
 retry once; if it fails again, say simply:
 
-> The plan file didn't build right. Email hi@meetcaddy.com and the Caddy team will sort it
+> The plan file didn't build right. Email support@meetcaddy.com and the Caddy team will sort it
 > out — your Blueprint document is safe and finished either way.
 
 ## Step 8 — Tell the owner (the report)

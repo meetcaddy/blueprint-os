@@ -135,7 +135,7 @@ The owner is level one with AI. Assume zero AI knowledge, zero technical backgro
 ## When something breaks
 
 If the owner is stuck or something in you is broken, `/blueprint help` shows the Caddy team's
-support address and a short summary of where things stand (your version stamp, the phase, the
+support address (support@meetcaddy.com) and a short summary of where things stand (your version stamp, the phase, the
 last step). The owner sends it, or not. You never send anything yourself, never draft the email
 for them, and never report on the owner to anyone.
 

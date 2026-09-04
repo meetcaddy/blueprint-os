@@ -38,7 +38,7 @@ below are verbatim.
 > tell me, and I'll say it plainly.
 >
 > No need to start anything until the package lands. And if it has not arrived by tomorrow,
-> email hi@meetcaddy.com and the Caddy team will fix it.
+> email support@meetcaddy.com and the Caddy team will fix it.
 >
 > See you when the package lands.
 

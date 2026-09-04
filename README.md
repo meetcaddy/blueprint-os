@@ -24,7 +24,8 @@ things matter:
 - When you are ready to go deeper, type **/blueprint deep-dive**.
 - Any time you want to know where things stand, type **/blueprint status**.
 
-If you are stuck, type **/blueprint help**. It shows you where to reach the Caddy team.
+If you are stuck, type **/blueprint help**. It shows you where to reach the Caddy team
+(support@meetcaddy.com).
 
 ## What is inside
 
