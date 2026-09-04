@@ -214,7 +214,8 @@ Ten sections, all required:
 
 The Blueprint's machine companion — YOUR deep operating instructions, derived from the same
 session. The owner may read it, but it is written to you, and you re-read it at the start
-of every session alongside BUSINESS.md. It carries:
+of every session alongside BUSINESS.md. Start from `os/templates/BLUEPRINT-DIRECTIVES.md` and
+fill every bracket. It carries:
 
 1. **Binding** — this blueprint's identity: business name, session date, the phase list,
    and the rule that these directives govern until the owner amends the plan.
@@ -266,9 +267,9 @@ of every session alongside BUSINESS.md. It carries:
 
 The build does not start at the Blueprint — it starts at understanding. Two stages:
 
-**7a. The Deep Dive (a SEED project).** Scaffold a SEED ideation project named "Deep Dive —
-[Business Name]", seeded with the Blueprint as its planning input. Its job, run WITH the
-owner and the operations seat before any phase builds:
+**7a. The Deep Dive (SEED projects, one per phase).** Do not scaffold anything here:
+`/blueprint deep-dive` opens each phase's SEED project (type blueprint) and writes the systems
+access map first. Its job, run WITH the owner and the operations seat before any phase builds:
 - Gather the full business context the session could not carry: SOPs and process documents,
   the real files, eyes on their software (screen shares of the actual systems), and access
   to systems where the work needs it — always granted properly by the owner, never through
@@ -279,8 +280,8 @@ owner and the operations seat before any phase builds:
 The Deep Dive graduates when the owner agrees the context is complete. Tell them plainly:
 "the more you give me here, the better everything I build will be."
 
-**7b. The plan (PAUL).** At Deep Dive graduation, create the PAUL project from the
-Blueprint: milestone "Your Blueprint," one phase per Blueprint phase, plans per opportunity
+**7b. The plan (PAUL).** `/blueprint deep-dive` creates the PAUL project when the first phase
+graduates, from the Blueprint: milestone "Your Blueprint," one phase per Blueprint phase, plans per opportunity
 within each phase. **Phase 1 is the first win:** the smallest automation the owner can see
 working inside seven days, the one P9 named. If the session's first move is bigger than a
 week, split it and put the week-sized piece first. Then **validate your own work**: run PAUL's status check and confirm the

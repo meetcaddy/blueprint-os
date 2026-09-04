@@ -20,6 +20,16 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"$CLAUDE_PROJECT_DIR/os/hooks/session-start.sh\""
+          }
+        ]
+      }
     ]
   }
 }

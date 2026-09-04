@@ -22,6 +22,7 @@ things matter:
 - When your Blueprint package arrives, open this folder in your AI workspace and type
   **/blueprint ingest**.
 - When you are ready to go deeper, type **/blueprint deep-dive**.
+- When a phase is ready to build, type **/blueprint build**.
 - Any time you want to know where things stand, type **/blueprint status**.
 
 If you are stuck, type **/blueprint help**. It shows you where to reach the Caddy team

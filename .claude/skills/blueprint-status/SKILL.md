@@ -8,6 +8,9 @@ description: Report Blueprint progress to the owner. Use when the owner runs /bl
 Read `BUSINESS.md`, the PAUL project state, and `BLUEPRINT.md` first. Then report in the
 owner's language — their vocabulary from BUSINESS.md, level one, short.
 
+If there is no `.paul/` yet, nothing has graduated: read `design/` and `ACCESS-MAP.md` instead
+and report the Deep Dive's state (which phase is being learned, which cards are out, by name).
+
 ## The report (exactly three parts)
 
 > **Where we are.** Phase [X] of [Y]: [phase name]. [What's done, in their numbers where you
