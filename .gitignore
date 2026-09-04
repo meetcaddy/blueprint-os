@@ -11,3 +11,6 @@ secrets*
 __pycache__/
 *.pyc
 node_modules/
+
+# Session worktrees (never shipped)
+.claude/worktrees/
