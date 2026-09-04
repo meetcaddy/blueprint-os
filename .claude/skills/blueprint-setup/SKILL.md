@@ -41,6 +41,10 @@ Only after the report says `SETUP COMPLETE`, check the real result yourself:
 If any check fails, treat it as a failed step (Step 1 rules). The installer's report is not
 proof; your own read-back is.
 
+One more thing to expect: the first time this folder is opened after setup, Claude may ask
+once whether to use the folder's own tools (the BASE server named in `.mcp.json`). Tell the
+owner to say yes. It is theirs and runs only on their machine.
+
 ## Step 3 — First boot
 
 Now follow `FIRST-BOOT.md` exactly:
