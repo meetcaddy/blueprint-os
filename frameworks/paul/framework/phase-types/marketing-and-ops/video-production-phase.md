@@ -70,7 +70,7 @@ Output: explainer video for customer education or product demos.
 
 ### Mode: testimonial
 Talking-head testimonial video. Skill mapping:
-- → Arcads UGC pack (currently dormant at `workflows/ugc-ads/`). Phase will recommend activation if not yet set up.
+- → the UGC skill pack (dormant until activated). The phase recommends activation if it is not yet set up.
 
 Output: UGC-style testimonial video.
 
