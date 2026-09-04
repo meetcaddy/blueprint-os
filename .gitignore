@@ -1,0 +1,13 @@
+# Secrets never enter the repository. Keys go where your Caddy tells you, never here.
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*
+
+# Machine noise
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
