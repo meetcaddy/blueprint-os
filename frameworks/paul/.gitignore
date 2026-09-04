@@ -1,0 +1,15 @@
+# macOS cruft
+.DS_Store
+
+# Editor swap files
+*.swp
+*.swo
+
+# Caddy destructive-write backups (per Phase 7 MH-1 invariant)
+*.bak-*
+
+# Node + dev cruft
+node_modules/
+*.log
+.env
+.env.*

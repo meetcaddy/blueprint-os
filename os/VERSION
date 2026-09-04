@@ -1,2 +1,2 @@
 v1
-build: 2026-09-03 (graduation skeleton: identity, first boot, ingest, status)
+build: 2026-09-03 (06-01: setup installer, vendored PAUL/SEED/Skillsmith + BASE layer + guards)

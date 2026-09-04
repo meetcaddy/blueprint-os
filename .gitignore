@@ -14,3 +14,11 @@ node_modules/
 
 # Session worktrees (never shipped)
 .claude/worktrees/
+
+# Generated at setup for this machine (absolute paths, never shipped)
+.mcp.json
+.base/base-mcp/
+.base/hook-events.jsonl
+.base/.session
+.base/.signal-state
+.base/.domain-sync-ts

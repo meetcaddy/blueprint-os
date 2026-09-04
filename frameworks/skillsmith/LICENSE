@@ -1,0 +1,26 @@
+Proprietary License: Caddy Framework Distribution
+
+Copyright (c) 2026 Orbital Access LLC d/b/a Meet Caddy
+
+This software ("the Framework") is licensed, not sold, to active Caddy
+subscribers as part of their Caddy subscription. Access to this repository
+is granted via GitHub collaborator add and is gated by active subscription
+status.
+
+You may:
+- Use the Framework on machines you own or control, in connection with
+  your active Caddy subscription
+- Modify the Framework on your own machine for your own use
+
+You may NOT:
+- Redistribute the Framework or any portion of it to third parties
+- Use the Framework after your Caddy subscription ends
+- Sell, sublicense, or grant access to the Framework to anyone outside
+  Meet Caddy's collaborator-add process
+- Fork this repository publicly or to any account outside meetcaddy/*
+
+Termination: This license terminates automatically upon (a) subscription
+cancellation, (b) revocation of your GitHub collaborator access, or (c)
+breach of any term above.
+
+Questions: hi@meetcaddy.com

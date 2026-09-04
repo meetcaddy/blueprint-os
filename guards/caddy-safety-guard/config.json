@@ -1,0 +1,4 @@
+{
+  "mode": "warn",
+  "_comment": "warn = never blocks, only surfaces + logs (DEFAULT). Flip to \"block\" only after reviewing ~/.caddy/safety-guard.log and confirming no false positives on real work. Env CADDY_GUARD_MODE overrides this."
+}

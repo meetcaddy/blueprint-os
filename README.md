@@ -31,8 +31,9 @@ If you are stuck, type **/blueprint help**. It shows you where to reach the Cadd
 
 - `CLAUDE.md` is your Caddy's job description. It reads it every time it starts.
 - `.claude/skills/` holds the commands above.
-- `workspace/` is where your Blueprint, your business memory, and your plan live once they are
-  built. Everything in it is yours.
+- `frameworks/`, `base/` and `guards/` are the engine. `/blueprint setup` puts them in place.
+- Your Blueprint, your business memory and your plan appear in this folder once they are
+  built. Everything here is yours.
 
 ## Rules your Caddy always follows
 

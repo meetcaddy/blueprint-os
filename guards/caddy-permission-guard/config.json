@@ -1,0 +1,5 @@
+{
+  "mode": "advisory",
+  "profile": "standard",
+  "_comment": "mode: advisory = log the decision it WOULD make, never acts (DEFAULT, safe). active = actually auto-approve/deny. profile: conservative < standard < trusted (nested). Graduate by editing 'profile' (your call), then re-run caddy-config-guard baseline. Env CADDY_PERMGUARD_MODE / CADDY_PERMGUARD_PROFILE override."
+}
