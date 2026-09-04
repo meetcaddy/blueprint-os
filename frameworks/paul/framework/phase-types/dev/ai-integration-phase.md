@@ -77,7 +77,7 @@ Produce AI-SPEC.md that defines: framework, models, prompt design, eval strategy
 
 ## Skills orchestrated
 
-1. `claude-api` (Tucker's installed skill), for Anthropic SDK / Claude Code App design + prompt caching enforcement
+1. `claude-api` (the operator's installed skill, when present), for Anthropic SDK / Claude Code App design + prompt caching enforcement
 2. (Future) `paul:framework-selector` agent, when ported from GSD's `gsd-framework-selector`
 3. (Future) `paul:ai-researcher` agent, when ported from GSD's `gsd-ai-researcher`
 4. (Future) `paul:domain-researcher` agent, when ported from GSD's `gsd-domain-researcher`
@@ -94,7 +94,7 @@ Produce AI-SPEC.md that defines: framework, models, prompt design, eval strategy
 - Auto-detect next unplanned phase if argument omitted
 
 **Caddy-specific additions / changes:**
-- Integration with Tucker's existing `claude-api` skill (which already handles prompt caching, model migration, Managed Agents)
+- Integration with the operator's `claude-api` skill (which already handles prompt caching, model migration, Managed Agents)
 - Explicit model routing reference to CARL Rule 4 (Auto-route model tier by task complexity, Haiku/Sonnet/Opus). This phase operationalizes that rule for AI features.
 - Cost monitoring as required output (GSD doesn't make this explicit; Caddy makes it required because PSA delivery model needs predictable customer costs)
 - Fallback behavior as required output (GSD treats as recommended; Caddy makes required)

@@ -121,7 +121,7 @@ Run a multi-touch cold email sequence to N prospects with personalization. Outpu
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Synthesized from Tucker's existing Caddy skills.
+**Caddy native phase type, no external repo source.** Synthesized from the operator's installed Caddy skill catalog.
 
 **Why all four modes in one phase type:** all four are multi-touch outbound communication. They differ in starting trust (cold/warm) and channel (email/LinkedIn) and cadence (single sequence/long drip), not in fundamental shape. Mode flag captures the variant.
 

@@ -33,7 +33,7 @@ Auto-detection should recommend deal-pursuit-phase whenever:
 - New qualified lead in pipeline
 - Sales cycle longer than 1 meeting (most B2B)
 - High-value deal (custom proposal, contract negotiation likely)
-- Founder-led sales motion (Tucker's own Caddy sales is the canonical example)
+- Founder-led sales motion (the Caddy team's own sales motion is the canonical example)
 
 ## Phase template
 
@@ -63,7 +63,7 @@ Move a deal from qualified-lead state to close (won or lost) with disciplined pe
 - Pipeline initialized + lead exists in pipeline
 - Voice fingerprint exists (humanizer for all communication)
 - Calendar + Gmail connected
-- For Tucker specifically: Stripe (or Fanbasis pending decision) integrated for payment after close
+- Payment after close through the operator's payment processor (Stripe or similar)
 
 ### Verification
 - Every meeting in the cycle was prepped (no walk-in-cold meetings)
@@ -87,7 +87,7 @@ Move a deal from qualified-lead state to close (won or lost) with disciplined pe
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Synthesized from Tucker's existing Caddy skill catalog. Tucker uses these skills daily for his own Caddy sales motion; this phase formalizes the orchestration pattern.
+**Caddy native phase type, no external repo source.** Synthesized from the operator's installed Caddy skill catalog. The Caddy team uses these skills daily for its own sales motion; this phase formalizes the orchestration pattern.
 
 **Why no mode flags:** deal pursuit is one shape. There aren't fundamentally different "kinds" of deal pursuit that warrant mode flags. Variations (large vs small deal, transactional vs consultative) are PROJECT-specific, not phase-type-specific. Customer can adjust depth per touchpoint without needing a mode.
 
@@ -97,7 +97,7 @@ Move a deal from qualified-lead state to close (won or lost) with disciplined pe
 - Pipeline accuracy is required at every stage (not just at the end). Inaccurate pipeline = no learning loop on what works.
 - Close motion is a deliberate Plan 7, not "let the prospect decide when they're ready" (prospects almost never decide unilaterally; sellers move them).
 
-**For Tucker's own Caddy sales motion:**
+**For the Caddy team's own sales motion (the worked example):**
 - Initial outreach typically starts with `outreach-phase` (cold-email or warm modes) → produces qualified leads
 - Qualified leads enter `deal-pursuit-phase`
 - Won deals route to `customer-lifecycle-phase` onboarding mode

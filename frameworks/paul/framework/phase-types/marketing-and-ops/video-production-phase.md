@@ -3,7 +3,7 @@ schema_version: 1.0
 name: video-production-phase
 display_name: Video Production Phase
 category: marketing-and-ops
-purpose: Video creation orchestrating Tucker's Higgsfield and Arcads skill catalog. Six modes intent-driven (ad / viral / brand / educational / testimonial / product), each maps to the right installed skill.
+purpose: Video creation orchestrating the operator's installed video generation skill catalog and an optional UGC pack. Six modes intent-driven (ad / viral / brand / educational / testimonial / product), each maps to the right installed skill.
 modes: [ad, viral, brand, educational, testimonial, product, vertical-specific]
 default_mode: ad
 duration: medium
@@ -17,14 +17,14 @@ triggers:
   recommended_for: [post-Caddy-v3 marketing, VSL pipeline, social content, paid ads, product launches with video assets]
 recommended_skills: [01-cinematic, 02-3d-cgi, 03-cartoon, 04-comic-to-video, 05-fight-scenes, 06-motion-design-ad, 07-ecommerce-ad, 08-anime-action, 09-product-360, 10-music-video, 11-social-hook, 12-brand-story, 13-fashion-lookbook, 14-food-beverage, 15-real-estate]
 related_paul_workflows: []
-sources: [Caddy native, orchestrates 15 installed Higgsfield video skills + dormant Arcads UGC skills]
+sources: [Caddy native, orchestrates the operator's installed video generation skills and an optional UGC pack]
 ---
 
 # Video Production Phase
 
 ## Purpose
 
-Video creation orchestrated through Tucker's installed video skill catalog. The phase asks "what's this video FOR?" (intent-driven mode) rather than asking the customer to memorize 15+ style skills. Per intent, the right skill(s) get invoked.
+Video creation orchestrated through the operator's installed video skill catalog. The phase asks "what's this video FOR?" (intent-driven mode) rather than asking the customer to memorize 15+ style skills. Per intent, the right skill(s) get invoked.
 
 This phase exists because customers shouldn't need to know whether they want `06-motion-design-ad` or `07-ecommerce-ad` or `12-brand-story`. They know they want "an ad for my SaaS product" or "a viral hook for TikTok" or "a testimonial video." The phase handles the mapping.
 
@@ -99,7 +99,7 @@ Produce a video matching the intent + brand. Output: video file + metadata (mode
 
 ### Scope
 - Identify intent (which mode)
-- Confirm skill activation (Higgsfield connector active for skills 01-15; Arcads activation if testimonial mode)
+- Confirm skill activation (the video generation connector active; the UGC pack activated if testimonial mode)
 - Generate prompt(s) for the chosen skill
 - Execute video generation
 - Review output
@@ -108,15 +108,15 @@ Produce a video matching the intent + brand. Output: video file + metadata (mode
 
 ### Plans (suggested decomposition)
 - [ ] Plan 1: Intent classification (which mode + which skill)
-- [ ] Plan 2: Connector check (Higgsfield active? Arcads activation needed?)
+- [ ] Plan 2: Connector check (video connector active? UGC pack activation needed?)
 - [ ] Plan 3: Brief, what the video needs to communicate
 - [ ] Plan 4: Generate via chosen skill
 - [ ] Plan 5: Review + iterate (max 2 regenerations)
 - [ ] Plan 6: Save + deliver
 
 ### Dependencies
-- Higgsfield connector active (claude_ai_Higgsfield in Tucker's installed MCPs)
-- For testimonial mode: Arcads activation (`workflows/ugc-ads/scripts/setup.sh` run)
+- The video generation connector active among the operator's installed connectors
+- For testimonial mode: the UGC pack activated (its own setup script run)
 - Brand kit exists (visual + tone consistency)
 
 ### Verification
@@ -127,7 +127,7 @@ Produce a video matching the intent + brand. Output: video file + metadata (mode
 
 ## Skills orchestrated
 
-All 15 installed Higgsfield video skills (01-cinematic through 15-real-estate). Plus the dormant Arcads UGC skill pack at `workflows/ugc-ads/` (activated on demand).
+The operator's installed video generation skills (style skills such as cinematic, product, real estate). Plus an optional UGC skill pack, activated on demand.
 
 Plus supporting Caddy skills:
 - `brand-kit`, visual + tone consistency
@@ -135,11 +135,11 @@ Plus supporting Caddy skills:
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Orchestrates Tucker's existing video skill catalog into an intent-driven workflow.
+**Caddy native phase type, no external repo source.** Orchestrates the operator's installed video skill catalog into an intent-driven workflow.
 
-**Why intent-driven mode flags instead of style-driven:** Tucker has 15+ style skills. If video-production-phase had 15+ modes, it would be skill-catalog mirror with no value-add. Intent-driven mode + skill mapping table is the value-add: customer thinks "viral video" not "11-social-hook"; phase handles the translation.
+**Why intent-driven mode flags instead of style-driven:** An operator may have 15 or more style skills. If video-production-phase had 15+ modes, it would be skill-catalog mirror with no value-add. Intent-driven mode + skill mapping table is the value-add: customer thinks "viral video" not "11-social-hook"; phase handles the translation.
 
-**Why no `talking-head` skill in default catalog:** Arcads UGC pack handles this but is dormant. Activation is on-demand (per Tucker's existing decision in `workflows/ugc-ads/`). Phase recommends activation when testimonial mode triggers.
+**Why no `talking-head` skill in default catalog:** A UGC pack handles this but is dormant. Activation is on demand (a deliberate default). Phase recommends activation when testimonial mode triggers.
 
 **Pairs with:**
 - `campaign-phase` (campaigns often need video assets)

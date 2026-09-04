@@ -125,7 +125,7 @@ Collect N customer testimonials (quotes + permission to use), packaged for use a
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Synthesized from Tucker's existing Caddy skills.
+**Caddy native phase type, no external repo source.** Synthesized from the operator's installed Caddy skill catalog.
 
 **Why merge case-study + testimonial + editorial-series into one phase type:** all three are multi-piece content sprints with shared theme. They differ in INTENT (original vs customer-sourced) and FORMAT (full narrative vs quote), not in shape. Same orchestration backbone (theme → outline → produce → publish → measure).
 

@@ -149,7 +149,7 @@ Customer departs cleanly. Reason captured for product/service improvement. Door 
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Synthesized from Tucker's existing Caddy skill catalog into a lifecycle-stage-driven workflow.
+**Caddy native phase type, no external repo source.** Synthesized from the operator's installed Caddy skill catalog into a lifecycle-stage-driven workflow.
 
 **Why merge three stages into one phase type:** all three are operational customer-relationship work. They share 80% of skill orchestration (prep, followup, draft, humanizer, pipeline, contacts-update). Mode flag captures the lifecycle stage; per-mode template captures the stage-specific outcomes.
 

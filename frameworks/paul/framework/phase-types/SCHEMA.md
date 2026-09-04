@@ -201,6 +201,6 @@ Phase Auto-Detection (3b) will include a validator that checks every phase-type 
 
 **Don't ship a phase type with arbitrary modes.** Each mode must have a distinct purpose, distinct triggers, distinct deliverables. If two modes look identical, collapse them.
 
-**Don't bake project-specific assumptions into a phase type.** Phase types are reusable templates. If the template only fits Tucker's projects, it belongs in his project's `.paul/` not in PAUL framework.
+**Don't bake project-specific assumptions into a phase type.** Phase types are reusable templates. If the template only fits one operator's projects, it belongs in that project's `.paul/`, not in the PAUL framework.
 
 **Don't expand the schema casually.** Every new field is a load-bearing contract that every phase type must respect. Push back on schema additions.

@@ -74,7 +74,7 @@ Produce a published landing page with strong conversion potential. Output: live 
 - [ ] Plan 2: Hero copy (orchestrates `/draft` + humanizer)
 - [ ] Plan 3: Supporting section copy (features, proof, CTAs)
 - [ ] Plan 4: Visual brief + asset list (orchestrates video/image skills if needed)
-- [ ] Plan 5: Page build (orchestrates `frontend-design` if hand-coded; or pasted into Framer per Tucker's `landing-framer` decision)
+- [ ] Plan 5: Page build (orchestrates `frontend-design` if hand-coded; or pasted into a hosted page builder such as Framer)
 - [ ] Plan 6: AI-search optimization (orchestrates `geo-citability` + `geo-content` + `geo-schema`)
 - [ ] Plan 7: Analytics setup (event tracking, conversion goals)
 - [ ] Plan 8: Publish + smoke test (mobile + desktop, all CTAs work)
@@ -95,7 +95,7 @@ Produce a complete lead-gen system: landing page + lead magnet + capture form + 
 ### Dependencies
 - Voice fingerprint exists (humanizer)
 - Brand kit exists
-- Decision on hosting (Framer per Tucker / hand-coded / customer's CMS)
+- Decision on hosting (a page builder such as Framer / hand-coded / the customer's CMS)
 - For with-lead-gen: capture-form integration ready (Stripe/Mailchimp/etc.)
 
 ### Verification
@@ -122,7 +122,7 @@ Produce a complete lead-gen system: landing page + lead magnet + capture form + 
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Synthesized from Tucker's existing Caddy skill catalog (especially the rich GEO skill set installed for AI-search optimization).
+**Caddy native phase type, no external repo source.** Synthesized from the operator's installed Caddy skill catalog (especially the rich GEO skill set installed for AI-search optimization).
 
 **Why merge page-only + lead-gen into one phase type:** they share 80% of the workflow (positioning, copy, design, publish). The lead-gen mode adds 4-6 plans on top (lead magnet, capture, traffic, nurture). Merging keeps the orchestration backbone consistent; mode flag captures the scope difference.
 
@@ -130,7 +130,7 @@ Produce a complete lead-gen system: landing page + lead magnet + capture form + 
 - AI-search optimization is REQUIRED (geo skills). This is a Caddy differentiator, most landing pages don't optimize for AI search.
 - design-quality-check hook coverage is REQUIRED (visual quality discipline; no AI-template aesthetic). Hook fires automatically during edits.
 - llms.txt cross-reference: Caddy's customer-facing landing strategy includes shipping llms.txt; landing pages should reference it for AI-discoverability.
-- Framer integration: per Tucker's decision (`project_command_center_landing_framer.md`), Caddy ships pages to Framer. Phase 5 in the template covers either path (hand-coded OR Framer paste).
+- Page builder integration: the Caddy team ships its own pages to Framer. Phase 5 in the template covers either path (hand-coded OR Framer paste).
 
 **Pairs with:**
 - `campaign-phase` (campaigns often need a campaign-specific landing page)

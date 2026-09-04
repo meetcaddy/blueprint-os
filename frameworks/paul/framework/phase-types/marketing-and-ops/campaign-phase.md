@@ -102,7 +102,7 @@ Run a complete marketing campaign from positioning through measurement. Output: 
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Synthesized from Tucker's existing Caddy skill catalog into a coherent campaign workflow.
+**Caddy native phase type, no external repo source.** Synthesized from the operator's installed Caddy skill catalog into a coherent campaign workflow.
 
 **What each existing Caddy skill contributes:**
 - `pipeline`, deal/lead tracking surface for campaign attribution

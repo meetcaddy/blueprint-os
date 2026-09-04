@@ -29,7 +29,7 @@ This phase exists because undocumented processes live only in one person's head.
 ## When to recommend
 
 Auto-detection should recommend process-doc-phase whenever:
-- Tucker says "let me document this" / "we should write this down"
+- The operator says "let me document this" / "we should write this down"
 - Process is being delegated to a VA, employee, or contractor
 - Compliance or audit requirement
 - Onboarding new hire or contractor
@@ -83,7 +83,7 @@ Produce a structured process doc that someone unfamiliar with the process can fo
 
 ## Source notes
 
-**Caddy native phase type, no external repo source.** Uses Tucker's existing `/doc` skill with a structured internal-process template overlaid.
+**Caddy native phase type, no external repo source.** Uses the operator's `/doc` skill with a structured internal-process template overlaid.
 
 **Why a phase type instead of just using `/doc` directly:** `/doc` generates documents from a template + voice. process-doc-phase adds the DISCIPLINE around process documentation: capture-then-write workflow, edge-case identification, owner mapping, checkpoint definition, review cadence setup. The phase makes "document our process" reliable, not just "write words about a process."
 
