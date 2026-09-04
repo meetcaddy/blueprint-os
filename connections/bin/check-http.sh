@@ -17,8 +17,8 @@ if [ -z "$val" ] || [ "$val" = "<paste here>" ]; then
   exit 2
 fi
 if [ "$header" = "Bearer" ]; then hdr="Authorization: Bearer $val"; else hdr="$header: $val"; fi
-code=$(http_code "$url" -H "$hdr")
+http_get "$url" -H "$hdr"
 unset val hdr
 size=$(wc -c < "$HTTP_BODY_FILE" | tr -d ' '); rm -f "$HTTP_BODY_FILE"
-echo "$label: HTTP $code, $size bytes"
-[ "$code" = "$want" ]
+echo "$label: HTTP $HTTP_CODE, $size bytes"
+[ "$HTTP_CODE" = "$want" ]

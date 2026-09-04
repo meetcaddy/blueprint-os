@@ -13,11 +13,8 @@ if [ -z "$base" ] || [ "$base" = "<paste here>" ] || [ -z "$key" ] || [ "$key" =
   exit 2
 fi
 base="${base%/}"
-code=$(http_code "$base/api/v1/workflows?limit=50" -H "X-N8N-API-KEY: $key")
+http_get "$base/api/v1/workflows?limit=50" -H "X-N8N-API-KEY: $key"
 unset key
-count=$(python3 -c 'import json,sys
-try:
-    d=json.load(open(sys.argv[1])); print(len(d.get("data", [])))
-except Exception: print("?")' "$HTTP_BODY_FILE" 2>/dev/null); rm -f "$HTTP_BODY_FILE"
-echo "n8n: HTTP $code, $count workflow(s) visible"
-[ "$code" = "200" ]
+count=$(json_len "$HTTP_BODY_FILE" data); rm -f "$HTTP_BODY_FILE"
+echo "n8n: HTTP $HTTP_CODE, $count workflow(s) visible"
+[ "$HTTP_CODE" = "200" ]

@@ -20,12 +20,22 @@ load_env() {
   unset key val line
 }
 
-# http_code <url> <header...>: prints the HTTP status only ("000" when the request failed).
-http_code() {
+# http_get <url> <curl header args...>
+# Sets HTTP_CODE (the status, "000" when the request failed) and HTTP_BODY_FILE (a temp
+# file holding the response; the caller removes it). Called directly, never in $(...),
+# so the variables reach the caller. Prints nothing.
+http_get() {
   url="$1"; shift
-  tmp=$(mktemp)
-  code=$(curl -sS -o "$tmp" -w '%{http_code}' "$@" -H 'Accept: application/json' "$url" 2>/dev/null) || code=""
-  [ -z "$code" ] && code="000"
-  HTTP_BODY_FILE="$tmp"
-  printf '%s' "$code"
+  HTTP_BODY_FILE=$(mktemp)
+  HTTP_CODE=$(curl -sS -o "$HTTP_BODY_FILE" -w '%{http_code}' "$@" -H 'Accept: application/json' "$url" 2>/dev/null) || HTTP_CODE=""
+  [ -z "$HTTP_CODE" ] && HTTP_CODE="000"
+  unset url
+}
+
+# json_len <file> <key>: prints the length of the JSON array under <key>, or "?".
+json_len() {
+  python3 -c 'import json,sys
+try:
+    d=json.load(open(sys.argv[1])); print(len(d.get(sys.argv[2], [])))
+except Exception: print("?")' "$1" "$2" 2>/dev/null
 }

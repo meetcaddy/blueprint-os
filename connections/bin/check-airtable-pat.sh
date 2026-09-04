@@ -12,11 +12,8 @@ if [ -z "$pat" ] || [ "$pat" = "<paste here>" ]; then
   echo "airtable: AIRTABLE_PAT is not set in .env yet (the card is still open)"
   exit 2
 fi
-code=$(http_code "https://api.airtable.com/v0/meta/bases" -H "Authorization: Bearer $pat")
+http_get "https://api.airtable.com/v0/meta/bases" -H "Authorization: Bearer $pat"
 unset pat
-count=$(python3 -c 'import json,sys
-try:
-    d=json.load(open(sys.argv[1])); print(len(d.get("bases", [])))
-except Exception: print("?")' "$HTTP_BODY_FILE" 2>/dev/null); rm -f "$HTTP_BODY_FILE"
-echo "airtable: HTTP $code, $count base(s) visible"
-[ "$code" = "200" ]
+count=$(json_len "$HTTP_BODY_FILE" bases); rm -f "$HTTP_BODY_FILE"
+echo "airtable: HTTP $HTTP_CODE, $count base(s) visible"
+[ "$HTTP_CODE" = "200" ]
