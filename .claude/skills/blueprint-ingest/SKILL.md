@@ -141,7 +141,10 @@ Write `BUSINESS.md` with exactly these sections:
 [their term → what it means, one per line]
 
 ## TOOLS
-[the systems they run on; for each, who can grant access to it (from P10), or "not yet named"]
+| System | In their words | Who can grant access | In the plan |
+|---|---|---|---|
+[one row per system named in the session (P8 and every "that lives in"): the name, their word
+for it, the grantor from P10 or "not yet named", and which phase needs it or "no"]
 
 ## BASELINES
 [the numbers from intake + transcript: hours, volumes, frequencies]
