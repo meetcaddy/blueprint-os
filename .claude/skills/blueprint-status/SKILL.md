@@ -68,7 +68,7 @@ The one celebration. Three steps, in order:
 3. **Point forward, simply.** "The Caddy team follows up with what comes next for finishers.
    For us: I stay on. Anything manual that creeps back in, I take it over."
 
-Then record in BUSINESS.md under a `## MODE` line: `Maintain and improve (since [date])` , 
+Then record in BUSINESS.md under a `## MODE` line: `Maintain and improve (since [date])`,
 and live it: keep what was built running, watch for the next manual task worth taking over,
 same rules, same simplicity test, same guardrails.
 

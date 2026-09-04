@@ -10,7 +10,7 @@ caddy-config-guard (guardrail-weakening config) · **this** (permission auto-dec
 ## Profiles (nested: each a superset of the previous)
 - **conservative:** auto-approve only safe read-only ops (Read/Grep/Glob, ls, git status/diff/log, cat
   of non-secret files). Ask on everything else.
-- **standard** (default), conservative + in-project writes/edits + routine git (add/commit/diff/pull/
+- **standard** (default): conservative + in-project writes/edits + routine git (add/commit/diff/pull/
   push --force-with-lease). Ask on installs, network, and unknown commands.
 - **trusted:** auto-approve everything EXCEPT the hard floors.
 
@@ -19,7 +19,7 @@ caddy-config-guard (guardrail-weakening config) · **this** (permission auto-dec
 - Anything touching secrets (read/write .env/.pem/id_rsa/credentials, secret in content) → **ask**.
 
 ## Modes (env CADDY_PERMGUARD_MODE / CADDY_PERMGUARD_PROFILE > config.json > advisory/standard)
-- **advisory** (default), logs the decision it WOULD make; never acts (the normal prompt still shows).
+- **advisory** (default): logs the decision it WOULD make; never acts (the normal prompt still shows).
 - **active:** actually emits allow/deny; "ask" falls through to the normal prompt.
 
 Read-only decisioning, fail-open. Log: `~/.caddy/permission-guard.log`.

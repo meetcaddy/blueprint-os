@@ -77,7 +77,7 @@ are your anchors:
 
 **P2 attribute sentences:** within a callout block, "**That lives in [systems].**" and
 "**[Name] owns this one.**" bind to the most recent opportunity number until another pattern
-starts. The Today clause carries a number or "no number known", missing facts (number,
+starts. The Today clause carries a number or "no number known": missing facts (number,
 systems, owner) never get guessed; each becomes a named week-one item.
 
 **Resolution rules (apply exactly):**
@@ -250,7 +250,7 @@ fill every bracket. It carries:
    - **Design records:** the moment a phase design is approved, write it to that phase's
      design record; read the active phase's record before every working session. And
      **before executing an approved design in the build, ask any remaining clarification
-     questions first**, build only when clear.
+     questions first**; build only when clear.
    - **The systems ledger:** maintain SYSTEMS.md, every external thing built or touched
      (what it is, where it lives, whose account, what it does, how to check it's healthy).
      Locations, never credentials. It is the maintain-mode checklist and the finish-line

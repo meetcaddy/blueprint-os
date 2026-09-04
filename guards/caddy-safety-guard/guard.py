@@ -6,8 +6,8 @@ BEFORE they execute: destructive bash, secret exfiltration, and secret/key-file 
 The detect-and-prevent companion to caddy-agent-audit (which only scans config after the fact).
 
 Modes (resolve order: env CADDY_GUARD_MODE > config.json "mode" > "warn"):
-  warn  , never blocks; emits a systemMessage warning + logs. (DEFAULT, tune false positives first.)
-  block , denies the unambiguous-catastrophe set ("block" severity); still only warns on the rest.
+  warn:   never blocks; emits a systemMessage warning + logs. (DEFAULT: tune false positives first.)
+  block:  denies the unambiguous-catastrophe set ("block" severity); still only warns on the rest.
 
 Design rules:
   - READ-ONLY decisioning. It inspects the proposed tool call; it never runs anything itself.

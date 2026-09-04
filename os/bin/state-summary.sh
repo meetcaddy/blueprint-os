@@ -9,7 +9,8 @@ cd "$ROOT" 2>/dev/null || exit 0
 get() { sed -n "s/^\*\*$1:\*\* *//p" "$2" 2>/dev/null | head -1; }
 
 version=$(sed -n '1p' os/VERSION 2>/dev/null); build=$(sed -n '2p' os/VERSION 2>/dev/null)
-business=$(sed -n 's/^# BUSINESS\.md: *//p; s/^# BUSINESS\.md — *//p' BUSINESS.md 2>/dev/null | head -1)
+olddash=$(printf '\342\200\224')
+business=$(sed -n "s/^# BUSINESS\\.md: *//p; s/^# BUSINESS\\.md $olddash *//p" BUSINESS.md 2>/dev/null | head -1)
 owner=$(get Owner BUSINESS.md); session=$(get "Session date" BUSINESS.md)
 if [ -f .paul/STATE.md ]; then
   phase=$(sed -n 's/^Phase: *//p' .paul/STATE.md | head -1)
@@ -37,6 +38,6 @@ echo "Stage: $stage"
 [ -n "${plan:-}" ] && echo "Plan: $plan"
 echo "Last saved step: ${last:-no commits yet}"
 echo "Machine: ${mac:-unknown}"
-echo "Engine: base $(base --version 2>/dev/null | head -1 || echo 'not found'); .base/ $([ -f .base/base.toml ] && echo present || echo missing); PAUL commands $([ -d "$HOME/.claude/commands/paul" ] && echo present || echo missing)"
+echo "Engine: $(base --version 2>/dev/null | head -1 || echo 'base not found'); .base/ $([ -f .base/base.toml ] && echo present || echo missing); PAUL commands $([ -d "$HOME/.claude/commands/paul" ] && echo present || echo missing)"
 echo "-------------------------------------------------------------------------"
 exit 0

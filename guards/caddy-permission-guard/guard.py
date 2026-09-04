@@ -8,17 +8,17 @@ A3 step 2 of the governance pillar. Companion to caddy-safety-guard (blocks dang
 caddy-config-guard (blocks guardrail-weakening CONFIG changes).
 
 Profiles are NESTED (each is a superset of the one before):
-  conservative, auto-approve only safe read-only ops; ask on everything else.
-  standard    , conservative + safe writes/edits in-project + routine git; ask on installs/network/etc.
-  trusted     , auto-approve everything EXCEPT the two hard floors below.
+  conservative: auto-approve only safe read-only ops; ask on everything else.
+  standard:     conservative + safe writes/edits in-project + routine git; ask on installs/network/etc.
+  trusted:      auto-approve everything EXCEPT the two hard floors below.
 
 HARD FLOORS (apply at EVERY profile, including trusted, never auto-approved):
   - catastrophe ops (rm -rf root/glob, curl|bash, fork bomb, dd to device, …) -> DENY
   - anything touching secrets (read/write .env/.pem/id_rsa/credentials, secret in content) -> ASK
 
 Modes (env CADDY_PERMGUARD_MODE > config.json "mode" > "advisory"):
-  advisory, LOG the decision it WOULD make; do NOT act (normal prompt still shows). DEFAULT.
-  active  , actually emit allow/deny; "ask" falls through to the normal prompt.
+  advisory: LOG the decision it WOULD make; do NOT act (normal prompt still shows). DEFAULT.
+  active:   actually emit allow/deny; "ask" falls through to the normal prompt.
 
 Graduation: `guard.py status` summarizes the decision log + reports readiness to move up a profile.
 Flipping the profile is a deliberate edit to config.json by the owner, never automatic.

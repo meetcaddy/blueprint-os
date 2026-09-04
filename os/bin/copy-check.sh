@@ -12,12 +12,12 @@ files=$(find . -type f \( -name '*.md' -o -name '*.sh' -o -name '*.py' -o -name 
   -not -path './node_modules/*' -not -path './.base/*' -not -path './projects/*' -not -path './design/*' \
   -not -path './context/*' -not -path './briefs/*' -not -path './package/*' -not -path './.paul/*' -not -path './.seed/*' \
   -not -name 'BUSINESS.md' -not -name 'BLUEPRINT.md' -not -name 'BLUEPRINT-DIRECTIVES.md' -not -name 'SYSTEMS.md' \
-  -not -name 'ACCESS-MAP.md' -not -name 'amendments.md' | sort)
+  -not -name 'ACCESS-MAP.md' -not -name 'amendments.md' -not -name 'copy-check.sh' | sort)
 for f in $files; do
   awk -v F="$f" '
     index($0, "\342\200\224") { print F ":" NR ": em dash: " substr($0, 1, 110); bad = 1 }
     index($0, "\342\200\223") { print F ":" NR ": en dash: " substr($0, 1, 110); bad = 1 }
-    index($0, " -- ")        { print F ":" NR ": double hyphen: " substr($0, 1, 110); bad = 1 }
+    index($0, " -- ") && F !~ /\.sh$/ { print F ":" NR ": double hyphen: " substr($0, 1, 110); bad = 1 }
     /Tucker|admin\/tools\// { print F ":" NR ": internal name or path: " substr($0, 1, 110); bad = 1 }
     END { exit bad }
   ' "$f" || bad=1

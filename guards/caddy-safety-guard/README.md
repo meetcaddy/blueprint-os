@@ -18,7 +18,7 @@ Companion to [caddy-agent-audit](../caddy-agent-audit/). Wave A2 of the digest-b
 
 ## Modes (the safety staging)
 Resolve order: env `CADDY_GUARD_MODE` > `config.json` `"mode"` > `"warn"`.
-- **`warn`** (default), never blocks. Emits a `systemMessage` and logs to `~/.caddy/safety-guard.log`.
+- **`warn`** (default): never blocks. Emits a `systemMessage` and logs to `~/.caddy/safety-guard.log`.
   Run here first to confirm zero false positives on real work.
 - **`block`:** denies the BLOCK set; still only warns on the rest.
 
@@ -27,7 +27,7 @@ bug in the guard can never wedge the operator).
 
 ## Test
 ```bash
-python3 admin/tools/caddy-safety-guard/test_guard.py   # 25 classify cases + 3 contract checks
+The guard's classify tests live with its source; the template ships the guard itself.
 ```
 
 ## Wiring it live (already done by the template in .claude/settings.json)
