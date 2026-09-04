@@ -23,6 +23,7 @@ things matter:
   **/blueprint ingest**.
 - When you are ready to go deeper, type **/blueprint deep-dive**.
 - When a phase is ready to build, type **/blueprint build**.
+- When a phase needs one of your tools, type **/blueprint connect** and the name of the tool.
 - Any time you want to know where things stand, type **/blueprint status**.
 
 If you are stuck, type **/blueprint help**. It shows you where to reach the Caddy team
@@ -33,6 +34,8 @@ If you are stuck, type **/blueprint help**. It shows you where to reach the Cadd
 - `CLAUDE.md` is your Caddy's job description. It reads it every time it starts.
 - `.claude/skills/` holds the commands above.
 - `frameworks/`, `base/` and `guards/` are the engine. `/blueprint setup` puts them in place.
+- `connections/` holds one recipe per tool: how your Caddy connects to it, what you do, and
+  how it checks the connection without ever seeing a key.
 - Your Blueprint, your business memory and your plan appear in this folder once they are
   built. Everything here is yours.
 
