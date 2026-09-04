@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-caddy-safety-guard — a PreToolUse hook that DETECTS and (optionally) PREVENTS dangerous tool calls
+caddy-safety-guard, a PreToolUse hook that DETECTS and (optionally) PREVENTS dangerous tool calls
 BEFORE they execute: destructive bash, secret exfiltration, and secret/key-file reads.
 
 The detect-and-prevent companion to caddy-agent-audit (which only scans config after the fact).
 
 Modes (resolve order: env CADDY_GUARD_MODE > config.json "mode" > "warn"):
-  warn   — never blocks; emits a systemMessage warning + logs. (DEFAULT — tune false positives first.)
-  block  — denies the unambiguous-catastrophe set ("block" severity); still only warns on the rest.
+  warn  , never blocks; emits a systemMessage warning + logs. (DEFAULT, tune false positives first.)
+  block , denies the unambiguous-catastrophe set ("block" severity); still only warns on the rest.
 
 Design rules:
   - READ-ONLY decisioning. It inspects the proposed tool call; it never runs anything itself.
@@ -57,14 +57,14 @@ def classify(tool_name, tool_input):
         path = ti.get("file_path", "") or ti.get("notebook_path", "") or ""
         blob = " ".join(str(ti.get(k, "")) for k in ("content", "new_string", "new_source"))
         if SECRET_IN_CONTENT.search(blob):
-            return ("warn", "HIGH", "writing a secret into a file — keep it gitignored + chmod 600, never commit")
+            return ("warn", "HIGH", "writing a secret into a file, keep it gitignored + chmod 600, never commit")
         if SENSITIVE_PATH.search(path):
             return ("warn", "MEDIUM", f"writing to a sensitive path ({path})")
         return ("allow", None, None)
     if tool_name == "Read":
         path = ti.get("file_path", "") or ""
         if SENSITIVE_PATH.search(path):
-            return ("warn", "MEDIUM", f"reading a secret/key file ({path}) — exfil risk if this context is shared")
+            return ("warn", "MEDIUM", f"reading a secret/key file ({path}), exfil risk if this context is shared")
         return ("allow", None, None)
     return ("allow", None, None)
 

@@ -1,27 +1,27 @@
 #!/usr/bin/env python3
 """
-caddy-permission-guard — a PermissionRequest hook that applies a RISK PROFILE to permission prompts:
-auto-approve the safe stuff, auto-deny catastrophes, and ask on everything else — logging every
+caddy-permission-guard, a PermissionRequest hook that applies a RISK PROFILE to permission prompts:
+auto-approve the safe stuff, auto-deny catastrophes, and ask on everything else, logging every
 decision so the profile can be graduated on evidence.
 
 A3 step 2 of the governance pillar. Companion to caddy-safety-guard (blocks dangerous CALLS) and
 caddy-config-guard (blocks guardrail-weakening CONFIG changes).
 
 Profiles are NESTED (each is a superset of the one before):
-  conservative — auto-approve only safe read-only ops; ask on everything else.
-  standard     — conservative + safe writes/edits in-project + routine git; ask on installs/network/etc.
-  trusted      — auto-approve everything EXCEPT the two hard floors below.
+  conservative, auto-approve only safe read-only ops; ask on everything else.
+  standard    , conservative + safe writes/edits in-project + routine git; ask on installs/network/etc.
+  trusted     , auto-approve everything EXCEPT the two hard floors below.
 
-HARD FLOORS (apply at EVERY profile, including trusted — never auto-approved):
+HARD FLOORS (apply at EVERY profile, including trusted, never auto-approved):
   - catastrophe ops (rm -rf root/glob, curl|bash, fork bomb, dd to device, …) -> DENY
   - anything touching secrets (read/write .env/.pem/id_rsa/credentials, secret in content) -> ASK
 
 Modes (env CADDY_PERMGUARD_MODE > config.json "mode" > "advisory"):
-  advisory — LOG the decision it WOULD make; do NOT act (normal prompt still shows). DEFAULT.
-  active   — actually emit allow/deny; "ask" falls through to the normal prompt.
+  advisory, LOG the decision it WOULD make; do NOT act (normal prompt still shows). DEFAULT.
+  active  , actually emit allow/deny; "ask" falls through to the normal prompt.
 
 Graduation: `guard.py status` summarizes the decision log + reports readiness to move up a profile.
-Flipping the profile is a deliberate edit to config.json (Tucker-approved) — never automatic.
+Flipping the profile is a deliberate edit to config.json by the owner, never automatic.
 
 Read-only decisioning. Fail-open (any error -> ask/allow-through, exit 0). Logs to
 ~/.caddy/permission-guard.log.
@@ -32,7 +32,7 @@ from collections import Counter
 LOG = os.path.expanduser("~/.caddy/permission-guard.log")
 PROFILES = ["conservative", "standard", "trusted"]
 
-# --- hard floors (every profile) — shared patterns from caddy-guards-common ---
+# --- hard floors (every profile): shared patterns from caddy-guards-common ---
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "caddy-guards-common"))
 from patterns import is_catastrophe, SECRET_PATH, SECRET_IN_CONTENT, SECRET_READ_BASH
 from lib import resolve_mode_profile as _resolve_cfg, log_line as _log_line  # shared mode/logging
@@ -112,7 +112,7 @@ def status():
     beh = Counter(r[3] for r in rows if len(r) > 3)
     prof = Counter(r[2] for r in rows if len(r) > 2)
     floor_denies = sum(1 for r in rows if len(r) > 5 and "hard floor" in r[5])
-    print(f"caddy-permission-guard — {len(rows)} decisions logged")
+    print(f"caddy-permission-guard, {len(rows)} decisions logged")
     print("  by behavior:", dict(beh))
     print("  by profile :", dict(prof))
     print(f"  hard-floor hits: {floor_denies}")

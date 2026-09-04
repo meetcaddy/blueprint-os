@@ -1,0 +1,27 @@
+# The paths the template owns. /blueprint update replaces ONLY these from the template.
+# Everything else in the folder belongs to the business and is never touched:
+# BUSINESS.md, BLUEPRINT.md, BLUEPRINT-DIRECTIVES.md, ACCESS-MAP.md, SYSTEMS.md,
+# amendments.md, design/, context/, package/, briefs/, projects/, .paul/, .seed/, .base/, .env
+# One path per line; a trailing slash means the whole folder. Lines starting with # are notes.
+CLAUDE.md
+FIRST-BOOT.md
+HOW-IT-WORKS.md
+README.md
+LICENSE
+.gitignore
+.claude/settings.json
+.claude/skills/blueprint-setup/
+.claude/skills/blueprint-ingest/
+.claude/skills/blueprint-deep-dive/
+.claude/skills/blueprint-build/
+.claude/skills/blueprint-connect/
+.claude/skills/blueprint-status/
+.claude/skills/blueprint-help/
+.claude/skills/blueprint-update/
+.claude/skills/blueprint-toolbelt/
+os/
+setup/
+connections/
+guards/
+frameworks/
+base/

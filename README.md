@@ -24,10 +24,12 @@ things matter:
 - When you are ready to go deeper, type **/blueprint deep-dive**.
 - When a phase is ready to build, type **/blueprint build**.
 - When a phase needs one of your tools, type **/blueprint connect** and the name of the tool.
+- When the Caddy team says a fix has shipped, type **/blueprint update**. Your business files
+  are never touched.
 - Any time you want to know where things stand, type **/blueprint status**.
 
 If you are stuck, type **/blueprint help**. It shows you where to reach the Caddy team
-(support@meetcaddy.com).
+(support@meetcaddy.com). The whole manual is `HOW-IT-WORKS.md`, ten minutes.
 
 ## What is inside
 

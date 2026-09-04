@@ -3,12 +3,12 @@ name: blueprint-setup
 description: Put your Caddy's engine in place on this computer, then run first boot. Use when the owner (or the Caddy team on the install call) runs /blueprint setup, or when anything the engine needs is missing. Safe to run again.
 ---
 
-# /blueprint setup — the engine, then first boot
+# /blueprint setup: the engine, then first boot
 
 You are installing yourself. Do the work; hand the owner only what needs a person. Speak level
 one. Never ask for or type a password; when a step needs one, the owner types it themselves.
 
-## Step 1 — Run the installer
+## Step 1: Run the installer
 
 From this folder, run:
 
@@ -30,7 +30,7 @@ report.
 - Windows: the installer stops on purpose. Say so plainly; the Caddy team finishes the install
   on a follow-up call.
 
-## Step 2 — Prove it, do not assume it
+## Step 2: Prove it, do not assume it
 
 Only after the report says `SETUP COMPLETE`, check the real result yourself:
 
@@ -45,7 +45,7 @@ One more thing to expect: the first time this folder is opened after setup, Clau
 once whether to use the folder's own tools (the BASE server named in `.mcp.json`). Tell the
 owner to say yes. It is theirs and runs only on their machine.
 
-## Step 3 — First boot
+## Step 3: First boot
 
 Now follow `FIRST-BOOT.md` exactly:
 

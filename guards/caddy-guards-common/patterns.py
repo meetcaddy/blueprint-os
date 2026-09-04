@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-caddy-guards-common — shared pattern library for the Caddy governance guards.
+caddy-guards-common, shared pattern library for the Caddy governance guards.
 Single source of truth for the catastrophe + secret regexes used by caddy-safety-guard (PreToolUse)
 and caddy-permission-guard (PermissionRequest). Tune a pattern HERE and both guards pick it up.
 
 Imported via a sibling-dir path insert, e.g.:
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "caddy-guards-common"))
     from patterns import BLOCK_BASH, SECRET_PATH, SECRET_IN_CONTENT, SECRET_READ_BASH, is_catastrophe
-(works in source admin/tools/ and in the ~/.claude/skills/ install — both keep these dirs as siblings.)
+(the guard folders sit as siblings, so the shared library resolves by relative path.)
 """
 import re
 

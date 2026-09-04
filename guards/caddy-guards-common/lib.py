@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-caddy-guards-common/lib.py — shared mode-resolution + logging for the Caddy governance guards.
+caddy-guards-common/lib.py, shared mode-resolution + logging for the Caddy governance guards.
 Single source for the boilerplate the guards used to each re-implement (resolve mode from env/config,
 append a tab-separated log line). Imported as a sibling, same as patterns.py.
 """
