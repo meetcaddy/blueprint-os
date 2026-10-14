@@ -15,8 +15,9 @@ to them, by name.
 
 > **Your turn (about [N] minutes)**
 > 1. Open [signup link].
-> 2. Create the account with [the business email]. Choose [the plan or free tier the plan
->    needs, stated plainly].
+> 2. Create the account with [the business email]. Choose [the plan the design needs, by its
+>    name, with its price as read on the vendor's pricing page on [date], and the one thing it
+>    must include; or "I could not read the price today; it is on the page in step 1"].
 > 3. When you can see [the tool's home screen], come back here and type: done
 >
 > Why: an account is a thing only a person can open.

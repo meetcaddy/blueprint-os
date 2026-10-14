@@ -50,7 +50,9 @@ they retire it. They approve, or they change it.
 
 ## Step 3: Apply. Do the 80, hand over the 20
 
-Run `/paul:apply` and work the plan task by task.
+Run `/paul:apply` and work the plan task by task. The first time a plan's work begins in
+Phase 1, write `**Build started:** [date]` on its own line under the Status line of
+`design/phase-1.md`; status counts the seven days from it.
 
 **Keyboard tasks (yours).** Write the files, the configs, the scripts. Connect to tools once
 access exists. Run the commands. Read the result back. Before you change anything that
@@ -75,11 +77,24 @@ every card, verify the real result with them watching before the next card. Reco
 and its outcome in the design record, and in `SYSTEMS.md` when it touched something outside
 you.
 
+Three more rules from `os/templates/handoff-card.md`: when several cards wait, say the count and
+the total minutes and let the owner choose the pace (and fit the cards to the minutes they
+have); a card for a person who is not in the room is written so the owner can forward it
+unchanged; a card that opens an account or a paid plan carries the plan, its price and the
+date you read it on the vendor's page, or says plainly that you could not read it. Every card
+handed over gets a dated line in `WAITING-ON-YOU.md` (create it from
+`os/templates/WAITING-ON-YOU.md`), removed the moment it is done; so does every question you
+are waiting on.
+
 **Outside tools.** When the design's home for a piece is an always-on rail, a database, or a
 tool they already own, set it up with the owner through cards. If `connections/` has a recipe
 for that tool, follow it with `/blueprint connect [tool]`; if not, the card carries the steps.
 Every outside thing gets its line in `SYSTEMS.md`: what it is, where it lives, whose account,
-what it does, how to check it is healthy. Locations, never credentials.
+what it does, how to check it is healthy. Locations, never credentials. The "how to check" cell
+carries a check your Caddy can run when one fits, written as
+``check: `bash os/checks/http-ok.sh [name] [url]` `` (or `file-exists.sh`, `file-fresh.sh`,
+`process-running.sh`, or a `connections/bin/` check); otherwise the plain words "open X and
+look for Y". `/blueprint health` runs those cells.
 
 **New ideas mid-build.** Write them into `amendments.md` with the date and the owner's words,
 place them in a phase, say where they landed, and keep going. Never derail this phase.
@@ -106,6 +121,11 @@ by whom, and when, in the design record.
    result.
 4. Update `SYSTEMS.md` and `amendments.md` if anything changed. Commit the workspace with a
    plain message, because the repo is the backup.
+5. **Training cards.** If this plan changed how someone on the team does a job, write one
+   `training/[role].md` per role from `os/templates/training-card.md`: three steps in that
+   job's own words (from `BUSINESS.md`), what stays the same, who to tell if it looks wrong.
+   Ask the owner for the role's words when `BUSINESS.md` does not have them; never guess. Tell
+   the owner the card is there to hand over. You never send it.
 
 Then one of two things:
 
