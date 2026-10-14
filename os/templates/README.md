@@ -10,3 +10,6 @@ The shapes your Caddy fills in as it works. It copies these; it never edits them
 | `SYSTEMS.md` | `SYSTEMS.md` | `/blueprint deep-dive`, `/blueprint build` | the first time anything outside the machine is touched |
 | `amendments.md` | `amendments.md` | any skill | the first new idea after the session |
 | `handoff-card.md` | a card in the conversation | `/blueprint deep-dive`, `/blueprint build` | whenever a step needs a person |
+| `BLUEPRINT-ONE-PAGE.md` | `BLUEPRINT-ONE-PAGE.md` | `/blueprint ingest` | at ingest, after the Blueprint |
+| `TEAM-NOTE.md` | `TEAM-NOTE.md` | `/blueprint ingest` | at ingest, when there is a team |
+| `session-recap.md` | `package/session-recap.md` | the Caddy team, at the install | before first boot |

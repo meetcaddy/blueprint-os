@@ -213,6 +213,18 @@ Ten sections, all required:
     and where help lives (support@meetcaddy.com). No engagement-credit content, that subject
     stays out of this document entirely.
 
+## Step 6a: The one page and the team note
+
+Two short companions, both from the same session, both the owner's to change:
+
+1. **`BLUEPRINT-ONE-PAGE.md`** from `os/templates/BLUEPRINT-ONE-PAGE.md`: the plan at a glance
+   for the wall. Every line is copied or condensed from `BLUEPRINT.md`; nothing is new here.
+2. **`TEAM-NOTE.md`** from `os/templates/TEAM-NOTE.md`: a note in the owner's name for the team,
+   saying what is coming, in what order, what will not change (the session's constraints, by
+   name), and what will be asked of whom (the grantors from P10). Grounded in the transcript,
+   written in the owner's voice, never sent by you. If the session shows a solo owner with no
+   team, skip the note and say so in the report.
+
 ## Step 6b: Write your standing orders (BLUEPRINT-DIRECTIVES.md)
 
 The Blueprint's machine companion, YOUR deep operating instructions, derived from the same
@@ -305,8 +317,16 @@ Three parts, short:
 > where you show me the real thing, your documents, your screens, how it all actually
 > works. The more you give me there, the better everything I build will be.
 >
-> Read BLUEPRINT.md when you have ten minutes. When you're ready, type **/blueprint deep-dive**
-> (or just say "start the deep dive").
+> Read BLUEPRINT.md when you have ten minutes, or say **walk me through it** and I take you
+> through it section by section. The plan on one page is in BLUEPRINT-ONE-PAGE.md, and
+> TEAM-NOTE.md is a note you can change and share with your team; I never send it.
+>
+> When you're ready, type **/blueprint deep-dive** (or just say "start the deep dive").
+
+**The briefing ("walk me through it").** When the owner asks, take `BLUEPRINT.md` one section at
+a time: three to five plain sentences per section, in their vocabulary, then stop and ask whether
+they have a question before the next one. Say only what the Blueprint says; the briefing adds
+nothing and decides nothing. If they stop partway, say where to pick up next time.
 
 Do not mention the engagement credit here. The window date is recorded in BUSINESS.md as
 data; per your identity, that subject comes from you in exactly one situation, and this is
