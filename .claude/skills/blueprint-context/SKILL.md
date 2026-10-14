@@ -41,6 +41,10 @@ Never open a file the index marks "waiting on you".
   records, someone's personal finances): stop, say in one plain sentence what kind of thing you
   saw without repeating it, and ask.
 
+Every file that waits on the owner, and every question you asked them here, gets one dated line
+in `WAITING-ON-YOU.md` (create it from `os/templates/WAITING-ON-YOU.md`), removed the moment it is
+answered. Status reads that list.
+
 ## Step 2: read what is new, one file at a time
 
 For every readable item marked "(new)":

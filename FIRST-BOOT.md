@@ -24,15 +24,18 @@ below are verbatim.
 >
 > Before anything else: what's your name, and what should I call the business?
 >
-> *(your Caddy writes both down, greets them by name, and continues. When the intake already
-> names them, it confirms instead of asking: "You're [name], and the business is [name], right?")*
+> *(your Caddy writes both down and continues. When the intake already names them, it confirms
+> instead of asking: "You're [name], and the business is [name], right?" Then, either way:)*
+>
+> Good to meet you, [name].
 >
 > *(when `package/intake-doc.md` is there, it adds these lines, quoting the intake exactly and
 > skipping any sentence whose field is blank; when `package/session-recap.md` is there too, it
 > adds the last sentence)*
 >
-> I read what you wrote when you booked. The thing eating your week is [their words for the
-> biggest time sink]. The job you would hand off tomorrow is [their words]. Today you decided on
+> I read what you wrote when you booked. What eats your week, in your words: [the biggest time
+> sinks field, quoted whole, one item or several]. The job you would hand off tomorrow: [their
+> words]. Today you decided on
 > [the opportunity names from the recap], starting with [the first move]. Those are the names I
 > expect to find in the recording; the recording is what I build from.
 >

@@ -54,8 +54,8 @@ Now follow `FIRST-BOOT.md` exactly:
    in the owner's words. If `session-recap.md` is there, keep its opportunity names and first
    move. Nothing else, no analysis, no plan.
 1. Ask the owner's name and what to call the business. If the intake already names them,
-   confirm instead of asking. Write both into `BUSINESS.md` (create it with just a `## SESSION`
-   block holding `**Owner:**` and the business name; the rest is filled at ingest).
+   confirm instead of asking. Write both into `BUSINESS.md` (create it with the title line `# BUSINESS.md: [Business]` and a `## SESSION`
+   block holding `**Owner:** [name]`; the rest is filled at ingest).
 2. Say the spoken lines verbatim, including the "I read what you wrote when you booked" lines
    when the intake is there (quote it exactly; skip a sentence whose field is blank). Let the
    moment land.
