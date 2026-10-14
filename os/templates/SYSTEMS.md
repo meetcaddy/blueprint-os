@@ -6,4 +6,8 @@
 
 | What | Where it lives | Whose account | What it does | How to check it is healthy | Since |
 |---|---|---|---|---|---|
-| [name] | [the tool, workspace, folder or URL] | [person] | [one line] | [what to open and what you should see] | [date, phase] |
+| [name] | [the tool, workspace, folder or URL] | [person] | [one line] | [what to open and what you should see; and when a check fits, add it: check: `bash os/checks/http-ok.sh "[name]" [url]`] | [date, phase] |
+
+> The "how to check" cell may carry one check your Caddy runs with `/blueprint health`, written as
+> ``check: `bash os/checks/<script> ...` `` (the scripts are listed in `os/checks/README.md`) or a
+> `connections/bin/` check. Anything else in the cell is read as words for a person.
