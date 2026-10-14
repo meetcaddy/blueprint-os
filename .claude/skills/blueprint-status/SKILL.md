@@ -5,8 +5,10 @@ description: Report Blueprint progress to the owner. Use when the owner runs /bl
 
 # /blueprint status: where things stand
 
-Read `BUSINESS.md`, the PAUL project state, and `BLUEPRINT.md` first. Then report in the
-owner's language, their vocabulary from BUSINESS.md, level one, short.
+Read `BUSINESS.md`, the PAUL project state, `BLUEPRINT.md`, `SYSTEMS.md`, `WAITING-ON-YOU.md`
+and the active design record first, and run `python3 os/bin/context-index.py --summary` for the
+drop folder. Then report in the owner's language, their vocabulary from BUSINESS.md, level one,
+short.
 
 If there is no `.paul/` yet, nothing has graduated: read `design/` and `ACCESS-MAP.md` instead
 and report the Deep Dive's state (which phase is being learned, which cards are out, by name).
@@ -15,12 +17,18 @@ and report the Deep Dive's state (which phase is being learned, which cards are 
 
 > **Where we are.** Phase [X] of [Y]: [phase name]. [What's done, in their numbers where you
 > have them: "invoice reminders now go out on their own; that was four hours every Friday."]
+> [When `SYSTEMS.md` has rows: "[N] things now run on their own." A count, never a party.]
+> [During Phase 1's first plan, from its **Build started** date: "Day [N] of 7 to your first
+> result; [K] card(s) stand between us and it." Past day seven: "We are past the first week;
+> here is what stands between us and the first result: [the one thing]." Calendar days.]
 > [If anything was folded into the plan since last status: "One change folded in: …", one
 > line each.]
 >
 > **What's next.** [The current concrete step, one sentence.]
 >
-> **Waiting on you.** [Confirmations, approvals, access, or "Nothing. I'm moving."]
+> **Waiting on you.** [The rows of `WAITING-ON-YOU.md`, by name, oldest first; then, if the drop
+> folder summary shows new items: "You dropped [n] new things; say 'read what I dropped' when
+> you want me to read them." Or "Nothing. I'm moving."]
 
 That's the whole report. No filler, no cheerleading.
 
@@ -34,16 +42,33 @@ A phase is **genuinely stalled** only when one of these is true:
 A quiet week is not a stall. The owner being busy is not a stall. Never declare a stall to
 create urgency.
 
-**When a stall is genuine**, say so plainly in "Where we are," and then, once per stall, and
-only here, you may add:
+**When a stall is genuine, the first time you report it:** say so plainly in "Where we are," then
+offer the two unblocks and stop there. Cut the waiting card smaller (fewer steps, one person,
+one thing), or route it to someone else the access map names. Nothing else that time.
+
+**Only if the next status finds the same stall**, once per stall, and only here, you may add:
 
 > This phase is the kind of thing the Caddy team builds directly under the full engagement.
 > Your session credit applies through [date from BUSINESS.md].
 
 If the credit window has passed, the same sentence without the credit line. Framed as an
-option, never a pitch. If the owner says no or says nothing, the subject is closed for this
+option, never a pitch. In that same report you may add one more line, once: "If you ever want
+the Caddy team to take a phase over, say 'hand-over packet' and I put everything they would
+need in one file; nothing is sent." When they ask for it, run
+`python3 os/bin/handoff-packet.py`, say that `HANDOFF-PACKET.md` is in the folder and that it
+holds no keys and none of their raw files, and stop. If the owner says no or says nothing, the subject is closed for this
 stall, you do not raise it again unless a NEW stall occurs. Outside a genuine stall, the
 engagement does not come from you. Ever.
+
+## The quarter page (every ninety days)
+
+When ninety days have passed since the session date in `BUSINESS.md` (and every ninety after),
+or when the owner asks for "the quarter page", write `reports/quarter-[n].md` from
+`os/templates/quarterly-page.md`: what runs on its own (from `SYSTEMS.md`), the scoreboard rows
+with their measured before and after (a blank stays blank, with the measurement plan next to
+it), the owner's own words if they want to give some, and the next manual task worth taking
+over. Tell the owner it is there and that it is theirs to forward. Never send it, never
+estimate a number for it.
 
 ## The finish line (when the last phase completes)
 
@@ -79,3 +104,5 @@ same rules, same simplicity test, same guardrails.
 - Never mention the engagement outside a genuine stall
 - Never nag, never repeat a closed subject, never manufacture urgency
 - Never pad the report, three parts, then stop
+- Never turns the count of things running into a celebration, and never counts a thing that
+  has not fired on a real event a person saw
