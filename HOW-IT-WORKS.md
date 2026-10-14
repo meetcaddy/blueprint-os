@@ -22,15 +22,16 @@ better-run business, one phase at a time. This page is the whole manual. Ten min
 
 `context/` is where you give your Caddy the real business: SOPs, the org chart, the P&L,
 estimates, invoices, screenshots, recordings, anything. Seven slots with a short note in each.
-Drop files any time, then type **/blueprint context**: your Caddy reads what is new, writes
-`context/INDEX.md` (what is here and what it learned) and uses it in every design. The files
-themselves never leave this computer and never go into your saved copy. A file that looks like a
-password file is named and left unread; your Caddy asks you to remove it.
+Drop files any time; once your Blueprint is built, type **/blueprint context**: your Caddy reads
+what is new, writes `context/INDEX.md` (what is here and what it learned) and uses it in every
+design. The files never go into your saved copy; when your Caddy opens one, it reads it through
+your own AI plan, like anything you type here. A file that looks like a password file is named
+and left unread; your Caddy asks you to remove it, or to say it is fine.
 
 ## The first time the folder opens each week
 
-Your Caddy starts with a short brief: where we are, what runs on its own, what is waiting on
-you, and what is new in the drop folder. The rest of the week it just picks up where you left
+Your Caddy starts with a short brief: where we are, what is built or connected, what is waiting
+on you, and what is new in the drop folder. The rest of the week it just picks up where you left
 off. `WAITING-ON-YOU.md` holds everything that waits on a person, so you can clear it in one
 sitting.
 
@@ -107,9 +108,10 @@ always there.
 Type **/blueprint help**. It shows the support address (support@meetcaddy.com) and a short
 summary of where things stand. You send it, or not. Your Caddy never sends anything itself
 and never reports on you to anyone. If something looks wrong after a change, **/blueprint undo**
-steps back to an earlier saved point without losing anything, and **/blueprint health** tells
-you what is still running. If you ever want the Caddy team to take a phase over, say "hand-over
-packet" and your Caddy puts everything they would need in one file for you to send.
+steps back to an earlier saved point without losing anything (it tells you first which systems
+keep running outside it), and **/blueprint health** tells you what is still running. If you ask
+the Caddy team for help with a phase, say "hand-over packet" and your Caddy puts everything they
+would need in one file for you to send.
 
 ## What comes after the last phase
 

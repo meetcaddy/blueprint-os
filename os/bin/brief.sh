@@ -1,5 +1,5 @@
 #!/bin/sh
-# The Monday brief: where we are, what runs on its own, what waits on you. Read-only, no network.
+# The Monday brief: where we are, what is built, what waits on you. Read-only, no network.
 # The session hook prints it the first time the folder opens in a week.
 #   sh os/bin/brief.sh          print the brief (only once BUSINESS.md exists)
 #   sh os/bin/brief.sh --due    exit 0 when a brief is due this week, 1 when not; changes nothing
@@ -10,15 +10,15 @@ cd "$ROOT" 2>/dev/null || exit 0
 week=$(date +%G-W%V)
 STAMP=.blueprint/last-brief
 case "${1:-}" in
-  --due)   [ -f BUSINESS.md ] || exit 1; [ "$(cat "$STAMP" 2>/dev/null)" = "$week" ] && exit 1; exit 0 ;;
+  --due)   [ -f BUSINESS.md ] && [ -f BLUEPRINT.md ] || exit 1; [ "$(cat "$STAMP" 2>/dev/null)" = "$week" ] && exit 1; exit 0 ;;
   --stamp) mkdir -p .blueprint; printf '%s\n' "$week" > "$STAMP"; exit 0 ;;
 esac
-[ -f BUSINESS.md ] || exit 0
+[ -f BUSINESS.md ] && [ -f BLUEPRINT.md ] || exit 0
 echo "===== Your week, in one look ($(date +%Y-%m-%d)) ====="
 [ -f os/bin/state-summary.sh ] && sh os/bin/state-summary.sh 2>/dev/null | grep -E '^(Stage|Phase|Plan): ' | sed 's/^Stage: /Where we are: /'
 if [ -f SYSTEMS.md ]; then
   n=$(awk -F'|' '/^\| / && $2 !~ /^ *What *$/ && $0 !~ /\[name\]/ && $0 !~ /^\|-/ {c++} END {print c+0}' SYSTEMS.md)
-  [ "$n" -gt 0 ] && echo "Running on its own: $n thing(s) (the list is in SYSTEMS.md)"
+  [ "$n" -gt 0 ] && echo "Built or connected outside your Caddy: $n thing(s) (the list is in SYSTEMS.md)"
 fi
 if [ -f WAITING-ON-YOU.md ]; then
   rows=$(grep -E '^\| [0-9]{4}-[0-9]{2}-[0-9]{2} ' WAITING-ON-YOU.md)

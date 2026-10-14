@@ -43,7 +43,8 @@ first cards go out today.
    cards, for a person not in the room, and for a sign-up or paid plan all apply). Everything
    else waits for its phase. Mark each row's card status as you go: not yet, sent to [name],
    done, verified. Every card handed over gets a dated line in `WAITING-ON-YOU.md` (create it
-   from `os/templates/WAITING-ON-YOU.md`), removed the moment it is verified.
+   from `os/templates/WAITING-ON-YOU.md`): one line per item, removed the moment it is verified
+   done; a card handed over again keeps its first date.
 
 Keys never pass through this chat. A card names the exact place the person types a key
 themselves (a file you already prepared with a placeholder, or the tool's own connect
@@ -113,13 +114,15 @@ plain sign-off plus the measured result), and the questions still open for build
 
 **The fresh-eyes check, before the read-back.** Hand the draft record to a fresh helper that
 has no memory of this conversation: start a subagent with the text of `os/prompts/design-duel.md`
-and the files it names (use the fast model tier when your app offers one, otherwise the default;
-the checker must not be this conversation). Take every finding that points at a line and names
-its source: fix what was invented, simplify what was overcomplicated, repair the cards and any
-sandbox breach, and turn an assumption back into a question for the owner. Drop any finding
-without a source. Then tell the owner in one line what the check changed: "A fresh set of eyes
-checked this design; it caught [X], so I changed [Y]." If nothing was found, say that in one
-line. If the helper cannot run, say nothing about it and go on.
+and the files it names, including `ACCESS-MAP.md` and `amendments.md` (use the fast model tier
+when your app offers one, otherwise the default; the checker must not be this conversation).
+Take every finding that points at a line and names its source: fix what was invented, simplify
+what was overcomplicated, repair the cards and any sandbox breach, and turn an assumption back
+into a question for the owner. Drop any finding without a source. A finding the owner rejects
+is written in the record's notes with their words, and not applied. Then tell the owner in one
+line what the check changed: "A fresh set of eyes checked this design; it caught [X], so I
+changed [Y]." If nothing was found, say that in one line. If the helper cannot run, say so in
+one line ("I could not run the fresh-eyes check this time") and go on.
 
 Read the record back to the owner in three lines. They say "approved" or they change it.
 Only an approved record can graduate.

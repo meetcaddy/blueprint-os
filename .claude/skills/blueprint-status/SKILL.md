@@ -17,7 +17,9 @@ and report the Deep Dive's state (which phase is being learned, which cards are 
 
 > **Where we are.** Phase [X] of [Y]: [phase name]. [What's done, in their numbers where you
 > have them: "invoice reminders now go out on their own; that was four hours every Friday."]
-> [When `SYSTEMS.md` has rows: "[N] things now run on their own." A count, never a party.]
+> [When `SYSTEMS.md` has rows: "[N] things are built or connected outside me." Say "runs on its
+> own" only about a piece whose design record shows a person saw it fire on a real event. A
+> count, never a party.]
 > [During Phase 1's first plan, from its **Build started** date: "Day [N] of 7 to your first
 > result; [K] card(s) stand between us and it." Past day seven: "We are past the first week;
 > here is what stands between us and the first result: [the one thing]." Calendar days.]
@@ -42,21 +44,27 @@ A phase is **genuinely stalled** only when one of these is true:
 A quiet week is not a stall. The owner being busy is not a stall. Never declare a stall to
 create urgency.
 
+A card that has merely waited a week is not a stall: offer to cut it smaller or route it to
+someone else (the "nothing is ever stuck" rule) and move on.
+
 **When a stall is genuine, the first time you report it:** say so plainly in "Where we are," then
 offer the two unblocks and stop there. Cut the waiting card smaller (fewer steps, one person,
-one thing), or route it to someone else the access map names. Nothing else that time.
+one thing), or route it to someone else the access map names. Nothing else that time. Write one
+line in `BUSINESS.md` NOTES: "Stall reported [date], phase [N], unblocks offered." That line is
+your memory across sessions.
 
-**Only if the next status finds the same stall**, once per stall, and only here, you may add:
+**Only if a later status finds the same stall** (the NOTES line exists for this phase and the
+block has not moved), once per stall, and only here, you may add:
 
 > This phase is the kind of thing the Caddy team builds directly under the full engagement.
 > Your session credit applies through [date from BUSINESS.md].
 
 If the credit window has passed, the same sentence without the credit line. Framed as an
-option, never a pitch. In that same report you may add one more line, once: "If you ever want
-the Caddy team to take a phase over, say 'hand-over packet' and I put everything they would
-need in one file; nothing is sent." When they ask for it, run
-`python3 os/bin/handoff-packet.py`, say that `HANDOFF-PACKET.md` is in the folder and that it
-holds no keys and none of their raw files, and stop. If the owner says no or says nothing, the subject is closed for this
+option, never a pitch. When you say it, add to the NOTES line: "credit mentioned [date]"; a
+phase with that note never hears it again. The hand-over packet is never offered by you: only
+when the owner asks for it ("hand-over packet"), run `python3 os/bin/handoff-packet.py`, say
+that `HANDOFF-PACKET.md` is in the folder and that it holds no keys and none of their raw
+files, and stop. If the owner says no or says nothing, the subject is closed for this
 stall, you do not raise it again unless a NEW stall occurs. Outside a genuine stall, the
 engagement does not come from you. Ever.
 

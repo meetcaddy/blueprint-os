@@ -16,12 +16,14 @@ cd "$T"; export CLAUDE_PROJECT_DIR="$T"
 check "brief: not due before BUSINESS.md exists" '! sh os/bin/brief.sh --due'
 check "brief: prints nothing before BUSINESS.md exists" '[[ -z "$(sh os/bin/brief.sh)" ]]'
 printf '# BUSINESS.md: Acme Roofing\n\n## SESSION\n**Owner:** Sam\n**Session date:** 2026-10-01\n' > BUSINESS.md
-check "brief: due once BUSINESS.md exists" 'sh os/bin/brief.sh --due'
+check "brief: still not due before the Blueprint is built (first boot seeds BUSINESS.md)" '! sh os/bin/brief.sh --due'
+printf '# Your Blueprint\n' > BLUEPRINT.md
+check "brief: due once the Blueprint exists" 'sh os/bin/brief.sh --due'
 printf '# SYSTEMS.md\n\n| What | Where it lives | Whose account | What it does | How to check it is healthy | Since |\n|---|---|---|---|---|---|\n| [name] | x | x | x | x | x |\n| Invoice reminder | n8n | Sam | sends reminders | open n8n | 2026-10-05 |\n| Quote folder watcher | the machine | Sam | builds quotes | file-fresh | 2026-10-08 |\n' > SYSTEMS.md
 printf '# WAITING-ON-YOU.md\n\n| Since | Who | What | Where it came from |\n|---|---|---|---|\n| 2026-10-10 | Dana | sign in to n8n and click Allow | phase 1, plan 1 |\n' > WAITING-ON-YOU.md
 out="$(sh os/bin/brief.sh)"
 check "brief: header" '[[ "$out" == *"Your week, in one look"* ]]'
-check "brief: counts real systems, not the placeholder" '[[ "$out" == *"Running on its own: 2 thing(s)"* ]]'
+check "brief: counts real systems, not the placeholder, and says what it counts" '[[ "$out" == *"Built or connected outside your Caddy: 2 thing(s)"* ]]'
 check "brief: waiting rows, by name" '[[ "$out" == *"since 2026-10-10, Dana: sign in to n8n and click Allow"* ]]'
 check "brief: drop folder line" '[[ "$out" == *"Drop folder:"* ]]'
 check "brief: points to status" '[[ "$out" == *"/blueprint status"* ]]'
@@ -44,6 +46,9 @@ printf 'v1\nbuild: 2026-12-01 (newer still)\n' > remote/VERSION
 check "version: a newer build than the announced one is announced again" '[[ "$(sh os/bin/version-check.sh --now)" == *"2026-12-01"* ]]'
 printf 'v1\nbuild: 2026-09-04 (older)\n' > remote/VERSION
 check "version: an older remote says nothing" '[[ -z "$(sh os/bin/version-check.sh --now)" ]]'
+printf 'v1\nbuild: 2026-10-13 (a same-day fix)\n' > remote/VERSION
+check "version: a different build on the same day is announced" '[[ "$(sh os/bin/version-check.sh --now)" == *"2026-10-13"* ]]'
+check "version: and only once" '[[ -z "$(sh os/bin/version-check.sh --now)" ]]'
 printf '<html><body>Sign in to the hotel network</body></html>\n' > remote/VERSION
 check "version: a captive portal page says nothing" '[[ -z "$(sh os/bin/version-check.sh --now)" ]]'
 rm -f remote/VERSION
@@ -56,7 +61,7 @@ check "version: a dead host gives up within about five seconds" '[[ $((end-start
 unset BLUEPRINT_VERSION_URL
 
 # --- the hook
-rm -f .blueprint/last-brief
+rm -f .blueprint/last-brief; printf '# Your Blueprint\n' > BLUEPRINT.md
 export BLUEPRINT_VERSION_URL="file://$T/remote/VERSION"; rm -f .blueprint/announced-build .blueprint/last-version-check
 printf 'v1\nbuild: 2027-02-02 (hook)\n' > remote/VERSION
 hook="$(sh os/hooks/session-start.sh)"

@@ -8,7 +8,10 @@ else means broken. A row names its check in the "How to check it is healthy" cel
 check: `bash os/checks/http-ok.sh "Invoice reminder" https://example.com/health`
 ```
 
-Only scripts in this folder and in `connections/bin/` are ever run from a row.
+Only scripts in this folder, in `connections/bin/` and in the business's own `checks/` folder are
+ever run from a row, and never through a shell: nothing after a `;` or `|` in a row is interpreted.
+A check only looks. A web address that starts something (a webhook, a "run" or "send" address)
+is never a check; use a status or health address, or a file the automation leaves behind.
 
 | Script | Proves | Usage |
 |---|---|---|

@@ -41,15 +41,27 @@ open("context/tools/screen.png","wb").write(b"\x89PNG\r\n\x1a\n" + b"\x00"*32)
 open("context/tools/brochure.pdf","wb").write(b"%PDF-1.4\n%fake\n")
 open("context/recordings/walkthrough.mov","wb").write(b"\x00"*64)
 open("context/recordings/intro.m4a","wb").write(b"\x00"*64); open("context/recordings/intro.txt","w").write("Hi, this is the intro transcript.\n")
-open("context/anything-else/passwords.txt","w").write("password: hunter2hunter2\n")
-open("context/anything-else/.env","w").write("API_KEY=ABCDEFGH12345678\n")
-open("context/anything-else/notes.txt","w").write("Our api_key = ABCDEFGH12345678 lives in the vault\nSecond line fine\n")
-open("context/money/ids.txt","w").write("Payroll note\nSSN 123-45-6789 for payroll\n")
+open("context/anything-else/passwords.txt","w").write("password: " + "hunter2" + "hunter2" + "\n")
+open("context/anything-else/.env","w").write("API_KEY=" + "ABCDEFGH" + "12345678" + "\n")
+open("context/anything-else/notes.txt","w").write("Our api_key = " + "ABCDEFGH" + "12345678" + " lives in the vault\nSecond line fine\n")
+open("context/money/ids.txt","w").write("Payroll note\nSSN " + "123-45-" + "6789" + " for payroll\n")
 os.makedirs("context/how-we-work/nested/deep"); open("context/how-we-work/nested/deep/checklist.md","w").write("- check the gutters\n")
 open("context/anything-else/empty.docx","wb").write(b"")
 open("context/anything-else/broken.docx","wb").write(b"not a zip at all")
 open("context/anything-else/mystery.xyz","wb").write(b"\x01\x02\x03")
 open("context/top-level-note.txt","w").write("a note at the top level\n")
+# every sample secret below is built in pieces so no test string ever looks like a real one to a scanner
+open("context/tools/n8n-settings.txt","w").write("N8N_API_KEY=" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" + "." + "eyJzdWIiOiIxMjM0NTY3ODkwIn0" + "." + "abcdefghijklmnopqrstuvwxyz" + "\n")
+open("context/money/stripe-note.txt","w").write("our key is " + "sk_" + "live_" + "51H" + "abcdefghijklmnopqrstuv" + "\n")  # built in pieces so no test string ever looks like a real key to a scanner
+open("context/money/card.txt","w").write("Visa on file: " + "4111 " + "1111 1111 1111" + " exp 12/29\n")
+z("context/money/vendor-logins.xlsx", {"xl/workbook.xml": f'<workbook {S} {R}><sheets><sheet name="Logins" sheetId="1" r:id="rId1"/></sheets></workbook>', "xl/_rels/workbook.xml.rels": '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="x" Target="worksheets/sheet1.xml"/></Relationships>', "xl/sharedStrings.xml": f'<sst {S}><si><t>Vendor</t></si><si><t>Password</t></si><si><t>Acme</t></si><si><t>' + "hunter2" + "hunter2" + '</t></si></sst>', "xl/worksheets/sheet1.xml": f'<worksheet {S}><sheetData><row r="1"><c r="A1" t="s"><v>0</v></c><c r="B1" t="s"><v>1</v></c></row><row r="2"><c r="A2" t="s"><v>2</v></c><c r="B2" t="s"><v>3</v></c></row></sheetData></worksheet>'})
+z("context/how-we-work/Password reset SOP.docx", {"word/document.xml": f'<w:document {W}><w:body><w:p><w:r><w:t>How to reset a customer password in the portal</w:t></w:r></w:p></w:body></w:document>'})
+z("context/how-we-work/Credentialing SOP.docx", {"word/document.xml": f'<w:document {W}><w:body><w:p><w:r><w:t>Steps to credential a new tech</w:t></w:r></w:p></w:body></w:document>'})
+open("context/people/Secretary duties.txt","w").write("Answers the phone\n")
+open("context/customers/logins.csv","w").write("site,user\nx,y\n")
+z("context/tools/deck.key", {"index.apxl": "<keynote/>"})
+open("context/tools/photo.heic","wb").write(b"\x00"*16)
+open("context/money/old-prices.xls","wb").write(b"\xd0\xcf\x11\xe0" + b"\x00"*16)
 PY
 
 # --- the extractor
@@ -81,7 +93,19 @@ check "index: password file flagged by name, not read" '[[ "$idx" == *"passwords
 check "index: .env flagged by name" '[[ "$idx" == *".env"*"looks like a key or password file"* ]]'
 check "index: key-like line flagged with its number" '[[ "$idx" == *"notes.txt"*"line 1 looks like a key"* ]]'
 check "index: ID-number hint" '[[ "$idx" == *"ids.txt"*"personal ID numbers"* ]]'
-check "index: never prints the secret" '[[ "$idx" != *"hunter2"* && "$idx" != *"ABCDEFGH12345678"* && "$idx" != *"123-45-6789"* ]]'
+check "index: never prints the secret" '[[ "$idx" != *"hunter2"* && "$idx" != *"ABCDEFGH12345678"* && "$idx" != *"123-45-6789"* && "$idx" != *"sk_live"* && "$idx" != *"4111"* ]]'
+check "index: an env-style key name is caught" 'grep -F "n8n-settings.txt" context/INDEX.md | grep -q "looks like a key"'
+check "index: a Stripe key is caught" 'grep -F "stripe-note.txt" context/INDEX.md | grep -q "looks like a key"'
+check "index: a card number is caught" 'grep -F "card.txt" context/INDEX.md | grep -q "looks like a card number"'
+check "index: a login spreadsheet is caught by its header" 'grep -F "vendor-logins.xlsx" context/INDEX.md | grep -q "list of logins"'
+check "index: Password reset SOP is flagged by name (override exists)" 'grep -F "Password reset SOP.docx" context/INDEX.md | grep -q "by its name"'
+check "index: Credentialing SOP and Secretary duties are readable" 'grep -F "Credentialing SOP.docx" context/INDEX.md | grep -q "| readable" && grep -F "Secretary duties.txt" context/INDEX.md | grep -q "| readable"'
+check "index: logins.csv flagged by name" 'grep -F "logins.csv" context/INDEX.md | grep -q "by its name"'
+check "index: a Keynote deck is not a key file" 'grep -F "deck.key" context/INDEX.md | grep -q "export it as PDF"'
+check "index: HEIC asks for PNG or JPG" 'grep -F "photo.heic" context/INDEX.md | grep -q "PNG or JPG"'
+check "index: an old .xls asks for PDF" 'grep -F "old-prices.xls" context/INDEX.md | grep -q "export it as PDF"'
+python3 os/bin/context-index.py --allow "how-we-work/Password reset SOP.docx" >/dev/null; python3 os/bin/context-index.py >/dev/null
+check "override: the allowed file is readable afterwards" 'grep -F "Password reset SOP.docx" context/INDEX.md | grep -q "| readable"'
 check "index: pdf read directly" '[[ "$idx" == *"brochure.pdf"*"read directly"* ]]'
 check "index: recording needs a transcript" '[[ "$idx" == *"walkthrough.mov"*"needs a transcript"* ]]'
 check "index: recording with transcript next to it" '[[ "$idx" == *"intro.m4a"*"transcript next to it"* ]]'
@@ -90,8 +114,13 @@ check "index: broken file unreadable" '[[ "$idx" == *"broken.docx"*"unreadable"*
 check "index: unknown kind listed not read" '[[ "$idx" == *"mystery.xyz"*"listed, not read"* ]]'
 check "index: new markers on first run" '[[ "$idx" == *"readable (new)"* ]]'
 check "index: waiting section present" '[[ "$idx" == *"## Waiting on you"* ]]'
+idx="$(cat context/INDEX.md)"
 s2="$(python3 os/bin/context-index.py --summary)"
 check "summary: nothing new after an index" '[[ "$s2" == *"0 new since"* ]]'
+mkdir -p context/anything-else; printf "x" > context/anything-else/locked.txt; chmod 000 context/anything-else/locked.txt
+s2b="$(python3 os/bin/context-index.py --summary 2>&1)"; rc=$?
+check "summary: opens no file (a locked new file is just new, not an error)" '[[ $rc -eq 0 && "$s2b" == *"1 new since"*"(1 not read yet)"* ]]'
+chmod 644 context/anything-else/locked.txt; rm context/anything-else/locked.txt
 check "summary mode changes nothing" '[[ "$(cat context/INDEX.md)" == "$idx" ]]'
 sleep 1; echo "- and the downspouts" >> context/how-we-work/nested/deep/checklist.md
 s3="$(python3 os/bin/context-index.py --summary)"
@@ -108,7 +137,7 @@ check "learned block kept across re-runs" '[[ "$idx2" == *"the estimating steps;
 check "missing block kept across re-runs" '[[ "$idx2" == *"a sample invoice, in money/"* ]]'
 check "re-run clears the new marker" 'grep -F "estimate-sop.docx" context/INDEX.md | grep -vq "(new)"'
 
-rm context/people/org.txt; python3 os/bin/context-index.py >/dev/null
+rm context/people/org.txt "context/people/Secretary duties.txt"; python3 os/bin/context-index.py >/dev/null
 check "index: an emptied slot says nothing here yet" 'grep -A2 "^### people" context/INDEX.md | grep -q "nothing here yet"'
 
 # --- the ignore rules
@@ -117,6 +146,8 @@ tracked="$(git ls-files)"
 check "git keeps the README, the notes and the index" '[[ "$tracked" == *"context/README.md"* && "$tracked" == *"context/money/WHAT-GOES-HERE.md"* && "$tracked" == *"context/INDEX.md"* ]]'
 check "git never keeps a raw file" '[[ "$tracked" != *"estimate-sop.docx"* && "$tracked" != *"passwords.txt"* && "$tracked" != *"checklist.md"* && "$tracked" != *".seen.json"* && "$tracked" != *"top-level-note.txt"* ]]'
 check "git ignores .blueprint/" '[[ "$(git check-ignore .blueprint/x 2>/dev/null)" == ".blueprint/x" ]]'
+mkdir -p package; echo t > package/transcript.md; echo r > package/README.md; git add -A >/dev/null 2>&1
+check "git keeps the package note but never the transcript" 'git ls-files --error-unmatch package/README.md >/dev/null 2>&1 && ! git ls-files --error-unmatch package/transcript.md >/dev/null 2>&1'
 
 echo; echo "context tests: $pass passed, $fail failed"
 [[ $fail -eq 0 ]]

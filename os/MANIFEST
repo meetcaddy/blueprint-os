@@ -2,7 +2,8 @@
 # Everything else in the folder belongs to the business and is never touched:
 # BUSINESS.md, BLUEPRINT.md, BLUEPRINT-DIRECTIVES.md, ACCESS-MAP.md, SYSTEMS.md,
 # amendments.md, design/, context/, package/, briefs/, projects/, .paul/, .seed/, .base/, .env
-# One path per line; a trailing slash means the whole folder. Lines starting with # are notes.
+# One path per line; a trailing slash means the whole folder (REPLACED whole: never list a folder the
+# business writes into). Recipes are listed one by one so a recipe your Caddy wrote survives an update.
 CLAUDE.md
 FIRST-BOOT.md
 HOW-IT-WORKS.md
@@ -24,7 +25,20 @@ LICENSE
 .claude/skills/blueprint-health/
 os/
 setup/
-connections/
+connections/README.md
+connections/WALK-LOG.md
+connections/_template.md
+connections/airtable.md
+connections/google-workspace.md
+connections/hubspot.md
+connections/make.md
+connections/n8n.md
+connections/notion.md
+connections/quickbooks.md
+connections/slack.md
+connections/supabase.md
+connections/zapier.md
+connections/bin/
 guards/
 frameworks/
 base/
@@ -39,3 +53,5 @@ context/tools/WHAT-GOES-HERE.md
 context/recordings/WHAT-GOES-HERE.md
 context/anything-else/WHAT-GOES-HERE.md
 package/README.md
+# The business's own check scripts live in checks/: only this note is the template's.
+checks/README.md

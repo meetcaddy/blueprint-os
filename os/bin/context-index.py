@@ -2,7 +2,8 @@
 """context-index.py: list what is in the drop folder and write context/INDEX.md.
 
     python3 os/bin/context-index.py             rewrite INDEX.md and remember what was seen
-    python3 os/bin/context-index.py --summary   print the one-line summary only; change nothing
+    python3 os/bin/context-index.py --summary   print the one-line summary only, without opening any file
+    python3 os/bin/context-index.py --allow <slot/file>   the owner said this file is fine: read it next time
 
 Never prints or copies a file's contents. A file that looks like a key or password file is named
 and skipped, never read. A readable file that holds something that looks like a key is named with
@@ -20,6 +21,8 @@ ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.path.abspath(os.path.join(os.p
 CTX = os.path.join(ROOT, "context")
 INDEX = os.path.join(CTX, "INDEX.md")
 SEEN = os.path.join(CTX, ".seen.json")
+ALLOW = os.path.join(CTX, ".allow")
+PREVIOUS = os.path.join(CTX, ".index-previous.md")
 
 SLOTS = [
     ("how-we-work", "SOPs, checklists, process documents"),
@@ -31,17 +34,24 @@ SLOTS = [
     ("anything-else", "whatever did not fit"),
 ]
 SKIP_NAMES = {"README.md", "INDEX.md", "WHAT-GOES-HERE.md", ".DS_Store", ".seen.json", "Thumbs.db"}
+# A file is named, never read, when its NAME says it holds keys or passwords. Ordinary words inside a
+# longer name ("Password reset SOP") do not count; the owner can also say a flagged file is fine.
 NAME_FLAGS = re.compile(
-    r"(^\.env($|\.)|\.pem$|\.key$|\.p12$|\.pfx$|\.kdbx$|\.keychain|^id_(rsa|ed25519|ecdsa|dsa)"
-    r"|passw(or)?d|credential|secret|\btoken|api[-_]?key)", re.I)
+    r"(^\.env($|\.)|\.pem$|\.p12$|\.pfx$|\.kdbx$|\.keychain$|\.ppk$|^id_(rsa|ed25519|ecdsa|dsa)($|\.)"
+    r"|^(passwords?|passcodes?|logins?|credentials?|secrets?|api[-_ ]?keys?|tokens?|pins?)([-_ ]?(list|file|s))?\.[a-z0-9]{1,5}$"
+    r"|(^|[-_ ])(passwords?|credentials?|api[-_ ]?keys?)([-_ ]|\.))", re.I)
+# A readable file is named with its line number, and not used, when a line looks like a key.
 CONTENT_FLAGS = [
     re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
-    re.compile(r"\b(sk|rk)-[A-Za-z0-9_-]{20,}"),
+    re.compile(r"\b(sk|rk)[-_](live|test)?[-_]?[A-Za-z0-9_-]{16,}"),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     re.compile(r"\bxox[abprs]-[A-Za-z0-9-]{10,}"),
     re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}"),
-    re.compile(r"(?i)\b(api[_ -]?key|secret|password|passwd|token)\b\s*[:=]\s*\S{8,}"),
+    re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"),
+    re.compile(r"(?i)[A-Za-z0-9_-]*(api[_ -]?key|secret|password|passwd|passcode|private[_ -]?key|access[_ -]?key|auth[_ -]?token|token)[A-Za-z0-9_-]*\s*[:=]\s*[\"\']?\S{8,}"),
 ]
+LOGIN_HEADER = re.compile(r"(?i)\b(password|passcode|pin|login|log-in|credential)s?\b")
+CARD_LIKE = re.compile(r"\b(?:\d[ -]?){13,19}\b")
 PII_HINT = re.compile(r"\b\d{3}-\d{2}-\d{4}\b")
 TRANSCRIPT_EXT = (".txt", ".md", ".vtt", ".srt")
 LEARNED_START, LEARNED_END = "<!-- learned:start -->", "<!-- learned:end -->"
@@ -65,22 +75,59 @@ def human(n):
     return "%.1f MB" % (n / (1024 * 1024))
 
 
-def scan_text(text):
-    """Return ('key', line) if something key-like appears, ('pii', line) for ID-number hints, else None."""
-    for i, line in enumerate(text.split("\n"), 1):
+def luhn(digits):
+    total = 0
+    for i, ch in enumerate(reversed(digits)):
+        d = int(ch)
+        if i % 2 == 1:
+            d *= 2
+            if d > 9:
+                d -= 9
+        total += d
+    return total % 10 == 0
+
+
+def scan_text(text, spreadsheet=False):
+    """Return ('key', line), ('login', line), ('card', line) or ('pii', line) for the first worrying line, else None."""
+    lines = text.split("\n")
+    for i, line in enumerate(lines, 1):
         for pat in CONTENT_FLAGS:
             if pat.search(line):
                 return ("key", i)
-    for i, line in enumerate(text.split("\n"), 1):
+    if spreadsheet:
+        for i, line in enumerate(lines, 1):
+            if line.startswith("## Sheet:") or not line.strip():
+                continue
+            if LOGIN_HEADER.search(line):
+                return ("login", i)
+            break
+    for i, line in enumerate(lines, 1):
+        for m in CARD_LIKE.finditer(line):
+            digits = re.sub(r"[ -]", "", m.group(0))
+            if 13 <= len(digits) <= 19 and luhn(digits):
+                return ("card", i)
+    for i, line in enumerate(lines, 1):
         if PII_HINT.search(line):
             return ("pii", i)
     return None
 
 
-def gather(extractor):
+def load_allow():
+    try:
+        with open(ALLOW, encoding="utf-8") as fh:
+            return {ln.strip() for ln in fh if ln.strip()}
+    except OSError:
+        return set()
+
+
+def gather(extractor, seen=None, quick=False):
+    """List every dropped file. quick=True opens no file: unchanged files keep their last status, new or
+    changed files are classified by name only and marked new."""
     items = []
     if not os.path.isdir(CTX):
         return items
+    allow = load_allow()
+    seen = seen or {}
     for dirpath, dirnames, filenames in os.walk(CTX):
         dirnames[:] = sorted(d for d in dirnames if not d.startswith("."))
         for fn in sorted(filenames):
@@ -98,14 +145,24 @@ def gather(extractor):
                 continue
             size, mtime = st.st_size, int(st.st_mtime)
             item = {"rel": rel, "slot": slot, "size": size, "mtime": mtime, "flag": None, "kind": None}
-            if NAME_FLAGS.search(fn):
+            prev = seen.get(rel)
+            unchanged = bool(prev) and prev[0] == size and prev[1] == mtime
+            if quick and unchanged and len(prev) > 3:
+                item["kind"], item["status"], item["flag"] = prev[2], prev[3], prev[4] if len(prev) > 4 else None
+                items.append(item)
+                continue
+            if NAME_FLAGS.search(fn) and rel not in allow:
                 item["kind"] = "flagged"
-                item["status"] = "waiting on you: looks like a key or password file. Please remove it. Not read."
+                item["status"] = "waiting on you: looks like a key or password file by its name. If it is not, say so and your Caddy reads it. Not read."
                 item["flag"] = "key-name"
                 items.append(item)
                 continue
             k = extractor.kind(path)
             item["kind"] = k
+            if quick:
+                item["status"] = "new, not read yet"
+                items.append(item)
+                continue
             if size == 0:
                 item["status"] = "empty file"
             elif k in ("text", "docx", "xlsx", "pptx", "office"):
@@ -114,10 +171,16 @@ def gather(extractor):
                 except extractor.Unreadable as exc:
                     item["status"] = "unreadable (%s)" % exc
                 else:
-                    hit = scan_text(text)
+                    hit = scan_text(text, spreadsheet=(k == "xlsx" or rel.lower().endswith((".csv", ".tsv"))))
                     if hit and hit[0] == "key":
                         item["status"] = ("waiting on you: line %d looks like a key or password. "
                                           "Please take it out or remove the file. Not used." % hit[1])
+                        item["flag"] = "key-content"
+                    elif hit and hit[0] == "login":
+                        item["status"] = "waiting on you: looks like a list of logins (a password or login column). Please remove it. Not used."
+                        item["flag"] = "key-content"
+                    elif hit and hit[0] == "card":
+                        item["status"] = "waiting on you: line %d looks like a card number. Please take it out or remove the file. Not used." % hit[1]
                         item["flag"] = "key-content"
                     elif hit and hit[0] == "pii":
                         item["status"] = "readable; may hold personal ID numbers (line %d): your Caddy asks before using it" % hit[1]
@@ -126,6 +189,10 @@ def gather(extractor):
                         item["status"] = "readable"
             elif k in ("pdf", "image"):
                 item["status"] = "read directly by the app"
+            elif k == "image-export":
+                item["status"] = "a picture your Caddy may not open: export it as PNG or JPG and drop it again"
+            elif k in ("old-office", "keynote"):
+                item["status"] = "listed, not read: export it as PDF (or the newer format) and drop it again"
             elif k == "recording":
                 stem = os.path.splitext(path)[0]
                 if any(os.path.isfile(stem + e) for e in TRANSCRIPT_EXT):
@@ -147,7 +214,7 @@ def load_seen():
 
 
 def save_seen(items):
-    data = {it["rel"]: [it["size"], it["mtime"]] for it in items}
+    data = {it["rel"]: [it["size"], it["mtime"], it.get("kind"), it.get("status"), it.get("flag")] for it in items}
     tmp = SEEN + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(data, fh, indent=1, sort_keys=True)
@@ -166,11 +233,13 @@ def summary_line(items):
     transcript = sum(1 for i in items if i["status"].startswith("recording: needs"))
     waiting = sum(1 for i in items if i["flag"] in ("key-name", "key-content"))
     new = sum(1 for i in items if i.get("new"))
+    unread = sum(1 for i in items if i["status"] == "new, not read yet")
     slots = len({i["slot"] for i in items})
     if not items:
         return "context: the drop folder is empty"
     return ("context: %d item(s) in %d slot(s); %d readable, %d read directly, %d need a transcript, "
-            "%d waiting on you; %d new since the last index" % (len(items), slots, readable, direct, transcript, waiting, new))
+            "%d waiting on you; %d new since the last index" % (len(items), slots, readable, direct, transcript, waiting, new)
+            + ("" if not unread else " (%d not read yet)" % unread))
 
 
 def write_index(items):
@@ -229,6 +298,12 @@ def write_index(items):
     lines.append(missing.rstrip("\n"))
     lines.append(MISSING_END)
     lines.append("")
+    if old:
+        try:
+            with open(PREVIOUS, "w", encoding="utf-8") as fh:
+                fh.write(old)
+        except OSError:
+            pass
     tmp = INDEX + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines))
@@ -237,15 +312,28 @@ def write_index(items):
 
 def main(argv):
     summary_only = "--summary" in argv
+    if "--allow" in argv:
+        try:
+            rel = argv[argv.index("--allow") + 1].strip().strip("/")
+        except IndexError:
+            print("which file? give its path inside the drop folder, like money/Password reset SOP.docx")
+            return 2
+        if not os.path.isfile(os.path.join(CTX, rel)):
+            print("there is no file called %s in the drop folder" % rel)
+            return 2
+        with open(ALLOW, "a", encoding="utf-8") as fh:
+            fh.write(rel + "\n")
+        print("noted: %s is read next time (its lines are still checked for keys)" % rel)
+        return 0
     if not os.path.isdir(CTX):
         print("context: there is no drop folder in this workspace yet")
         return 0
     extractor = load_extractor()
-    items = gather(extractor)
     seen = load_seen()
+    items = gather(extractor, seen=seen, quick=summary_only)
     for it in items:
         prev = seen.get(it["rel"])
-        it["new"] = prev != [it["size"], it["mtime"]]
+        it["new"] = not prev or prev[0] != it["size"] or prev[1] != it["mtime"]
     print(summary_line(items))
     if summary_only:
         return 0

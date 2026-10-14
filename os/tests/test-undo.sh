@@ -36,4 +36,19 @@ check "to a named point: steps forward again" '[[ "$out" == *"stepped back to"*"
 out="$(bash os/bin/undo.sh to 99)"; check "to 99: no such point, exit 2" '[[ "$out" == FAIL* ]] && ! bash os/bin/undo.sh to 99 >/dev/null 2>&1'
 out="$(bash os/bin/undo.sh to nothing-here)"; check "to a bad name: no such point" '[[ "$out" == FAIL* ]]'
 out="$(bash os/bin/undo.sh to 1)"; check "to 1 after a step: already there" '[[ "$out" == *"already at that point"* ]]'
+# a rename between points is undone fully
+git mv design/phase-1.md design/phase-one.md; git commit -q -m "renamed the record"
+out="$(bash os/bin/undo.sh to 2)"; check "a renamed file goes back to its old name and the new name is gone" '[[ -f design/phase-1.md && ! -f design/phase-one.md ]]'
+# preview changes nothing and names systems added since
+printf '# SYSTEMS.md\n\n| What | Where it lives | Whose account | What it does | How to check it is healthy | Since |\n|---|---|---|---|---|---|\n| Invoice reminder | n8n | Sam | sends reminders | open n8n | 2026-10-05 |\n' > SYSTEMS.md; git add SYSTEMS.md; git commit -q -m "a system"
+head_before=$(git rev-parse HEAD); out="$(bash os/bin/undo.sh preview 2)"
+check "preview: names the system that keeps running" '[[ "$out" == *"keep running outside your Caddy"*"Invoice reminder"* ]]'
+check "preview: counts files" '[[ "$out" == *"Files that would change: "* ]]'
+check "preview: changes nothing" '[[ "$(git rev-parse HEAD)" == "$head_before" && -z "$(git status --porcelain)" ]]'
+# a failed save-first means nothing is touched
+echo "unsaved" > BUSINESS.md; git config user.useConfigOnly true; git config --unset user.email; git config --unset user.name
+out="$(HOME="$T/nohome" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null bash os/bin/undo.sh to 2)"; rc=$?
+check "save-first failure: refuses, exit 1" '[[ "$out" == FAIL* && $rc -ne 0 ]]'
+check "save-first failure: the unsaved work is untouched" '[[ "$(cat BUSINESS.md)" == "unsaved" ]]'
+git config user.email t@t; git config user.name t
 echo; echo "undo tests: $pass passed, $fail failed"; [[ $fail -eq 0 ]]

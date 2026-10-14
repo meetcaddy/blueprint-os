@@ -42,6 +42,13 @@ else
   fail "command line tools missing"; exit 2
 fi
 
+# 1b. A name and address for saving work in this folder (git refuses to save without one; set only here, only if missing)
+if git -C "$REPO" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  [[ -n "$(git -C "$REPO" config --get user.name 2>/dev/null)" ]] || git -C "$REPO" config user.name "$(id -F 2>/dev/null || id -un)"
+  [[ -n "$(git -C "$REPO" config --get user.email 2>/dev/null)" ]] || git -C "$REPO" config user.email "$(id -un)@$(hostname -s 2>/dev/null || echo this-mac).local"
+  ok "a name and address for saving work in this folder"
+fi
+
 # 2. Homebrew (the app installer)
 if command -v brew >/dev/null 2>&1; then
   ok "Homebrew present"

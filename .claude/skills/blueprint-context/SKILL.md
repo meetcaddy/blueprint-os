@@ -8,7 +8,16 @@ description: Read what the owner dropped into the context folder (SOPs, org char
 The drop folder is where the owner gives you the real business. Read before you ask. Everything
 stays on this computer; you save only the index and what you learned. Speak level one.
 
-## Step 0: index first
+## Step 0: is the Blueprint built yet?
+
+If `BLUEPRINT.md` does not exist, the package has not been ingested. Run
+`python3 os/bin/context-index.py` anyway (it lists what is there and names any key or password
+file, which the owner should remove now), say how many items are waiting ("Your drop folder has
+[N] items. I read them once your Blueprint is built: type /blueprint ingest when the package
+lands."), handle Step 1 only, and stop. Nothing is read, learned or written to `BUSINESS.md`
+before ingest.
+
+## Step 0b: index first
 
 Run `python3 os/bin/context-index.py` from this folder. It rewrites `context/INDEX.md` (what is
 here, slot by slot, with a status per file) and prints a one-line summary. Read `context/INDEX.md`.
@@ -18,10 +27,13 @@ Never open a file the index marks "waiting on you".
 
 - **A file that looks like a key or password file** (by its name): say its name, ask them to move
   it out of the folder, and do not open it. "`passwords.txt` looks like a password file. I have
-  not read it. Please move it out of the folder."
-- **A readable file where one line looks like a key:** name the file and the line number, ask them
-  to take that line out or remove the file, and do not use the file until they say it is done.
-  Never repeat the line.
+  not read it. Please move it out of the folder, or tell me it is fine." If the owner says it is
+  fine (an SOP about resetting passwords, a file about the team's secretary), run
+  `python3 os/bin/context-index.py --allow <slot/file>`, run the index again, and read it: its
+  lines are still checked, and a line that looks like a key still stops you.
+- **A readable file where one line looks like a key, a card number, or a list of logins:** name
+  the file and the line number, ask them to take that line out or remove the file, and do not use
+  the file until they say it is done. Never repeat the line.
 - **A file that may hold personal ID numbers:** ask once whether you may use it ("`money/ids.txt`
   may hold personal ID numbers. Do you want me to use it, or leave it?"). Leave it until they say
   yes. Write their answer in `BUSINESS.md` NOTES so you never ask twice.
@@ -38,8 +50,9 @@ For every readable item marked "(new)":
   nothing to disk.
 - **PDFs and images:** open them directly; you read PDFs and pictures yourself.
 - **Recordings:** see Step 4.
-- **A long file:** read the first part, say what it is, and ask which part matters most before
-  reading the rest.
+- **A long file:** read the first part (`python3 os/bin/extract_text.py <file> --from 1 --count 300`),
+  say what it is, and ask which part matters most before reading the rest, part by part
+  (`--from 301 --count 300`, and so on).
 - **A file that would not read** (empty, protected or damaged): say so by name, once.
 
 Quote their documents in their words. Where a document and the session disagree, say so; the
@@ -48,7 +61,8 @@ owner decides which is current, and you write the answer down.
 ## Step 3: write down what you learned
 
 Open `context/INDEX.md` and fill the block between `<!-- learned:start -->` and
-`<!-- learned:end -->`: one line per file you read, in this shape: "`slot/file`: what it is, and
+`<!-- learned:end -->` (if the notes ever look gone, the previous copy is in
+`context/.index-previous.md`): one line per file you read, in this shape: "`slot/file`: what it is, and
 what it tells me (the opportunity it serves)". Keep the earlier lines; add to them. The index
 script keeps this block exactly as you wrote it on every re-run.
 

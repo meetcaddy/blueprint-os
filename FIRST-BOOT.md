@@ -33,8 +33,8 @@ below are verbatim.
 >
 > I read what you wrote when you booked. The thing eating your week is [their words for the
 > biggest time sink]. The job you would hand off tomorrow is [their words]. Today you decided on
-> [the opportunity names from the recap], starting with [the first move]. Those become my
-> instructions the moment the recording arrives.
+> [the opportunity names from the recap], starting with [the first move]. Those are the names I
+> expect to find in the recording; the recording is what I build from.
 >
 > I was built for one job: turning today's session into a better-run business. Your team just
 > spent the session talking about how this business really works. That conversation becomes my

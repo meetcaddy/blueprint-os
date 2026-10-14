@@ -33,3 +33,7 @@ context/*/*
 
 # Your Caddy's own small stamps (when the last brief ran, the last version check)
 .blueprint/
+
+# The package folder: the transcript and the intake stay on this computer. Only the note is saved.
+package/*
+!package/README.md

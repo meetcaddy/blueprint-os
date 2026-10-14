@@ -26,8 +26,8 @@ ld=$(printf '%s' "$local_build" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -
 rd=$(printf '%s' "$second" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1)
 [ -n "$rd" ] || exit 0
 if [ -n "$ld" ] && [ "$rd" \< "$ld" ]; then exit 0; fi
-if [ -n "$ld" ] && [ "$rd" = "$ld" ]; then exit 0; fi
-[ "$(cat "$SEEN" 2>/dev/null)" = "$rd" ] && exit 0
-printf '%s\n' "$rd" > "$SEEN"
+# a different build line on the same day is a newer build too (a same-day fix)
+[ "$(cat "$SEEN" 2>/dev/null)" = "$second" ] && exit 0
+printf '%s\n' "$second" > "$SEEN"
 echo "A newer version of your Caddy is available (build $rd). Type /blueprint update when you want it; your business files are never touched."
 exit 0

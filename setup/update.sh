@@ -21,8 +21,12 @@ say "== Your Caddy: update =="
 
 # 0. Never run with unsaved work: everything gets committed first (the backup).
 if [[ -n "$(git status --porcelain)" ]]; then
-  git add -A >/dev/null 2>&1
-  git commit -q -m "before os update $STAMP" >/dev/null 2>&1 && say "OK    saved your work first (commit: before os update $STAMP)"
+  if git add -A >/dev/null 2>&1 && git commit -q -m "before os update $STAMP" >/dev/null 2>&1; then
+    say "OK    saved your work first (commit: before os update $STAMP)"
+  else
+    fail "could not save your work first, so nothing was changed (usually this computer has no name and address set up for saving; the Caddy team can fix it)"
+  fi
+  [[ -z "$(git status --porcelain)" ]] || fail "some work is still unsaved, so nothing was changed"
 fi
 git tag -f "before-os-update-$STAMP" >/dev/null 2>&1 && say "OK    marked the step-back point: before-os-update-$STAMP"
 

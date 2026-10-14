@@ -24,8 +24,14 @@ back; nothing of yours was lost" and stop.
 
 ## Step 2: say what will happen, then ask
 
+Run `bash os/bin/undo.sh preview [number or name]` first. It says how many files would change
+(business documents and your own files) and names any system built or connected after that
+point. Those systems keep running outside you; stepping back only forgets them in your list, so
+say so plainly, and say that stepping back never undoes a change made inside their tools.
+
 > I save what you have right now first. Then I set everything back to [the point, in plain
-> words]. Nothing is lost: you can step forward again any time. Go ahead?
+> words]. [N business documents change. These keep running outside me and would drop off my
+> list: X, Y.] Nothing is lost: you can step forward again any time. Go ahead?
 
 Only a plain yes moves on. No yes, no change.
 
@@ -38,7 +44,8 @@ Run `bash os/bin/undo.sh to [number or name]`. Read the result back:
   owner has never seen; name the documents.
 - `OK you are already at that point`: say nothing changed and why.
 - `FAIL`: say what the line says in plain words, say that nothing was changed, and point at
-  `/blueprint help` if it mentions the Caddy team.
+  `/blueprint help` if it mentions the Caddy team. If the save-first step failed, nothing was
+  touched: the owner's unsaved work is still exactly as it was.
 
 If the step back took the owner's workspace behind an update (the OS files are older now), say:
 "Your Caddy's own files went back too; type /blueprint update when you want the newest ones

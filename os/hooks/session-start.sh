@@ -38,9 +38,9 @@ fi
 
 # The Monday brief: the first time the folder opens in a week, once BUSINESS.md exists.
 if [ -f os/bin/brief.sh ] && sh os/bin/brief.sh --due 2>/dev/null; then
+  sh os/bin/brief.sh --stamp 2>/dev/null
   printf '\n'
   sh os/bin/brief.sh 2>/dev/null
-  sh os/bin/brief.sh --stamp 2>/dev/null
   printf '(Say this brief to the owner first, in their words, before anything else.)\n'
 elif [ -f WAITING-ON-YOU.md ]; then
   show "WAITING-ON-YOU.md" "Waiting on a person"

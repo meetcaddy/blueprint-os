@@ -83,8 +83,8 @@ have); a card for a person who is not in the room is written so the owner can fo
 unchanged; a card that opens an account or a paid plan carries the plan, its price and the
 date you read it on the vendor's page, or says plainly that you could not read it. Every card
 handed over gets a dated line in `WAITING-ON-YOU.md` (create it from
-`os/templates/WAITING-ON-YOU.md`), removed the moment it is done; so does every question you
-are waiting on.
+`os/templates/WAITING-ON-YOU.md`): one line per item, removed the moment it is verified done, a
+card handed over again keeps its first date; so does every question you are waiting on.
 
 **Outside tools.** When the design's home for a piece is an always-on rail, a database, or a
 tool they already own, set it up with the owner through cards. If `connections/` has a recipe
@@ -93,8 +93,10 @@ Every outside thing gets its line in `SYSTEMS.md`: what it is, where it lives, w
 what it does, how to check it is healthy. Locations, never credentials. The "how to check" cell
 carries a check your Caddy can run when one fits, written as
 ``check: `bash os/checks/http-ok.sh [name] [url]` `` (or `file-exists.sh`, `file-fresh.sh`,
-`process-running.sh`, or a `connections/bin/` check); otherwise the plain words "open X and
-look for Y". `/blueprint health` runs those cells.
+`process-running.sh`, a `connections/bin/` check, or a script you wrote into the business's own
+`checks/` folder, never into `os/`); otherwise the plain words "open X and look for Y". A check
+only looks: a web address that starts something is never a check. `/blueprint health` runs those
+cells.
 
 **New ideas mid-build.** Write them into `amendments.md` with the date and the owner's words,
 place them in a phase, say where they landed, and keep going. Never derail this phase.

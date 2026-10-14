@@ -10,4 +10,6 @@
 
 > The "how to check" cell may carry one check your Caddy runs with `/blueprint health`, written as
 > ``check: `bash os/checks/<script> ...` `` (the scripts are listed in `os/checks/README.md`) or a
-> `connections/bin/` check. Anything else in the cell is read as words for a person.
+> `connections/bin/` check, or a script in the business's own `checks/` folder. Anything else in
+> the cell is read as words for a person. A check only looks: a web address that starts something
+> (a webhook) is never a check.

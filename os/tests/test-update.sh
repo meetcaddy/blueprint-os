@@ -23,6 +23,7 @@ sed -i '' 's/done <<< "\$TMPL_MANIFEST"/done < "$MANIFEST"/' setup/update.sh
 printf '# BUSINESS.md: Acme Roofing\n\n## SESSION\n**Owner:** Sam\n' > BUSINESS.md
 mkdir -p design context/phase-1 context/money; echo "design" > design/phase-1.md; echo "raw sop" > context/phase-1/sop.txt
 echo "SECRET=keep" > .env; echo "pnl" > context/money/pnl.txt
+mkdir -p checks package; echo "# ServiceTitan recipe" > connections/servicetitan.md; printf '#!/bin/sh\necho ok\n' > checks/my-check.sh; echo "transcript" > package/transcript.md
 git add -A >/dev/null 2>&1; git commit -q -m "old client"; before=$(git rev-parse HEAD)
 check "setup: raw files under context/ are ignored, in a slot or a phase folder" '! git ls-files --error-unmatch context/money/pnl.txt >/dev/null 2>&1 && ! git ls-files --error-unmatch context/phase-1/sop.txt >/dev/null 2>&1'
 export BLUEPRINT_TEMPLATE_URL="$HERE" BLUEPRINT_TEMPLATE_BRANCH="$branch"
@@ -37,6 +38,10 @@ check "update: BUSINESS.md untouched" '[[ "$(cat BUSINESS.md)" == *"Acme Roofing
 check "update: design record untouched" '[[ "$(cat design/phase-1.md)" == "design" ]]'
 check "update: the phase folder's raw file untouched" '[[ "$(cat context/phase-1/sop.txt)" == "raw sop" ]]'
 check "update: raw money file and .env untouched" '[[ "$(cat context/money/pnl.txt)" == "pnl" && "$(cat .env)" == "SECRET=keep" ]]'
+check "update: a recipe the machine wrote survives" '[[ -f connections/servicetitan.md ]]'
+check "update: the business's own check script survives" '[[ -f checks/my-check.sh ]]'
+check "update: the template's own recipes were refreshed" '[[ -f connections/n8n.md && -f connections/bin/check-http.sh ]]'
+check "update: the transcript stays out of git" '! git ls-files --error-unmatch package/transcript.md >/dev/null 2>&1 && [[ -f package/transcript.md ]]'
 check "update: tree clean, commits made, step-back tag present" '[[ -z "$(git status --porcelain)" && "$(git rev-parse HEAD)" != "$before" ]] && git tag -l "before-os-update-*" | grep -q .'
 out2="$(bash setup/update.sh 2>&1)"; check "update: a second run finds nothing to do" '[[ "$out2" == *"nothing to update"* ]]'
 n=$(git rev-list --count "$before"..HEAD)

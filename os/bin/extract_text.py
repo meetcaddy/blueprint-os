@@ -5,6 +5,7 @@ Your Caddy runs this to read what you dropped. It prints the text and writes not
 
     python3 os/bin/extract_text.py <file>           print the file's text
     python3 os/bin/extract_text.py --kind <file>    print only the kind of file
+    python3 os/bin/extract_text.py <file> --from 301 --count 300   print one part of a long file (lines)
 
 Kinds: text (read as it is), docx, xlsx, pptx, office (read through the Mac's own converter),
 pdf and image (the app reads those directly), recording (needs a transcript), unknown.
@@ -27,7 +28,9 @@ TEXT_EXT = {".txt", ".md", ".markdown", ".csv", ".tsv", ".json", ".yaml", ".yml"
 HTML_EXT = {".html", ".htm"}
 OFFICE_VIA_TEXTUTIL = {".rtf", ".rtfd", ".doc", ".odt", ".webarchive"}
 PDF_EXT = {".pdf"}
-IMAGE_EXT = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".heic", ".heif", ".bmp", ".tif", ".tiff"}
+IMAGE_EXT = {".png", ".jpg", ".jpeg", ".gif", ".webp"}
+IMAGE_EXPORT_EXT = {".heic", ".heif", ".bmp", ".tif", ".tiff", ".psd", ".svg"}
+OLD_OFFICE_EXT = {".xls", ".ppt", ".pages", ".numbers"}
 RECORDING_EXT = {".mp4", ".mov", ".m4v", ".mkv", ".avi", ".webm", ".m4a", ".mp3", ".wav", ".aac",
                  ".ogg", ".flac", ".aiff", ".aif", ".caf", ".wma"}
 
@@ -61,6 +64,17 @@ def kind(path):
         return "pdf"
     if ext in IMAGE_EXT:
         return "image"
+    if ext in IMAGE_EXPORT_EXT:
+        return "image-export"
+    if ext in OLD_OFFICE_EXT:
+        return "old-office"
+    if ext == ".key":
+        try:
+            with open(path, "rb") as fh:
+                head = fh.read(4)
+            return "keynote" if head.startswith(b"PK") else "unknown"
+        except Exception:
+            return "unknown"
     if ext in RECORDING_EXT:
         return "recording"
     if ext == "":
@@ -264,6 +278,14 @@ def main(argv):
         print(kind(argv[1]))
         return 0
     path = argv[0]
+    start, count = None, None
+    if "--from" in argv:
+        try:
+            start = int(argv[argv.index("--from") + 1])
+            count = int(argv[argv.index("--count") + 1]) if "--count" in argv else 300
+        except (ValueError, IndexError):
+            print("say which lines: --from 301 --count 300", file=sys.stderr)
+            return 2
     if not os.path.isfile(path):
         print("not a file: %s" % path, file=sys.stderr)
         return EXIT_UNREADABLE
@@ -282,6 +304,10 @@ def main(argv):
     except Unreadable as exc:
         print("unreadable: %s" % exc, file=sys.stderr)
         return EXIT_UNREADABLE
+    if start is not None:
+        lines = text.split("\n")
+        chunk = lines[max(start - 1, 0):max(start - 1, 0) + max(count, 1)]
+        text = "\n".join(chunk) + ("\n[%d lines in all; this part: %d to %d]" % (len(lines), start, start + len(chunk) - 1))
     sys.stdout.write(text)
     if not text.endswith("\n"):
         sys.stdout.write("\n")

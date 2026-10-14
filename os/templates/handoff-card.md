@@ -38,7 +38,8 @@ Cards pile up when a phase needs several people or several accounts. Respect the
 - One card at a time still holds: the next card is handed over only after the last one is
   verified.
 - Zero or one card waiting: no counting, no batching talk, just the card.
-- Every card handed over gets a dated line in `WAITING-ON-YOU.md`, removed the moment it is done.
+- Every card handed over gets a dated line in `WAITING-ON-YOU.md`: one line per item, removed the
+  moment it is verified done; a card handed over again keeps its first date.
 
 ## A card for someone who is not in the room
 
@@ -63,7 +64,8 @@ The owner sends it (a text, an email, a message in their own tool); you never do
 
 Before any card that opens an account or a paid plan, open the vendor's current pricing page
 yourself. Put in the card the plan the design needs, its price and the date you read it: "the
-Starter plan, $20 a month as of [date], on their pricing page". Name the one thing the plan must
+Starter plan, $20 a month as of [date], on their pricing page", in whatever currency the page
+shows. Name the one thing the plan must
 include (the API, the team seat, the connector) so nobody signs up for the tier that lacks it. If
 you could not read the page, say exactly that in the card ("I could not read the price today; it
 is on the page in step 1") and never guess a number.

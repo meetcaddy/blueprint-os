@@ -8,7 +8,9 @@ It lives in a folder on [owner first name]'s computer and talks in plain words.
 
 **What it will ask you for.** To watch you do a job on your real screen, a document or two, and
 now and then a short card with up to five steps: sign in somewhere, click Allow, or type a key
-into the exact place it prepared. It checks every result with you watching.
+into the exact place it prepared on the computer where it lives. If you are not at that
+computer, it finds another route (the tool's own connect screen); it never asks you to send a
+key by text or email. It checks every result with you watching.
 
 **Three rules it never breaks.** It never asks for a password in the conversation. It never
 changes anything live without a plain yes. The old way keeps running next to the new one until

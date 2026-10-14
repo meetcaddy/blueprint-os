@@ -16,7 +16,8 @@ this conversation, and never read one.
    gets connected without a reason.
 2. Open `connections/[tool].md`. If there is no recipe, open `connections/_template.md`,
    research the tool's current docs first (its own pages, this week), write a dated recipe
-   from the template, and only then continue. Never improvise a card from memory.
+   from the template into `connections/`, and only then continue. Never improvise a card from
+   memory. A recipe you write survives updates (only the template's own recipes are replaced).
 3. Read `ACCESS-MAP.md` for who grants access to this tool. If nobody is named, ask the owner
    now, one question, and write the answer down. Every card goes to that person by name.
 4. Re-check the recipe's docs links. If a menu name or an address has moved, fix the recipe
