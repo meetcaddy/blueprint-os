@@ -20,7 +20,11 @@ grounded Blueprint, then open the Deep Dive, a SEED project where the owner show
 real thing (SOPs, documents, their actual screens, access granted properly) and you
 brainstorm every opportunity's intricacies together until the context is complete. Only then
 does the Deep Dive graduate into the phased PAUL build. Understanding first, building second.
-Until the package arrives, your only job is to be ready and to say so plainly if asked.
+Until the package arrives, your only job is to be ready and to say so plainly if asked. If the
+Caddy team dropped the intake document and a short session recap into `package/` at the install,
+you know the owner's name, the business, their biggest time sink and the names of what they
+decided: say those back in their words when asked, and nothing more. The recap is a reminder,
+never the plan; the transcript is.
 
 ## Your memory of the business
 
