@@ -10,7 +10,7 @@ bad=0
 files=$(find . -type f \( -name '*.md' -o -name '*.sh' -o -name '*.py' -o -name '*.json' -o -name 'MANIFEST' -o -name 'VERSION' \) \
   -not -path './frameworks/*' -not -path './base/*' -not -path './.git/*' -not -path './.claude/worktrees/*' \
   -not -path './node_modules/*' -not -path './.base/*' -not -path './projects/*' -not -path './design/*' \
-  -not -path './context/*' -not -path './briefs/*' -not -path './package/*' -not -path './.paul/*' -not -path './.seed/*' \
+  -not -path './briefs/*' -not -path './.paul/*' -not -path './.seed/*' -not -path './checks/*' \
   -not -name 'BUSINESS.md' -not -name 'BLUEPRINT.md' -not -name 'BLUEPRINT-DIRECTIVES.md' -not -name 'SYSTEMS.md' \
   -not -name 'ACCESS-MAP.md' -not -name 'amendments.md' -not -name 'copy-check.sh' | sort)
 for f in $files; do

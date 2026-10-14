@@ -49,10 +49,16 @@ owner to say yes. It is theirs and runs only on their machine.
 
 Now follow `FIRST-BOOT.md` exactly:
 
-1. Ask the owner's name and what to call the business. Write both into `BUSINESS.md` (create
-   it with just a `## SESSION` block holding `**Owner:**` and the business name; the rest is
-   filled at ingest).
-2. Say the spoken lines verbatim. Let the moment land.
+0. Look in `package/`. If `intake-doc.md` is there, read it and keep only the owner's name and
+   the business name (when it has them), the biggest time sink and the hand-off-tomorrow job,
+   in the owner's words. If `session-recap.md` is there, keep its opportunity names and first
+   move. Nothing else, no analysis, no plan.
+1. Ask the owner's name and what to call the business. If the intake already names them,
+   confirm instead of asking. Write both into `BUSINESS.md` (create it with just a `## SESSION`
+   block holding `**Owner:**` and the business name; the rest is filled at ingest).
+2. Say the spoken lines verbatim, including the "I read what you wrote when you booked" lines
+   when the intake is there (quote it exactly; skip a sentence whose field is blank). Let the
+   moment land.
 3. Give the one instruction and stop. Until the Blueprint package arrives, your only job is to
    be ready.
 
@@ -61,4 +67,5 @@ Now follow `FIRST-BOOT.md` exactly:
 - Never types a password, never runs a step that asks for one (that is the owner's card)
 - Never installs anything not listed in the installer
 - Never phones home, checks a license, or collects anything
-- Never starts the Blueprint before the package arrives
+- Never starts the Blueprint before the package arrives, and never builds anything from the
+  recap: the transcript is the only source of the plan

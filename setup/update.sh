@@ -21,8 +21,12 @@ say "== Your Caddy: update =="
 
 # 0. Never run with unsaved work: everything gets committed first (the backup).
 if [[ -n "$(git status --porcelain)" ]]; then
-  git add -A >/dev/null 2>&1
-  git commit -q -m "before os update $STAMP" >/dev/null 2>&1 && say "OK    saved your work first (commit: before os update $STAMP)"
+  if git add -A >/dev/null 2>&1 && git commit -q -m "before os update $STAMP" >/dev/null 2>&1; then
+    say "OK    saved your work first (commit: before os update $STAMP)"
+  else
+    fail "could not save your work first, so nothing was changed (usually this computer has no name and address set up for saving; the Caddy team can fix it)"
+  fi
+  [[ -z "$(git status --porcelain)" ]] || fail "some work is still unsaved, so nothing was changed"
 fi
 git tag -f "before-os-update-$STAMP" >/dev/null 2>&1 && say "OK    marked the step-back point: before-os-update-$STAMP"
 
@@ -34,6 +38,10 @@ else
 fi
 git fetch -q template "$TEMPLATE_BRANCH" 2>/dev/null || fail "could not reach the template at $TEMPLATE_URL (check the internet connection)"
 say "OK    template reached ($TEMPLATE_URL, $TEMPLATE_BRANCH)"
+
+# 1b. The template's own manifest governs. The local copy can be older than the template's and
+#     would not know about files added since (the first update would then skip them).
+TMPL_MANIFEST="$(git show "template/$TEMPLATE_BRANCH:os/MANIFEST" 2>/dev/null)" || TMPL_MANIFEST="$(cat "$MANIFEST")"
 
 OLD_VERSION="$(sed -n '2p' os/VERSION 2>/dev/null)"
 NEW_VERSION="$(git show "template/$TEMPLATE_BRANCH:os/VERSION" 2>/dev/null | sed -n '2p')"
@@ -52,7 +60,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     fi
     git checkout -q "template/$TEMPLATE_BRANCH" -- "$path" 2>/dev/null && CHANGED=$((CHANGED+1))
   fi
-done < "$MANIFEST"
+done <<< "$TMPL_MANIFEST"
 
 # 3. What changed, in plain words
 if [[ -z "$(git status --porcelain)" ]]; then
@@ -70,6 +78,11 @@ say "      step back any time with: git checkout before-os-update-$STAMP -- ."
 # 4. Engine files changed? Then the engine must be put in place again.
 if git diff --name-only "before-os-update-$STAMP" HEAD | grep -qE '^(frameworks/|base/|setup/setup\.sh)'; then
   say "NEXT  the engine changed: type /blueprint setup once more so the new pieces are put in place"
+fi
+# 5. If the updater itself changed, run the new one once more so its own rules apply.
+if [[ -z "${BLUEPRINT_UPDATE_RERUN:-}" ]] && git diff --name-only "before-os-update-$STAMP" HEAD | grep -qx 'setup/update.sh'; then
+  say "NEXT  the updater itself changed; running it once more with the new rules"
+  BLUEPRINT_UPDATE_RERUN=1 exec bash "$REPO/setup/update.sh"
 fi
 say "UPDATE COMPLETE."
 exit 0

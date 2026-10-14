@@ -22,3 +22,18 @@ node_modules/
 .base/.session
 .base/.signal-state
 .base/.domain-sync-ts
+
+# The drop folder: raw files stay on this computer. Only the notes and the index are saved.
+context/*
+!context/README.md
+!context/INDEX.md
+!context/*/
+context/*/*
+!context/*/WHAT-GOES-HERE.md
+
+# Your Caddy's own small stamps (when the last brief ran, the last version check)
+.blueprint/
+
+# The package folder: the transcript and the intake stay on this computer. Only the note is saved.
+package/*
+!package/README.md
