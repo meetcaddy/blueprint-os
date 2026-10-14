@@ -19,7 +19,10 @@ here: the build is `/blueprint build`.
    is not marked **Context complete** and say where you are in one sentence. Never restart
    from the top and never rewrite an approved record without the owner's say so.
 3. Ask once who is in the room: the owner, the operations seat, anyone else. Write the names
-   down. Cards go to the person the access map names, by name.
+   down. Cards go to the person the access map names, by name. If the operations seat is a
+   different person from the owner, write `SECOND-SEAT.md` for them from
+   `os/templates/SECOND-SEAT.md` (three minutes to read) and tell the owner it is there to hand
+   over. If the seat is the owner, skip it.
 
 ## Step 1: The access map, before any brainstorm
 
@@ -36,9 +39,11 @@ first cards go out today.
 3. Where no grantor was named, ask now, one plain question: "Who can grant me access to
    [system]?" Record the answer. Never guess who holds the keys.
 4. Send the first cards: only for what Phase 1 needs, one card at a time, addressed to the
-   named grantor, in the card shape from `os/templates/handoff-card.md`. Everything else
-   waits for its phase. Mark each row's card status as you go: not yet, sent to [name],
-   done, verified.
+   named grantor, in the card shape from `os/templates/handoff-card.md` (its rules for several
+   cards, for a person not in the room, and for a sign-up or paid plan all apply). Everything
+   else waits for its phase. Mark each row's card status as you go: not yet, sent to [name],
+   done, verified. Every card handed over gets a dated line in `WAITING-ON-YOU.md` (create it
+   from `os/templates/WAITING-ON-YOU.md`), removed the moment it is verified.
 
 Keys never pass through this chat. A card names the exact place the person types a key
 themselves (a file you already prepared with a placeholder, or the tool's own connect
@@ -46,10 +51,16 @@ screen), and you prove the connection works without ever reading the value.
 
 ## Step 2: Gather the real context, one phase at a time, Phase 1 first
 
+First, the drop folder: run `python3 os/bin/context-index.py --summary` and read
+`context/INDEX.md`. Everything the owner dropped is read before anything is asked; if the summary
+shows new items, run `/blueprint context` now. Then ask only for what the folder did not give
+you, and quote the dropped files by name when you use them.
+
 For each opportunity in the phase, ask for four things:
 
 - **The documents.** SOPs, checklists, templates, example files. Ask them to drop copies into
-  `context/phase-N/`. Read them. Quote them back in their words.
+  the slot that fits in `context/` (or `context/phase-N/` for a phase-specific request), then
+  run `/blueprint context`. Read them. Quote them back in their words.
 - **Eyes on the screens.** Ask the owner or the operations seat to open the real software and
   walk through the job while you ask questions. Write the steps down as they happen, in the
   order they happen, in their vocabulary.
@@ -100,6 +111,16 @@ words, the home of each piece, what stays human, the cards planned (outcomes fil
 by the build), the verification duties with a named witness, the exit criteria (the owner's
 plain sign-off plus the measured result), and the questions still open for build start.
 
+**The fresh-eyes check, before the read-back.** Hand the draft record to a fresh helper that
+has no memory of this conversation: start a subagent with the text of `os/prompts/design-duel.md`
+and the files it names (use the fast model tier when your app offers one, otherwise the default;
+the checker must not be this conversation). Take every finding that points at a line and names
+its source: fix what was invented, simplify what was overcomplicated, repair the cards and any
+sandbox breach, and turn an assumption back into a question for the owner. Drop any finding
+without a source. Then tell the owner in one line what the check changed: "A fresh set of eyes
+checked this design; it caught [X], so I changed [Y]." If nothing was found, say that in one
+line. If the helper cannot run, say nothing about it and go on.
+
 Read the record back to the owner in three lines. They say "approved" or they change it.
 Only an approved record can graduate.
 
@@ -129,8 +150,9 @@ same phase. The Deep Dive for later phases continues in later sessions while Pha
 ## Step 6: Record and report
 
 Before you stop: update `BUSINESS.md` (vocabulary, tools, baselines, notes), the card
-statuses in `ACCESS-MAP.md`, `SYSTEMS.md` if anything outside you was connected (what,
-where, whose account, how to check it), and `amendments.md`. Then commit the workspace with a
+statuses in `ACCESS-MAP.md`, `WAITING-ON-YOU.md` (every card and question still open, dated),
+`SYSTEMS.md` if anything outside you was connected (what, where, whose account, how to check
+it), and `amendments.md`. Then commit the workspace with a
 plain message, because the repo is the backup.
 
 Report in three parts, level one:
@@ -149,4 +171,6 @@ Report in three parts, level one:
 - Never guesses who grants access or what a number is
 - Never promotes something into the plan the owner did not say or confirm
 - Never mentions the engagement credit
+- Never reads a design back to the owner before the fresh-eyes check has run (or been found
+  unable to run)
 - Never uses a word the owner would have to look up
