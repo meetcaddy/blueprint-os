@@ -11,22 +11,24 @@ cd "$T"
 out="$(bash os/bin/undo.sh list)"; check "no repo: says so, exit 2" '[[ "$out" == FAIL* ]] && ! bash os/bin/undo.sh list >/dev/null 2>&1'
 git init -q . && git config user.email t@t && git config user.name t
 out="$(bash os/bin/undo.sh list)"; check "no saved points: says so" '[[ "$out" == *"no saved points"* ]]'
-echo "a" > BUSINESS.md; git add BUSINESS.md .gitignore os/bin/undo.sh; git commit -q -m "first point"
+echo "a" > BUSINESS.md; git add BUSINESS.md .gitignore; git commit -q -m "first point"
+git add os/bin/undo.sh; git commit -q -m "the undo script arrived"
 echo "b" > BUSINESS.md; mkdir -p design; echo "phase one design" > design/phase-1.md; git add BUSINESS.md design/phase-1.md; git commit -q -m "second point"
 git tag before-os-update-2026-10-13-0101
 echo "c" > BUSINESS.md; echo "SECRET=do-not-touch" > .env; echo "raw" > context/money/pnl.txt; echo "new" > amendments.md
 out="$(bash os/bin/undo.sh list)"
 check "list: numbered, newest first" '[[ "$out" == *" 1. "*"second point"* && "$out" == *" 2. "*"first point"* ]]'
 check "list: shows the update's step-back point" '[[ "$out" == *"before-os-update-2026-10-13-0101"* ]]'
-out="$(bash os/bin/undo.sh to 2)"
+out="$(bash os/bin/undo.sh to 3)"
 check "to 2: saves the unsaved work first" '[[ "$out" == *"saved what you have now first"* ]] && git log --format=%s | grep -q "saved before stepping back"'
 check "to 2: steps back" '[[ "$out" == *"stepped back to"*"first point"* ]]'
 check "to 2: BUSINESS.md matches the first point" '[[ "$(cat BUSINESS.md)" == "a" ]]'
 check "to 2: a file added after the point is gone" '[[ ! -f design/phase-1.md ]]'
+check "to 2: the undo script itself survives (it was added after the point)" '[[ -f os/bin/undo.sh ]]'
 check "to 2: amendments.md (saved in the first step) is gone too" '[[ ! -f amendments.md ]]'
 check "to 2: .env untouched" '[[ "$(cat .env)" == "SECRET=do-not-touch" ]]'
 check "to 2: the raw dropped file untouched" '[[ "$(cat context/money/pnl.txt)" == "raw" ]]'
-check "to 2: nothing deleted from history" '[[ "$(git rev-list --count HEAD)" -eq 4 ]]'
+check "to 3: nothing deleted from history" '[[ "$(git rev-list --count HEAD)" -eq 5 ]]'
 check "to 2: the working tree is clean afterwards" '[[ -z "$(git status --porcelain)" ]]'
 out="$(bash os/bin/undo.sh to 1)"; check "to 1: already there" '[[ "$out" == *"already at that point"* ]]'
 out="$(bash os/bin/undo.sh to before-os-update-2026-10-13-0101)"

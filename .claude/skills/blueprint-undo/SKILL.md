@@ -18,7 +18,9 @@ morning", "undo the update"), point at the one that matches: an update's step-ba
 named one (`before-os-update-...`); "before the last change" is point 2.
 
 If the script says there are no saved points or this is not a saved workspace, say so plainly and
-stop: nothing can be stepped back.
+stop: nothing can be stepped back. If `os/bin/undo.sh` itself is missing, the workspace stands at
+a point from before it existed: say "type /blueprint update to bring your Caddy's newest files
+back; nothing of yours was lost" and stop.
 
 ## Step 2: say what will happen, then ask
 

@@ -44,7 +44,8 @@ case "$cmd" in
     # 1. files that exist at the chosen point: restore them
     git checkout -q "$sha" -- . 2>/dev/null || { say "FAIL  could not read that point; nothing was changed"; git checkout -q HEAD -- . 2>/dev/null; exit 1; }
     # 2. files added after the chosen point: remove them (tracked files only; nothing else is touched)
-    added=$(git diff --name-only --diff-filter=A "$sha" HEAD 2>/dev/null)
+    # (this script never removes itself, so a step back can always be stepped forward again)
+    added=$(git diff --name-only --diff-filter=A "$sha" HEAD 2>/dev/null | grep -vx 'os/bin/undo.sh' || true)
     if [[ -n "$added" ]]; then
       printf '%s\n' "$added" | while IFS= read -r f; do git rm -q -- "$f" >/dev/null 2>&1; done
     fi

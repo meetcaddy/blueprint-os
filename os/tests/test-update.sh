@@ -9,7 +9,7 @@ branch="$(git -C "$HERE" rev-parse --abbrev-ref HEAD)"
 T="$(mktemp -d)"; trap 'rm -rf "$T"' EXIT
 pass=0; fail=0
 ok(){ pass=$((pass+1)); echo "PASS  $1"; }; bad(){ fail=$((fail+1)); echo "FAIL  $1"; }
-check(){ if eval "$2"; then ok "$1"; else bad "$1"; fi; }
+check(){ if eval "$2"; then ok "$1"; return 0; else bad "$1"; return 1; fi; }
 cd "$T"; git clone -q -b "$branch" "$HERE" client 2>/dev/null || { echo "could not clone $HERE ($branch)"; exit 1; }
 cd client; git config user.email c@c; git config user.name client
 # make it an OLD client: drop what this build added, age the stamp, and strip the manifest lines
@@ -43,6 +43,7 @@ n=$(git rev-list --count "$before"..HEAD)
 out3="$(bash os/bin/undo.sh to $((n+1)) 2>&1)"
 check "undo: steps back over the update(s)" '[[ "$out3" == *"stepped back to"*"old client"* && ! -f os/bin/health.sh && ! -f context/README.md ]]' || echo "      undo said: $out3"
 check "undo: raw files and .env still there" '[[ -f context/money/pnl.txt && -f .env && "$(cat context/phase-1/sop.txt)" == "raw sop" ]]'
+check "undo: the undo script never removes itself" '[[ -f os/bin/undo.sh ]]'
 out4="$(bash os/bin/undo.sh to 2 2>&1)"
 check "undo: steps forward again" '[[ "$out4" == *"stepped back to"* && -f os/bin/health.sh ]]' || echo "      undo said: $out4"
 echo; echo "update tests: $pass passed, $fail failed"; [[ $fail -eq 0 ]]
