@@ -19,9 +19,23 @@ LICENSE
 .claude/skills/blueprint-help/
 .claude/skills/blueprint-update/
 .claude/skills/blueprint-toolbelt/
+.claude/skills/blueprint-context/
+.claude/skills/blueprint-undo/
+.claude/skills/blueprint-health/
 os/
 setup/
 connections/
 guards/
 frameworks/
 base/
+# The drop folder and the package folder belong to the business. Only these notes are the
+# template's. NEVER list context/ or package/ as a folder: a folder line replaces the whole folder.
+context/README.md
+context/how-we-work/WHAT-GOES-HERE.md
+context/people/WHAT-GOES-HERE.md
+context/money/WHAT-GOES-HERE.md
+context/customers/WHAT-GOES-HERE.md
+context/tools/WHAT-GOES-HERE.md
+context/recordings/WHAT-GOES-HERE.md
+context/anything-else/WHAT-GOES-HERE.md
+package/README.md
