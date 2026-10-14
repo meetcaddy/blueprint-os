@@ -18,7 +18,8 @@ pressure they named in the session, the opportunities by name, nothing invented.
 
 - [The things the session said must never change: the voice, a format, an approval step, a
   customer who is special. One line each, quoted.]
-- Nothing goes out to a customer without a person looking at it first.
+- [Nothing goes out to a customer without a person looking at it first: keep this line only when
+  the session did not already say it in its own words above.]
 - The old way keeps running next to the new one until I say we switch.
 
 **What I will ask of you**

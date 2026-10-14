@@ -12,6 +12,8 @@ short.
 
 If there is no `.paul/` yet, nothing has graduated: read `design/` and `ACCESS-MAP.md` instead
 and report the Deep Dive's state (which phase is being learned, which cards are out, by name).
+If `design/` is empty too, the Blueprint is built and the Deep Dive has not started: say exactly
+that in "Where we are", and make "What's next" the Deep Dive for Phase 1.
 
 ## The report (exactly three parts)
 

@@ -144,7 +144,8 @@ Write `BUSINESS.md` with exactly these sections:
 | System | In their words | Who can grant access | In the plan |
 |---|---|---|---|
 [one row per system named in the session (P8 and every "that lives in"): the name, their word
-for it, the grantor from P10 or "not yet named", and which phase needs it or "no"]
+for it, the grantor from P10 or "not yet named", and which phase needs it or "no"; a system named
+only inside a struck opportunity is left out]
 
 ## BASELINES
 [the numbers from intake + transcript: hours, volumes, frequencies]
@@ -250,7 +251,7 @@ fill every bracket. It carries:
      "what your machine will ask" list
    - *Design-proposal duties:* what your proposal must cover before building: the concrete
      design in plain words, the recommended HOME for each piece (their tools first; an
-     always-on rail or a proper database where the job calls for it, decision 26), what
+     always-on rail or a proper database where the job calls for it), what
      stays human, and the rollout/adoption step where the field is touched
    - *Build constraints:* guardrails restated as they bind THIS phase; the sandbox rule
      (nothing that makes money gets disrupted; the old way keeps running until the owner
@@ -299,19 +300,27 @@ The Deep Dive graduates when the owner agrees the context is complete. Tell them
 graduates, from the Blueprint: milestone "Your Blueprint," one phase per Blueprint phase, plans per opportunity
 within each phase. **Phase 1 is the first win:** the smallest automation the owner can see
 working inside seven days, the one P9 named. If the session's first move is bigger than a
-week, split it and put the week-sized piece first. Then **validate your own work**: run PAUL's status check and confirm the
-project parses cleanly. Only report success after it does. If initialization fails: fix and
-retry once; if it fails again, say simply:
+week, split it and put the week-sized piece first. The plan file's own check happens there, in the Deep Dive, when the project is created; at
+ingest there is nothing to validate yet.
 
-> The plan file didn't build right. Email support@meetcaddy.com and the Caddy team will sort it
-> out, your Blueprint document is safe and finished either way.
+## Step 7c: Save
+
+Commit the workspace with a plain message (the repo is the backup): the files you wrote in
+Steps 5 to 6b. The transcript and the intake stay out of git by construction; if git ever offers
+them, stop and say so.
 
 ## Step 8: Tell the owner (the report)
 
 Three parts, short:
 
-> Your Blueprint is built. I found [N] opportunities in your session; [M] are in the plan,
-> and [K] are waiting on a quick confirmation from your team.
+> Your Blueprint is built. Your session framed [F] opportunities; [M] are in the plan[, and
+> [S] you struck on the call]. [K] more ideas came up in passing and wait on a quick
+> confirmation from your team.
+
+The numbers, so they always add up: F is every opportunity framed with a number in the session
+(strikes included); M is what is in the plan after the strikes and updates; S is the struck ones
+(say that clause only when S is not zero); K is the unframed ideas in section 7. Every number
+comes from the transcript, never rounded, never guessed.
 >
 > The plan runs in [P] phases. But we start with the Deep Dive: a working conversation
 > where you show me the real thing, your documents, your screens, how it all actually

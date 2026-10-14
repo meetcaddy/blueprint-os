@@ -4,8 +4,9 @@
 > Five lines at most, in the owner's words. A reminder for the waiting room, never the plan: the
 > transcript is the plan, and a name that the transcript strikes is dropped without comment.
 
-- Opportunity 1: [name, as spoken]
-- Opportunity 2: [name, as spoken]
-- Opportunity 3: [name, as spoken]
+- [the first opportunity, by name as spoken; no numbers, since the session's own numbers can shift
+  when one is struck or updated]
+- [the second]
+- [the third]
 - First move: [what Phase 1 starts with, one line]
 - Constraint: [the one general constraint, or "none spoken"]
