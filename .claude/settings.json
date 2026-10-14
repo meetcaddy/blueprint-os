@@ -1,4 +1,34 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(python3 os/bin/context-index.py:*)",
+      "Bash(python3 os/bin/extract_text.py:*)",
+      "Bash(python3 os/bin/health.py:*)",
+      "Bash(python3 os/bin/handoff-packet.py:*)",
+      "Bash(bash os/bin/health.sh:*)",
+      "Bash(bash os/bin/undo.sh:*)",
+      "Bash(bash os/bin/state-summary.sh:*)",
+      "Bash(sh os/bin/state-summary.sh:*)",
+      "Bash(bash os/bin/toolbelt.sh:*)",
+      "Bash(bash os/bin/copy-check.sh:*)",
+      "Bash(bash os/bin/brief.sh:*)",
+      "Bash(sh os/bin/brief.sh:*)",
+      "Bash(sh os/bin/version-check.sh:*)",
+      "Bash(bash os/bin/version-check.sh:*)",
+      "Bash(bash setup/setup.sh:*)",
+      "Bash(bash setup/update.sh:*)",
+      "Bash(bash os/checks/:*)",
+      "Bash(bash connections/bin/:*)",
+      "Bash(bash checks/:*)",
+      "Bash(base --version)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git tag:*)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {

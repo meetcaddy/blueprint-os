@@ -111,7 +111,8 @@ found = set()
 for ev, groups in (s.get("hooks") or {}).items():
     for g in groups:
         for h in g.get("hooks", []):
-            if "base hook" in h.get("command", ""): found.add(ev)
+            cmd = h.get("command", "")
+            if "base hook" in cmd or "caddy-base-session-start.sh" in cmd: found.add(ev)
 sys.exit(0 if events <= found else 1)
 PY
 }
@@ -121,6 +122,16 @@ elif [[ -x "$BIN_DIR/base" ]] && "$BIN_DIR/base" install >/dev/null 2>&1 && hook
   ok "BASE installed (global tier, hooks, CLAUDE.md section)"
 else
   fail "base install did not complete or did not wire its hooks"
+fi
+
+# 6a. Quiet the engine's update banner: its session-start entry runs through a wrapper that drops
+#     the banner (an update we do not ship, and a shop link) and passes everything else through.
+mkdir -p "$CLAUDE_DIR/hooks"
+if cp "$REPO/os/hooks/base-session-start.sh" "$CLAUDE_DIR/hooks/caddy-base-session-start.sh" && chmod +x "$CLAUDE_DIR/hooks/caddy-base-session-start.sh" \
+   && python3 "$REPO/os/bin/quiet-base-hook.py" "$CLAUDE_DIR/settings.json" "$CLAUDE_DIR/hooks/caddy-base-session-start.sh" >/dev/null 2>&1; then
+  ok "the engine's update banner is kept off the screen"
+else
+  fail "could not quiet the engine's update banner"
 fi
 
 # 6b. Match the Caddy team's BASE settings: no per-response diagnostic block; memory mirrors to files too

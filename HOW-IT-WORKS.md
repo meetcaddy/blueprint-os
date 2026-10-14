@@ -101,7 +101,12 @@ always there.
   files waits for your confirmation. Before it reads a design back to you, a fresh set of eyes
   checks it, and it tells you what that changed.
 - Once a day it reads one public file to learn whether a newer version of itself exists. Nothing
-  about your business is sent, and it updates only when you say so.
+  about your business is sent, and it updates only when you say so. The memory engine inside
+  your Caddy also checks its own maker's site for a newer engine when a session starts; that call
+  carries nothing about your business, and your Caddy keeps the engine's own update notice off
+  your screen. Engine updates arrive only through /blueprint update, like everything else.
+- Its own commands (the scripts in its folders, and saving its work) run without asking you
+  each time. Anything beyond them still asks.
 
 ## When something breaks
 
