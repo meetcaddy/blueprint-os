@@ -11,7 +11,7 @@ below are verbatim.
 2. Confirms it can write to its own project space.
 3. Looks in `package/`. If the Caddy team dropped `intake-doc.md` there at the install, it reads
    it and keeps only: the owner's name and the business name (when the intake has them), the
-   biggest time sink, and the hand-off-tomorrow job, in the owner's own words. If
+   biggest time sinks (one or several), and the hand-off-tomorrow job, in the owner's own words. If
    `session-recap.md` is there too, it keeps the opportunity names and the first move. Nothing
    else, and no analysis.
 4. Records the owner's name and the business name when given or confirmed (the seed of

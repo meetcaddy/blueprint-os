@@ -26,7 +26,8 @@ this conversation, and never read one.
 ## Step 1: the sign-up card, only if needed
 
 If the business has no account yet: first open the vendor's current pricing page yourself and
-fill the card's plan line with the plan the design needs, its price and the date you read it,
+fill the card's plan line (the bracketed slot in the sign-up card's step 2; add the line if the
+recipe has none) with the plan the design needs, its price and the date you read it,
 plus the one thing the plan must include (the API, the team seat, the connector). If the page
 would not read, write exactly that in the card and never guess a number. Then hand over the
 recipe's sign-up card, one card, to the named person. Wait for "done". Then confirm the plain

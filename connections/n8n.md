@@ -19,7 +19,8 @@ n8n Cloud is the simple path. Self-hosting is for a technical team member only.
 > 1. Open https://n8n.io and choose the cloud version.
 > 2. Create the account with the business email. The trial is fine for the first connection;
 >    the plan will need a paid tier before anything runs for real (the API is not available on
->    the trial).
+>    the trial). [Plan line: the plan the design needs, its price and the date your Caddy read
+>    it on the pricing page.]
 > 3. When you can see your n8n home screen, note the web address in the browser bar (it looks
 >    like `https://something.app.n8n.cloud`), come back here and type: done
 >
@@ -33,7 +34,8 @@ your workflows, create and edit workflows and data tables, and run the workflows
 available. The instance owner or an admin turns it on once.
 
 > **Your turn (about 4 minutes)**
-> 1. In n8n, open **Settings**, then **Instance-level MCP**, and turn on **Enable MCP access**.
+> 1. In n8n, open **Settings**, then **Instance-level MCP**, and turn on **Enable MCP access**
+>    (MCP is the door your AI app uses to talk to a tool).
 > 2. On the same screen, under **Connect a client**, copy the **Server URL** (it ends in
 >    `/mcp-server/http`). Paste it here.
 > 3. Come back here and type: done
@@ -66,10 +68,12 @@ N8N_API_KEY=<paste here>
 ```
 
 > **Your turn (about 3 minutes)**
-> 1. In n8n, open **Settings**, then **n8n API**, and choose **Create an API key**. Name it
->    "Caddy" and pick an expiry (a year is fine; we renew it on a card).
-> 2. Copy the key. Open the file `.env` in this folder with a text editor and paste it where
->    it says `<paste here>`. Save.
+> 1. In n8n, open **Settings**, then **n8n API**, and choose **Create an API key** (an API key
+>    is a password made for programs; it lets your Caddy talk to n8n). Name it "Caddy" and
+>    pick an expiry (a year is fine; we renew it on a card).
+> 2. Copy the key. Open the file `.env` in this folder: it is hidden in Finder, so in the
+>    Terminal tab here type `open -e .env` and press Return, and it opens in TextEdit. Paste
+>    the key where it says `<paste here>`. Save.
 > 3. Come back here and type: done
 >
 > Why: keys belong in a file the tool reads, never in a conversation.

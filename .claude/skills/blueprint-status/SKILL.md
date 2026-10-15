@@ -24,7 +24,9 @@ that in "Where we are", and make "What's next" the Deep Dive for Phase 1.
 > count, never a party.]
 > [During Phase 1's first plan, from its **Build started** date: "Day [N] of 7 to your first
 > result; [K] card(s) stand between us and it." Past day seven: "We are past the first week;
-> here is what stands between us and the first result: [the one thing]." Calendar days.]
+> here is what stands between us and the first result: [the one thing]." Calendar days. Once
+> the first plan is closed: "Your first result landed on [date]: [what it was, in their
+> words]." and no day count.]
 > [If anything was folded into the plan since last status: "One change folded in: …", one
 > line each.]
 >

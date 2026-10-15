@@ -25,7 +25,8 @@ pressure they named in the session, the opportunities by name, nothing invented.
 **What I will ask of you**
 
 - [Name], you hold the keys to [system]; I will ask you for access when the phase that needs it
-  starts. [one line per grantor named in the session]
+  starts. [one line per grantor named in the session who is not the owner; for the owner's own
+  systems: "I hold the keys to [systems] and will open those myself."]
 - When a new way is ready, you get a short card with three steps in our own words.
 - If something about the new way feels wrong, tell me the same day.
 
