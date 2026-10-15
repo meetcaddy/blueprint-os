@@ -41,9 +41,10 @@ your session? It came in your Blueprint package email."). If they can't find the
 > No problem. Email support@meetcaddy.com and the Caddy team will resend it.
 
 **Viability check.** A real session transcript is long (a one to three hour conversation runs
-to many thousands of words, as a floor, anything under about 2,000 characters is certainly
-wrong, and under a few thousand words deserves a question). If the file looks too short, say so
-simply and ask if it is the right file.
+to many thousands of words). Under about 2,000 characters it is certainly the wrong file: say
+so and stop. Under 2,000 words, ask once: "This recording is short for a session, about [N]
+words. Is it the right file?" If the owner says yes, is not sure, or is not here, go on, and
+say in the report that the plan may be thin because the recording was short.
 
 ## Step 2: Capture the session date
 
@@ -78,11 +79,15 @@ are your anchors:
 **P2 attribute sentences:** within a callout block, "**That lives in [systems].**" and
 "**[Name] owns this one.**" bind to the most recent opportunity number until another pattern
 starts. The Today clause carries a number or "no number known": missing facts (number,
-systems, owner) never get guessed; each becomes a named week-one item.
+systems, owner) never get guessed; each becomes a named week-one item: a missing number goes
+into `BUSINESS.md` BASELINES as "no number known" with the measurement named, and into
+`BLUEPRINT.md` Keeping score; a missing system or owner becomes a question in that
+opportunity's section, for the Deep Dive.
 
 **Resolution rules (apply exactly):**
 1. Only pattern-framed statements become first-class opportunities. The number N identifies
-   each one across strikes and updates.
+   each one across strikes and updates, and `BLUEPRINT.md` keeps the session's numbers: a
+   struck number is skipped, never reused, so the recording and the plan agree.
 2. Apply updates in spoken order, the last update wins. Then apply strikes.
 3. Anything that SOUNDS like an opportunity but was never framed (the owner musing, a side
    comment) is a **candidate only**: it may appear in "Confirm with your team," never in the
@@ -119,7 +124,8 @@ Build the machine's memory from three sources:
 2. **The intake document:** team, tools, baselines (hours per week, open jobs), attendees.
 3. **Online, public only:** their website and public listings/reviews, to fill in what the
    business looks like from outside. A few minutes, not a project. Never anything behind a
-   login. If nothing useful is found, skip silently.
+   login. If nothing useful is found, skip silently. The business's own marketing claims and
+   figures are not baselines; they never go into BASELINES.
 
 Write `BUSINESS.md` with exactly these sections:
 
@@ -305,8 +311,14 @@ ingest there is nothing to validate yet.
 
 ## Step 7c: Save
 
+Before the save, write each confirm-list item (section 7) as one dated line in
+`WAITING-ON-YOU.md` (create it from `os/templates/WAITING-ON-YOU.md`): the idea in the owner's
+words, marked "said in passing; not in the plan until you say so". Status reads that list; it is
+the only place the confirm list is surfaced, and never as a nag.
+
 Commit the workspace with a plain message (the repo is the backup): the files you wrote in
-Steps 5 to 6b. The transcript and the intake stay out of git by construction; if git ever offers
+Steps 5 to 6b, `WAITING-ON-YOU.md`, and `.base/` if git shows it unsaved (the engine's memory
+of this business belongs to the business). The transcript and the intake stay out of git by construction; if git ever offers
 them, stop and say so.
 
 ## Step 8: Tell the owner (the report)
@@ -319,8 +331,9 @@ Three parts, short:
 
 The numbers, so they always add up: F is every opportunity framed with a number in the session
 (strikes included); M is what is in the plan after the strikes and updates; S is the struck ones
-(say that clause only when S is not zero); K is the unframed ideas in section 7. Every number
-comes from the transcript, never rounded, never guessed.
+(say that clause only when S is not zero); K is the unframed ideas in section 7; P is the
+number of phases, one per phase hint, in the session's order. Every number comes from the
+transcript, never rounded, never guessed.
 >
 > The plan runs in [P] phases. But we start with the Deep Dive: a working conversation
 > where you show me the real thing, your documents, your screens, how it all actually

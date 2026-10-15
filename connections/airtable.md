@@ -45,8 +45,9 @@ writes `AIRTABLE_PAT=<paste here>` to `.env` first.
 >    scopes: `data.records:read`, `data.records:write`, `schema.bases:read`,
 >    `schema.bases:write`, `data.recordComments:read`, `data.recordComments:write`,
 >    `workspacesAndBases:read`. Add the base or workspace the plan uses.
-> 2. Copy the token (Airtable shows it once). Open `.env` in this folder with a text editor
->    and paste it where it says `<paste here>`. Save.
+> 2. Copy the token (Airtable shows it once). Open `.env` in this folder: it is hidden in
+>    Finder, so in the Terminal tab here type `open -e .env` and press Return. Paste the token
+>    where it says `<paste here>`. Save.
 > 3. Come back here and type: done
 >
 > Why: keys belong in a file the tool reads, never in a conversation.

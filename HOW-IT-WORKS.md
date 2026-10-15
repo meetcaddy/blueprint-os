@@ -105,6 +105,9 @@ always there.
   your Caddy also checks its own maker's site for a newer engine when a session starts; that call
   carries nothing about your business, and your Caddy keeps the engine's own update notice off
   your screen. Engine updates arrive only through /blueprint update, like everything else.
+- At setup, once, your Caddy fetches its engine from the template's own release page and the
+  engine's helper from the public package registry. Nothing about your business goes out then
+  either.
 - Its own commands (the scripts in its folders, and saving its work) run without asking you
   each time. Anything beyond them still asks.
 

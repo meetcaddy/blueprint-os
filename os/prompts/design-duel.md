@@ -13,7 +13,9 @@ Report, in this order, only what you can point at:
 
 1. **Invented.** Any number, name, system, grantor or fact in the design that is not in the
    transcript, the intake, `BUSINESS.md`, `ACCESS-MAP.md`, `amendments.md` or a dropped file.
-   Quote the line. One invented item fails the design.
+   Quote the line. One invented item fails the design. Names the Caddy chose for its own
+   files, folders and scripts are design choices, not facts: list them under "named by the
+   design" and never fail the design for them.
 2. **Overcomplicated.** Any piece where a simpler home would do the same job: a platform where a
    script works, a database where a folder works, a new tool where one they already own works.
 3. **The sandbox rule.** Any step that changes or stops the old way before the owner retires it,
