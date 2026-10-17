@@ -35,7 +35,10 @@ Run `/paul:plan [N]` with the design record as the source. Shape the plan so it 
 mission:
 
 - One plan per opportunity, or per week-sized piece of one. Small enough to verify on real
-  work within the week.
+  work within the week. When the record splits the phase into pieces, write every plan of the
+  phase now (01-01, 01-02, and so on), the week-sized piece first and the rest as short plans
+  from the record: the project then knows how many plans the phase has, and closing the first
+  plan does not close the phase.
 - Every task is one of two kinds. A **keyboard task** is yours: type `auto`. A **person
   task** is a card: type `checkpoint:human-action`, and the task text IS the card, in the
   shape from `os/templates/handoff-card.md`, five steps at most, addressed to the person the
@@ -90,7 +93,8 @@ card handed over again keeps its first date; so does every question you are wait
 tool they already own, set it up with the owner through cards. If `connections/` has a recipe
 for that tool, follow it with `/blueprint connect [tool]`; if not, the card carries the steps.
 Every outside thing gets its line in `SYSTEMS.md`: what it is, where it lives, whose account,
-what it does, how to check it is healthy. Locations, never credentials. The "how to check" cell
+what it does, how to check it is healthy. A piece that lives inside this folder but the business
+now relies on (a script, a watched folder) gets a line too; status counts both. Locations, never credentials. The "how to check" cell
 carries a check your Caddy can run when one fits, written as
 ``check: `bash os/checks/http-ok.sh [name] [url]` `` (or `file-exists.sh`, `file-fresh.sh`,
 `process-running.sh`, a `connections/bin/` check, or a script you wrote into the business's own
@@ -126,6 +130,8 @@ by whom, and when, in the design record.
 5. **Training cards.** If this plan changed how someone on the team does a job, write one
    `training/[role].md` per role from `os/templates/training-card.md`: three steps in that
    job's own words (from `BUSINESS.md`), what stays the same, who to tell if it looks wrong.
+   A plan that runs beside the old way, with nobody's steps changed yet, needs none: say so
+   in one line.
    Ask the owner for the role's words when `BUSINESS.md` does not have them; never guess. Tell
    the owner the card is there to hand over. You never send it.
 

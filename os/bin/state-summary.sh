@@ -13,8 +13,9 @@ olddash=$(printf '\342\200\224')
 business=$(sed -n "s/^# BUSINESS\\.md: *//p; s/^# BUSINESS\\.md $olddash *//p" BUSINESS.md 2>/dev/null | head -1)
 owner=$(get Owner BUSINESS.md); session=$(get "Session date" BUSINESS.md)
 if [ -f .paul/STATE.md ]; then
-  phase=$(sed -n 's/^Phase: *//p' .paul/STATE.md | head -1)
-  plan=$(sed -n 's/^Plan: *//p' .paul/STATE.md | head -1)
+  em=$(printf '\342\200\224'); en=$(printf '\342\200\223')   # the plan's own dashes, built here so this file carries none
+  phase=$(sed -n 's/^Phase: *//p' .paul/STATE.md | head -1 | sed "s/ $em /, /g; s/ $en /, /g; s/ -- /, /g")
+  plan=$(sed -n 's/^Plan: *//p' .paul/STATE.md | head -1 | sed "s/ $em /, /g; s/ $en /, /g; s/ -- /, /g")
   stage="building"
 elif ls design/phase-*.md >/dev/null 2>&1; then
   stage="deep dive"; phase=$(ls design/phase-*.md | wc -l | tr -d ' ')

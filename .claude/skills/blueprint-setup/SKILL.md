@@ -50,7 +50,7 @@ owner to say yes. It is theirs and runs only on their machine.
 Now follow `FIRST-BOOT.md` exactly:
 
 0. Look in `package/`. If `intake-doc.md` is there, read it and keep only the owner's name and
-   the business name (when it has them), the biggest time sink and the hand-off-tomorrow job,
+   the business name (when it has them), the biggest time sinks (one or several) and the hand-off-tomorrow job,
    in the owner's words. If `session-recap.md` is there, keep its opportunity names and first
    move. Nothing else, no analysis, no plan.
 1. Ask the owner's name and what to call the business. If the intake already names them,

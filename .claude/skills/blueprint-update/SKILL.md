@@ -30,8 +30,11 @@ one, and how to step back.
 
 ## Step 2: prove it
 
-Read `os/VERSION` back and say the build line to the owner in plain words: "Your Caddy is
-now on the [date] build." If it still shows the old line, the update did not apply; say so.
+The proof is the updater's own line, `OK    updated [N] file(s) from the template`, plus the
+build line read back from `os/VERSION`. Say both to the owner in plain words: "Your Caddy is
+now on the [date] build; [N] of its files changed." If the updater said `nothing to update`,
+say that instead. The build line alone proves nothing: a template change can leave it as it
+was, and the updater still reports what moved.
 
 ## Step 3: tell the owner
 

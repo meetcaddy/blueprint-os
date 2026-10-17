@@ -93,8 +93,9 @@ with them (support@meetcaddy.com) and leave it there.
 
 ## Step 5: save and report
 
-Commit the workspace with a plain message. `context/INDEX.md` and `BUSINESS.md` are the only
-context files git keeps; the raw files stay on this computer by design. Then report in three parts:
+Commit the workspace with a plain message. `context/INDEX.md`, `BUSINESS.md` and
+`WAITING-ON-YOU.md` are the only files this step saves; the raw files stay on this computer by
+design. Then report in three parts:
 
 > **What I read.** [the files, one line each, in their words]
 >
