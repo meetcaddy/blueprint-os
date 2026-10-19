@@ -8,7 +8,9 @@ better-run business, one phase at a time. This page is the whole manual. Ten min
 
 1. **It reads your session.** When your Blueprint package arrives by email, you type
    **/blueprint ingest**. Your Caddy reads the recording, writes your Blueprint (the plan, in
-   your words), and writes its own standing orders for building it.
+   your words), and writes its own standing orders for building it. When the package also holds
+   the Caddy team's notes for your Caddy, it reads them beside the recording; the recording
+   always has the last word.
 2. **It learns the real thing.** You type **/blueprint deep-dive**. Before anything gets
    built, your Caddy asks to see how the business actually works: the documents, the screens,
    the people, the numbers. The more you show it, the better everything it builds. Each phase
@@ -56,7 +58,7 @@ If one lands there by mistake, your Caddy will not use it and will ask you to ma
 | You type | What happens |
 |---|---|
 | **/blueprint setup** | Puts the engine in place on this computer. The Caddy team ran it with you at your session. Safe to run again. |
-| **/blueprint ingest** | Reads your session package and writes your Blueprint. |
+| **/blueprint ingest** | Reads your session package (the recording, your booking answers, and the Caddy team's notes when they sent some) and writes your Blueprint. |
 | **/blueprint deep-dive** | Learns the real business, phase by phase, and gets your sign-off on each design. |
 | **/blueprint build** | Builds the signed-off phase with you, card by card. |
 | **/blueprint connect** and a tool's name | Connects your Caddy to one of your tools, following that tool's recipe. |
@@ -82,7 +84,9 @@ If one lands there by mistake, your Caddy will not use it and will ask you to ma
 - **WAITING-ON-YOU.md** is the short list of everything that waits on a person.
 - **BLUEPRINT-ONE-PAGE.md** is the plan at a glance, and **TEAM-NOTE.md** is a note in your
   name you can change and share with your team. Your Caddy never sends it.
-- **context/** is the drop folder; **package/** is where your Blueprint package lands.
+- **context/** is the drop folder; **package/** is where your Blueprint package lands: the
+  recording of your session, your booking answers, and sometimes the Caddy team's notes for
+  your Caddy.
 - **training/** holds a three-step card for each role a built phase changed, for you to hand
   over. **reports/** holds the quarter page your Caddy writes every ninety days.
 - **connections/** holds the recipe for each tool.
@@ -97,8 +101,9 @@ always there.
 - It never asks for passwords or keys in the conversation, and it never moves money.
 - Nothing leaves your business without your look, unless you decide otherwise.
 - If it hits anything private beyond ordinary business data, it stops and asks.
-- It never invents. Anything it cannot ground in your session, your words or your dropped
-  files waits for your confirmation. Before it reads a design back to you, a fresh set of eyes
+- It never invents. Anything it cannot ground in your session, the Caddy team's notes, your
+  words or your dropped files waits for your confirmation. When the notes and your session say
+  different things, your session wins. Before it reads a design back to you, a fresh set of eyes
   checks it, and it tells you what that changed.
 - Once a day it reads one public file to learn whether a newer version of itself exists. Nothing
   about your business is sent, and it updates only when you say so. The memory engine inside

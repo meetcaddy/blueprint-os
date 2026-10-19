@@ -1,6 +1,6 @@
 ---
 name: blueprint-ingest
-description: Turn the Blueprint package (session transcript + intake document) into the client's Blueprint, their business memory, and one phased PAUL project. Use when the owner runs /blueprint ingest or provides their Blueprint package files. This is the machine's first job.
+description: Turn the Blueprint package (session transcript + intake document, plus the Caddy team's roadmap brief when one was sent) into the client's Blueprint, their business memory, and one phased PAUL project. Use when the owner runs /blueprint ingest or provides their Blueprint package files. This is the machine's first job.
 ---
 
 # /blueprint ingest: build the Blueprint from the session
@@ -21,7 +21,15 @@ summary, apply nothing without their OK) or **stop**. Never silently overwrite.
 
 ## Step 1: Gather the inputs
 
-You need two files:
+First, run `python3 os/bin/package-check.py` from this folder. It says what is in `package/`:
+the transcript, the intake document, and the Caddy team's roadmap brief when one was sent. It
+reads the brief's shape, lists the opportunities each source carries, and names every place
+the brief and the transcript disagree. When it prints a line that starts with **Stop:**, say
+that line to the owner in plain words and stop: the transcript or the intake is missing. A
+brief with no transcript is one of those stops: the brief alone is never enough, the plan is
+built from the session. Keep its other lines; Steps 3, 4 and 8 use them.
+
+You need two files, and there may be a third:
 1. **The session transcript:** a text file (`.txt`, `.md`, or `.vtt`). It arrives by email
    from the Caddy team. If they only have text to paste, pasting works too. If they would
    rather fetch it themselves from the recording link, hand them this card:
@@ -35,9 +43,12 @@ You need two files:
    > Why: the recording page is made for people; I read the text file.
    > When you're back, I check that the whole session made it.
 2. **The intake document:** the form answers from booking (markdown with labeled fields).
+3. **The roadmap brief (optional):** `package/roadmap-brief.md`, written by the Caddy team
+   after the session, for you. Its shape is in Step 1a. When it is not there, nothing is
+   missing: the team sends one with some packages, not all. Never ask the owner for it.
 
-If either is missing, ask for it in one plain sentence ("Where is the transcript file from
-your session? It came in your Blueprint package email."). If they can't find the package:
+If the transcript or the intake is missing, ask for it in one plain sentence ("Where is the
+transcript file from your session? It came in your Blueprint package email."). If they can't find the package:
 > No problem. Email support@meetcaddy.com and the Caddy team will resend it.
 
 **Viability check.** A real session transcript is long (a one to three hour conversation runs
@@ -46,19 +57,69 @@ so and stop. Under 2,000 words, ask once: "This recording is short for a session
 words. Is it the right file?" If the owner says yes, is not sure, or is not here, go on, and
 say in the report that the plan may be thin because the recording was short.
 
+## Step 1a: The roadmap brief (when the Caddy team sent one)
+
+The brief is the Caddy team's notes for you, written from the session and from what the team
+checked afterwards (each system's plan and version, on a named date). It speaks in the
+session's own shapes, so the rules in Step 3 read it the way they read the transcript. Its
+shape is `os/templates/roadmap-brief.md`; the check script sets aside a brief that breaks the
+shape and says why, and then you build from the transcript and the intake alone and say so in
+the report.
+
+What it carries, in order:
+- **The header:** the business, the session date, the author (always the Caddy team) and the
+  date it was written.
+- **Their stack, for the record:** one row per system with the team's verdict: *connect* (you
+  design against it and connect to it), *replace* (the plan builds its replacement; you never
+  connect to it) or *work around* (you work beside it, no connector), with the plan and version
+  the team saw and the date checked.
+- **The opportunities:** each in the P2 shape with its five facts (the number, Today with a
+  number or "no number known", what the machine should do, where it lives, who owns it), its
+  phase hint and any constraint on it.
+- **Constraints, general:** what binds the whole plan.
+- **Phase 1 starts with:** the first move.
+- **Access owners:** who can grant each system.
+- **Unconfirmed:** what the team heard but could not ground. These never enter the plan: they go
+  to "Confirm with your team" (Step 6, section 7) and to `WAITING-ON-YOU.md`, marked "from the
+  Caddy team's notes; not in the plan until you say so".
+
+Four rules, absolute:
+1. **The brief is a second grounded source.** An opportunity that is in the brief and not in
+   the transcript enters the plan with the brief as its citation ("from the Caddy team's
+   notes, opportunity N"). In `BLUEPRINT.md` such an item says so in one plain line, "The
+   Caddy team added this one after your session, from what we heard and checked", and quotes
+   the brief's block where a session item quotes the owner.
+2. **The transcript wins every disagreement.** The same number means the same opportunity in
+   both sources. When the name, the target, a system, an owner, a phase hint or a constraint
+   differ, keep the transcript's version, say so in the report (one line per disagreement),
+   and write the correction in `BUSINESS.md` NOTES so the brief's version is not trusted
+   again. A strike in the transcript beats the brief: that number stays out. The brief carries
+   no strikes and no updates of its own.
+3. **A brief with no transcript is not enough.** The transcript stays mandatory; Step 1 stops
+   there. You never build from the brief alone, and never from the brief and the intake
+   without the session.
+4. **The report counts what came from each source.** Step 8 defines the numbers.
+
+The stack verdicts go into `BUSINESS.md` TOOLS (Step 5) and into the Blueprint's picture of
+their systems (Step 6, section 2); a *replace* verdict shapes the design, so the directives
+(Step 6b) carry it as a build constraint. To the owner the brief is "the Caddy team's notes":
+a plain name for a file they never have to open. The brief stays out of git by construction,
+like the transcript; if git ever offers it, stop and say so.
+
 ## Step 2: Capture the session date
 
 The session date matters: it starts the owner's 30-day engagement credit window. Find it in
 this order:
 1. **Spoken at the session open** (pattern P1 below), the primary source.
-2. **The intake document's** `**Session date:**` field.
-3. **The transcript file's own date information.**
-4. If all three fail: **ask the owner** ("What day was your Blueprint session?").
+2. **The roadmap brief's** `**Session date:**` line, when the brief is there.
+3. **The intake document's** `**Session date:**` field.
+4. **The transcript file's own date information.**
+5. If all four fail: **ask the owner** ("What day was your Blueprint session?").
 
 Record the date and compute the credit window end (session date + 30 days). Both go into
 `BUSINESS.md`.
 
-## Step 3: Parse the transcript (the exact rules)
+## Step 3: Parse the transcript, and the brief (the exact rules)
 
 The session was run against a spoken protocol. These patterns, spoken by the lead operator,
 are your anchors:
@@ -99,22 +160,33 @@ opportunity's section, for the Deep Dive.
 6. **When the transcript and the intake document disagree, the transcript wins:** it is
    later and it was spoken. Note the correction in BUSINESS.md so the intake answer isn't
    trusted again.
+7. **The brief is read with the same patterns, in writing:** its opportunity headings are P2
+   callouts with the five facts under them, its stack table is P8 with a verdict per row, its
+   constraints are P7, its first move is P9, its access owners are P10. Its numbers are the
+   session's numbers. Reconcile both sources into ONE numbered list: the transcript's items
+   first, in the transcript's words, after its updates and strikes; then the brief's items
+   the transcript does not carry, cited to the brief. The check script's "In both", "From
+   the brief only" and "Disagreement" lines are your starting list; the grounding gate
+   (Step 4) decides what stays.
 
 **Work in chunks.** A long transcript (a three-hour session runs to tens of thousands of
 words) will not fit in one pass. Process it in ordered
 chunks with a little overlap, extracting pattern matches and candidates per chunk. Then
-reconcile the full numbered list in one pass (rules 1-4). Keep each opportunity's exact
+reconcile the full numbered list in one pass (rules 1-4 and 7). Keep each opportunity's exact
 supporting quote and its rough location.
 
 ## Step 4: The grounding gate (what keeps you honest)
 
-For every first-class opportunity, after reconciliation, VERIFY: re-find the quote in the
-transcript and confirm it actually supports the opportunity as you've written it, the
-current state and the target both. If a quote is missing, garbled, or does not support the
-claim, the item moves to "Confirm with your team." You never promote it back on your own;
-the owner's confirmation does.
+For every first-class opportunity, after reconciliation, VERIFY: re-find the quote in its
+source and confirm it actually supports the opportunity as you've written it, the current
+state and the target both. For a session item the source is the transcript; for a brief item
+it is the brief's own block, which must carry the five facts. If a quote is missing, garbled,
+or does not support the claim, the item moves to "Confirm with your team." You never promote
+it back on your own; the owner's confirmation does. The brief's "Unconfirmed" list starts in
+"Confirm with your team" and never leaves it on its own.
 
-The rule underneath: **if it is not in the conversation, it does not go in the plan.**
+The rule underneath: **if it is not in the conversation or the Caddy team's brief, it does
+not go in the plan.** And when the two disagree, the conversation decides.
 
 ## Step 5: Learn the business (BUSINESS.md)
 
@@ -126,6 +198,11 @@ Build the machine's memory from three sources:
    business looks like from outside. A few minutes, not a project. Never anything behind a
    login. If nothing useful is found, skip silently. The business's own marketing claims and
    figures are not baselines; they never go into BASELINES.
+
+When the roadmap brief is there, it adds the Caddy team's verdict per system (connect, replace
+or work around, with the plan and version the team saw and the date checked) and its access
+owners. Nothing else from it goes into BASELINES: the brief's numbers are the session's
+numbers, already in the transcript and the intake.
 
 Write `BUSINESS.md` with exactly these sections:
 
@@ -147,11 +224,13 @@ Write `BUSINESS.md` with exactly these sections:
 [their term → what it means, one per line]
 
 ## TOOLS
-| System | In their words | Who can grant access | In the plan |
-|---|---|---|---|
-[one row per system named in the session (P8 and every "that lives in"): the name, their word
-for it, the grantor from P10 or "not yet named", and which phase needs it or "no"; a system named
-only inside a struck opportunity is left out]
+| System | In their words | Who can grant access | What the Caddy team found | In the plan |
+|---|---|---|---|---|
+[one row per system named in the session (P8 and every "that lives in") or in the brief's
+stack table: the name, their word for it, the grantor from P10 or from the brief or "not yet
+named", the brief's verdict ("connect", "replace" or "work around", with the plan, the version
+and the date checked; "not checked" when there is no brief), and which phase needs it or "no";
+a system named only inside a struck opportunity is left out]
 
 ## BASELINES
 [the numbers from intake + transcript: hours, volumes, frequencies]
@@ -160,7 +239,8 @@ only inside a struck opportunity is left out]
 None yet. (Everything outbound gets the owner's look until they say otherwise.)
 
 ## NOTES
-[anything learned worth keeping]
+[anything learned worth keeping; every place the brief and the session disagreed, with the
+session's version kept]
 ```
 
 Read BUSINESS.md at the start of every future session. Keep it current.
@@ -185,11 +265,15 @@ its place.
 
 Ten sections, all required:
 
-1. **The opening letter:** what this document is, how it was built (from their session,
-   everything quoted, nothing invented), how to use it, and how you (the machine) use it.
+1. **The opening letter:** what this document is, how it was built (from their session, and
+   from the Caddy team's notes when they sent some; everything quoted, nothing invented), how
+   to use it, and how you (the machine) use it.
 2. **Your business, as we heard it:** a narrative of their business in their words: what
    it is, how money comes in, the pressure they are under, how work really moves today.
-   Generous with their quotes. This section is why the plan feels THEIRS.
+   Generous with their quotes. This section is why the plan feels THEIRS. When the brief
+   carries verdicts, close with a short table, "Your systems, as the Caddy team checked them on
+   [date]": each system, and in plain words whether it stays and gets connected, gets replaced,
+   or gets worked around.
 3. **What today costs:** the baseline picture, assembled from every number they gave
    (hours, misses, lags, borrowing). Never invent figures; where a number is missing, show
    the blank and note that phase-start fills it.
@@ -200,7 +284,10 @@ Ten sections, all required:
    what changes for them; what stays human and WHY; their stated constraints this design
    honors; what "working" looks like, measurably; and **what your machine will ask at phase
    start**, the named specifics deliberately deferred, listed so nothing feels vague and
-   everything feels scheduled.
+   everything feels scheduled. Each opportunity names its source in one line: "From your
+   session", or "The Caddy team added this one after your session, from what we heard and
+   checked" with the brief's block quoted; when the session and the notes disagreed about it,
+   one more line says what the session said and that it was kept.
 5. **The build order, and why:** the phases with their reasoning: dependencies, quick-win
    logic, inside-out logic, real-world timing they told you about (system migrations, busy
    seasons). What each phase unlocks for the next.
@@ -210,7 +297,8 @@ Ten sections, all required:
    works, what the finish line is. Who does what: the owner, the operations seat, the team,
    the machine.
 7. **Waiting on your word:** the confirm list, expanded: why each item surfaced, what
-   confirming looks like, what it unlocks. Nothing schedules itself.
+   confirming looks like, what it unlocks. Nothing schedules itself. The brief's unconfirmed
+   items sit here too, marked as the Caddy team's.
 8. **Keeping score:** the baseline-to-target table built from section 3, with blanks where
    phase-start measurement fills them.
 9. **Words we'll use:** a glossary: their terms recorded exactly, plus the handful of
@@ -261,7 +349,9 @@ fill every bracket. It carries:
      stays human, and the rollout/adoption step where the field is touched
    - *Build constraints:* guardrails restated as they bind THIS phase; the sandbox rule
      (nothing that makes money gets disrupted; the old way keeps running until the owner
-     retires it)
+     retires it); and the brief's verdicts where they touch this phase: a system marked
+     replace is never connected to and its replacement is designed at phase start, a system
+     marked work around gets no connector
    - *Verification duties:* what you must prove on real work, this week, before calling
      the phase done; the scoreboard rows this phase must move
    - *Exit criteria:* the owner's plain-language sign-off, plus the measured result
@@ -318,8 +408,8 @@ the only place the confirm list is surfaced, and never as a nag.
 
 Commit the workspace with a plain message (the repo is the backup): the files you wrote in
 Steps 5 to 6b, `WAITING-ON-YOU.md`, and `.base/` if git shows it unsaved (the engine's memory
-of this business belongs to the business). The transcript and the intake stay out of git by construction; if git ever offers
-them, stop and say so.
+of this business belongs to the business). The transcript, the intake and the brief stay out of git by construction; if git ever
+offers them, stop and say so.
 
 ## Step 8: Tell the owner (the report)
 
@@ -328,12 +418,19 @@ Three parts, short:
 > Your Blueprint is built. Your session framed [F] opportunities; [M] are in the plan[, and
 > [S] you struck on the call]. [K] more ideas came up in passing and wait on a quick
 > confirmation from your team.
+> [When the brief was there: Of the [M] in the plan, [T] came from your session and [B] from
+> the Caddy team's notes after it.] [When they disagreed: In [D] place(s) the notes and your
+> session said different things; I kept what was said in the session: [one line each, plainly].]
+> [When the brief was set aside: The Caddy team's notes came in a shape I could not read, so I
+> built from your session alone; they can send a fixed copy.]
 
 The numbers, so they always add up: F is every opportunity framed with a number in the session
-(strikes included); M is what is in the plan after the strikes and updates; S is the struck ones
-(say that clause only when S is not zero); K is the unframed ideas in section 7; P is the
-number of phases, one per phase hint, in the session's order. Every number comes from the
-transcript, never rounded, never guessed.
+(strikes included); M is what is in the plan after the strikes and updates, and M = T + B, where
+T came from the session and B from the brief alone; S is the struck ones (say that clause only
+when S is not zero); K is the unframed ideas in section 7, the brief's unconfirmed items
+included; D is the disagreements, counted by opportunity; P is the number of phases, one per
+phase hint, in the session's order. Every number comes from the transcript and the brief,
+never rounded, never guessed. To the owner the brief is "the Caddy team's notes".
 >
 > The plan runs in [P] phases. But we start with the Deep Dive: a working conversation
 > where you show me the real thing, your documents, your screens, how it all actually
@@ -358,6 +455,7 @@ not it.
 
 - Never overwrites an in-progress build (Step 0 is absolute)
 - Never promotes unframed or unverified items into the plan
+- Never builds from the brief alone, and never lets the brief overrule the session
 - Never celebrates, the finish line comes much later, and it isn't yours
 - Never checks licenses, phones home, or collects anything (there is nothing to check)
 - Never uses a word the owner would have to look up
