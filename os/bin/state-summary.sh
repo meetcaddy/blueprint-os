@@ -22,7 +22,13 @@ elif ls design/phase-*.md >/dev/null 2>&1; then
 elif [ -f BLUEPRINT.md ]; then
   stage="blueprint built, deep dive not started"
 elif [ -f BUSINESS.md ]; then
-  stage="installed, waiting for the package"
+  have=""; miss=""
+  if [ -f package/transcript.md ] || [ -f package/transcript.txt ] || [ -f package/transcript.vtt ]; then have="the transcript"; else miss="the transcript"; fi
+  if [ -f package/intake-doc.md ]; then have="${have:+$have, }the intake document"; else miss="${miss:+$miss, }the intake document"; fi
+  [ -f package/roadmap-brief.md ] && have="${have:+$have, }the Caddy team's notes"
+  if [ -z "$miss" ]; then stage="installed, the package is here ($have): type /blueprint ingest"
+  elif [ -n "$have" ]; then stage="installed, part of the package is here ($have), waiting for $miss"
+  else stage="installed, waiting for the package"; fi
 else
   stage="not set up yet"
 fi
