@@ -17,8 +17,11 @@ esac
 echo "===== Your week, in one look ($(date +%Y-%m-%d)) ====="
 [ -f os/bin/state-summary.sh ] && sh os/bin/state-summary.sh 2>/dev/null | grep -E '^(Stage|Phase|Plan): ' | sed 's/^Stage: /Where we are: /'
 if [ -f SYSTEMS.md ]; then
-  n=$(awk -F'|' '/^\| / && $2 !~ /^ *What *$/ && $0 !~ /\[name\]/ && $0 !~ /^\|-/ {c++} END {print c+0}' SYSTEMS.md)
+  # a row whose check cell says "not connected yet" is a system the business runs (listed from the Audit Workbook), not a thing built
+  n=$(awk -F'|' '/^\| / && $2 !~ /^ *What *$/ && $0 !~ /\[name\]/ && $0 !~ /^\|-/ && $6 !~ /not connected yet/ {c++} END {print c+0}' SYSTEMS.md)
   [ "$n" -gt 0 ] && echo "Built or connected outside your Caddy: $n thing(s) (the list is in SYSTEMS.md)"
+  m=$(awk -F'|' '/^\| / && $0 !~ /\[name\]/ && $0 !~ /^\|-/ && $6 ~ /not connected yet/ {c++} END {print c+0}' SYSTEMS.md)
+  [ "$m" -gt 0 ] && echo "Listed from your Audit Workbook, not connected yet: $m system(s)"
 fi
 if [ -f WAITING-ON-YOU.md ]; then
   rows=$(grep -E '^\| [0-9]{4}-[0-9]{2}-[0-9]{2} ' WAITING-ON-YOU.md)

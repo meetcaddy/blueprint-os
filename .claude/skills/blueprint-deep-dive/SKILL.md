@@ -63,12 +63,15 @@ you, and quote the dropped files by name when you use them.
 
 For each opportunity in the phase, ask for four things:
 
-- **The documents.** SOPs, checklists, templates, example files. Ask them to drop copies into
-  the slot that fits in `context/` (or `context/phase-N/` for a phase-specific request), then
-  run `/blueprint context`. Read them. Quote them back in their words.
+- **The documents.** SOPs, checklists, templates, example files. Start with what the owner
+  already sent the Caddy team in their Audit Workbook (`BUSINESS.md` NOTES lists those samples
+  by name): ask for copies of those first. Ask them to drop copies into the slot that fits in
+  `context/` (or `context/phase-N/` for a phase-specific request), then run
+  `/blueprint context`. Read them. Quote them back in their words.
 - **Eyes on the screens.** Ask the owner or the operations seat to open the real software and
   walk through the job while you ask questions. Write the steps down as they happen, in the
-  order they happen, in their vocabulary.
+  order they happen, in their vocabulary. When their Audit Workbook holds written steps or a
+  recording for this workflow, read those back first and ask what has changed.
 - **Access.** Only through the map's cards. Never through chat.
 - **The numbers.** Every "no number known" in `BUSINESS.md` BASELINES gets either a real
   number now or a week-one measurement plan (what to count, who counts it, for how long).

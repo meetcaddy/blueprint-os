@@ -6,6 +6,7 @@
       "Bash(python3 os/bin/health.py:*)",
       "Bash(python3 os/bin/handoff-packet.py:*)",
       "Bash(python3 os/bin/package-check.py:*)",
+      "Bash(python3 os/bin/intake-read.py:*)",
       "Bash(bash os/bin/health.sh:*)",
       "Bash(bash os/bin/undo.sh:*)",
       "Bash(bash os/bin/state-summary.sh:*)",

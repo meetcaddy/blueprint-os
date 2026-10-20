@@ -9,11 +9,13 @@ It prints plain lines about the package files: the transcript of the session, th
 document, and, when the Caddy team sent one, the roadmap brief (package/roadmap-brief.md).
 It reads the brief's shape, lists the opportunities each source carries, and says where the
 brief and the transcript disagree. The transcript always wins. A brief with no transcript is
-never enough: the plan is built from the session.
+never enough: the plan is built from the session. The intake line says whether the document
+carries the Audit Workbook's sections (counts only; os/bin/intake-read.py reads them).
 
 Exit 0: go on; the lines say what to build from. Exit 2: stop, and say the "Stop:" line to
 the owner. The script prints an opportunity's number and name, never a file's contents.
 """
+import importlib.util
 import os
 import re
 import sys
@@ -57,6 +59,20 @@ def same(a, b):
 
 def plural(n, one, many=None):
     return "%d %s" % (n, one if n == 1 else (many or one + "s"))
+
+
+def intake_shape(path):
+    """One clause about the intake document's shape, from intake-read.py; blank when that script is not beside this one."""
+    reader = os.path.join(os.path.dirname(os.path.abspath(__file__)), "intake-read.py")
+    if not os.path.isfile(reader):
+        return ""
+    try:
+        spec = importlib.util.spec_from_file_location("intake_read", reader)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod.summary(mod.read_intake(read(path)))
+    except Exception:
+        return "could not read its sections; open it by hand"
 
 
 def numbers(ns):
@@ -287,7 +303,11 @@ def main():
                         "If you cannot find it, email support@meetcaddy.com and the Caddy team will resend it."
                         % folder)
 
-    out.append("Intake document: %s" % (INTAKE if has_intake else "not there."))
+    if has_intake:
+        shape = intake_shape(os.path.join(folder, INTAKE))
+        out.append("Intake document: %s%s" % (INTAKE, (" (%s)." % shape) if shape else ""))
+    else:
+        out.append("Intake document: not there.")
     if not has_intake and not stop:
         stop.append("Stop: the intake document (intake-doc.md, your booking answers) is not here. It came in your "
                     "Blueprint package email. Save it into the %s folder and type /blueprint ingest again."

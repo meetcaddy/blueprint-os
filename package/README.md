@@ -3,7 +3,8 @@
 Two files arrive by email from the Caddy team soon after your session, and sometimes a third:
 
 1. The transcript of your session (`transcript.md` or `transcript.txt`): the written record.
-2. The intake document (`intake-doc.md`): the answers you gave when you booked.
+2. The intake document (`intake-doc.md`): the answers you gave when you booked, and your
+   Audit Workbook when you filled one in.
 3. Sometimes, the Caddy team's notes for your Caddy (`roadmap-brief.md`): what the team heard in
    your session and checked afterwards, written for your Caddy to read. It adds to the
    transcript and never replaces it. If your package has no such file, nothing is missing.

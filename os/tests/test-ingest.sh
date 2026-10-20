@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Tests for the package check /blueprint ingest runs first: the three package files, the Caddy
 # team's roadmap brief read beside the transcript, the transcript winning every disagreement, the
-# brief alone refused plainly, and the state summary saying what is in the package. Throwaway
-# folders only; the fixture is the parse contract's made-up roofing business, never a client.
+# brief alone refused plainly, the Audit Workbook's sections in the intake document read by
+# os/bin/intake-read.py (the sample document is the one the Workbook's own renderer test builds,
+# a made-up roofing business), and the state summary saying what is in the package. Throwaway
+# folders only; no fixture is a client.
 set -u
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 T="$(mktemp -d)"; trap 'rm -rf "$T"' EXIT
@@ -10,7 +12,7 @@ pass=0; fail=0
 ok(){ pass=$((pass+1)); echo "PASS  $1"; }; bad(){ fail=$((fail+1)); echo "FAIL  $1"; }
 check(){ if eval "$2"; then ok "$1"; else bad "$1"; fi; }
 mkdir -p "$T/os/bin" "$T/os/templates" "$T/package"
-cp "$HERE/os/bin/package-check.py" "$HERE/os/bin/state-summary.sh" "$T/os/bin/"
+cp "$HERE/os/bin/package-check.py" "$HERE/os/bin/state-summary.sh" "$HERE/os/bin/intake-read.py" "$T/os/bin/"
 cp "$HERE/os/VERSION" "$T/os/VERSION"; cp "$HERE/.gitignore" "$T/.gitignore"
 cd "$T"; export CLAUDE_PROJECT_DIR="$T"
 run(){ out="$(python3 os/bin/package-check.py 2>&1)"; rc=$?; }
@@ -149,6 +151,145 @@ check "the templates index lists it" 'grep -q "roadmap-brief.md" "$HERE/os/templ
 check "the ingest skill runs the check first and names the brief's rules" 'grep -q "python3 os/bin/package-check.py" "$HERE/.claude/skills/blueprint-ingest/SKILL.md" && grep -q "The transcript wins every disagreement" "$HERE/.claude/skills/blueprint-ingest/SKILL.md" && grep -q "A brief with no transcript is not enough" "$HERE/.claude/skills/blueprint-ingest/SKILL.md"'
 check "the shipped settings allow the check" 'grep -q "Bash(python3 os/bin/package-check.py:\*)" "$HERE/.claude/settings.json"'
 check "the package note and the manual tell the owner about the notes in plain words" 'grep -q "roadmap-brief.md" "$HERE/package/README.md" && grep -q "the Caddy team'"'"'s notes" "$HERE/HOW-IT-WORKS.md"'
+
+# --- the Audit Workbook's sections in the intake document (the sample from caddy-app's render.test.ts)
+# The title line carries the renderer's em dash, written as an escape so this file carries none.
+workbook_intake(){ printf '# BLUEPRINT INTAKE \342\200\224 Summit Ridge Roofing\n' > package/intake-doc.md; cat >> package/intake-doc.md <<'EOF'
+
+## SESSION
+**Session date:** 2026-11-03
+**Attendees:** Mike (owner), Dana (office manager)
+**Operations seat:** Dana, office manager
+
+## BUSINESS PROFILE
+**What the business does:** Residential roofing. Insurance restoration.
+**Team:** 22 people
+**Tools and systems:** QuickBooks Desktop and Enterprise, AccuLynx, Some Local Tool
+
+## PAIN AND PRIORITIES
+**Biggest time sinks:** Re-keying jobs
+**Hand-off-tomorrow job:** Supplements
+**Prior attempts and roadblocks:** Zapier, broke
+**Baselines:** 38 jobs a month; average job $14,500; 47 days to get paid; overtime not tracked; 13 in the field
+
+## TECHNICAL READINESS
+**OS:** Windows
+**Company-managed device:** no
+**Admin rights:** yes
+**AI plan status:** confirmed
+**GitHub account:** no
+
+## CLIENT NOTES
+**Requested topics:** Estimates take two days
+
+## SYSTEMS
+| System | Kind | Plan or edition | Version | Runs | Administered by | Monthly cost | Renewal | Export or API used | Would replace | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|
+| QuickBooks Desktop and Enterprise | Accounting and job cost | Enterprise | 2024 | Desktop | Office manager | $210 | 2027-03-01 | no | depends | Payroll / runs through it |
+| AccuLynx | CRM and sales | Pro Bundle |  | Cloud |  |  |  |  |  |  |
+| Some Local Tool | CRM and sales |  |  |  |  |  |  |  |  |  |
+
+## TEAM
+**People in the field:** 13
+**Office payroll, a month:** $25K to $50K
+**Champion:** Dana
+
+| Role | People | What they spend most time on |
+|---|---|---|
+| Office manager | 1 | Billing |
+| Permit runner | 1 |  |
+
+## MONEY AND VOLUME
+**Revenue band:** $3M to $10M
+**Gross margin band:** 30% to 40%
+**Average job size:** $14,500
+**Jobs a month:** 38
+**Days to get paid:** 47
+**Overtime hours a month:** not tracked
+
+## WORKFLOWS
+
+### 1. Lead to signed proposal
+**Recording:** https://www.loom.com/share/x
+
+### 2. Job close to paid invoice
+**Steps:**
+1. Luis marks complete
+2. Dana invoices
+3. Call at day 30
+
+## SAMPLES
+| Slot | File | Size |
+|---|---|---|
+| An estimate | Estimate-1142.pdf | 402 KB |
+| System screenshot | qb-billing.png | 402 KB |
+
+**Not available:** Safety program
+
+## CUSTOMERS AND COMMUNICATION
+**Lead sources:** Phone calls, Referrals
+**First response:** Dana
+**Leads a week:** 25
+**Channels:** Text, Phone
+**What is sent and when:** Estimate within two days
+
+## CONSTRAINTS
+**Flags:** Union rules
+**Details:** Two public jobs a year
+
+## GOALS
+**12-month goal:** Get to $8M
+**Exit horizon:** 3 to 5 years
+**Who signs off on a build:** Chris
+**What done looks like:** No re-keying
+
+## GAPS
+- Workflows: 2 of 5 workflows (feeds the gap hunt covers only what you showed us)
+- Samples: No proposal (feeds proposal automation)
+- Samples: No invoice (feeds the collections design)
+- Samples: No wip or job-cost report (feeds the job-cost lag check before the call)
+- Samples: No cost codes or chart of accounts (feeds the accounting link)
+- Constraints: Skipped for now (feeds the constraints every design must honor)
+EOF
+}
+readit(){ rout="$(python3 os/bin/intake-read.py --today 2026-10-19 "$@" 2>&1)"; rrc=$?; }
+rm -f package/roadmap-brief.md; transcript; workbook_intake; run
+check "workbook: the package check counts the Workbook's parts and nothing more" '[[ $rc -eq 0 && "$out" == *"Intake document: intake-doc.md (the booking answers and the Audit Workbook: 3 systems, 2 office roles, 2 workflows, 2 files, 6 gaps)."* ]]'
+check "workbook: the package check still never prints a value from the document" '[[ "$out" != *"25K"* && "$out" != *"QuickBooks"* ]]'
+check "workbook: the sample keeps the five booking headings first, in the contract's order" '[[ "$(grep "^## " package/intake-doc.md | head -5 | tr "\n" "/")" == "## SESSION/## BUSINESS PROFILE/## PAIN AND PRIORITIES/## TECHNICAL READINESS/## CLIENT NOTES/" ]]'
+check "workbook: the Workbook sections follow, in the contract's order" '[[ "$(grep "^## " package/intake-doc.md | tail -9 | tr "\n" "/")" == "## SYSTEMS/## TEAM/## MONEY AND VOLUME/## WORKFLOWS/## SAMPLES/## CUSTOMERS AND COMMUNICATION/## CONSTRAINTS/## GOALS/## GAPS/" ]]'
+printf '# BUSINESS.md: Summit Ridge Roofing\n\n## SESSION\n**Owner:** Mike\n' > BUSINESS.md
+readit
+check "reader: reads the business and the session date from the title and SESSION" '[[ $rrc -eq 0 && "$rout" == *"Intake document: package/intake-doc.md: Summit Ridge Roofing, session 2026-11-03."* ]]'
+check "reader: says the Workbook is there, with its counts" '[[ "$rout" == *"Audit Workbook: here: 3 systems, 2 office roles, 2 workflows, 2 files, 6 gaps."* ]]'
+check "reader: a full systems row seeds the ledger, not connected yet, dated from the session" '[[ "$rout" == *"| QuickBooks Desktop and Enterprise | Desktop; Enterprise, version 2024 | Office manager | Accounting and job cost; \$210 a month; renews 2027-03-01; export or API used: no; would replace: depends; Payroll / runs through it | not connected yet | 2026-11-03, from the Audit Workbook |"* ]]'
+check "reader: the raw plan text wins and blank cells read not named" '[[ "$rout" == *"| AccuLynx | Cloud; Pro Bundle | not named | CRM and sales | not connected yet |"* ]]'
+check "reader: a nearly empty row still seeds a line" '[[ "$rout" == *"| Some Local Tool | not said | not named | CRM and sales | not connected yet |"* ]]'
+check "reader: every ledger row is not connected yet" '[[ "$(printf "%s\n" "$rout" | grep -c "^| .* | not connected yet | ")" -eq 3 ]]'
+check "reader: the team lines, roles with headcounts only" '[[ "$rout" == *"TEAM:"$'"'"'\n'"'"'"- People in the field: 13"$'"'"'\n'"'"'"- Office payroll, a month: \$25K to \$50K"$'"'"'\n'"'"'"- Champion: Dana"$'"'"'\n'"'"'"- Office manager: 1 (Billing)"$'"'"'\n'"'"'"- Permit runner: 1"* ]]'
+check "reader: not tracked stays not tracked and becomes a week-one measurement" '[[ "$rout" == *"- Overtime hours a month: not tracked (no number known: measure it in week one)"* ]]'
+check "reader: the money lines and the leads a week land in BASELINES" '[[ "$rout" == *"BASELINES:"*"- Revenue band: \$3M to \$10M"*"- Days to get paid: 47"*"- Leads a week: 25"* ]]'
+check "reader: customers, constraints and goals get their own blocks" '[[ "$rout" == *"CUSTOMERS AND COMMUNICATION:"*"- What is sent and when: Estimate within two days"*"CONSTRAINTS:"*"- Flags: Union rules"*"GOALS:"*"- Who signs off on a build: Chris"* ]]'
+check "reader: the samples go to NOTES by name, with what is not available" '[[ "$rout" == *"- Samples sent with the Workbook: An estimate (Estimate-1142.pdf), System screenshot (qb-billing.png). Not available: Safety program."* ]]'
+check "reader: workflows are candidates, with the recording or the steps" '[[ "$rout" == *"never opportunities on their own"*"1. Lead to signed proposal: a recording (https://www.loom.com/share/x), no written steps."*"2. Job close to paid invoice: 3 written steps."*"   2. Dana invoices"* ]]'
+check "reader: never frames a workflow as an opportunity" '[[ "$rout" != *"Blueprint opportunity"* && "$rout" != *"opportunity 1"* ]]'
+check "reader: one waiting row per gap, dated today, to the owner by name, from the Workbook" '[[ "$(printf "%s\n" "$rout" | grep -c "| your Audit Workbook |$")" -eq 6 && "$rout" == *"| 2026-10-19 | Mike | Workflows: 2 of 5 workflows (feeds the gap hunt covers only what you showed us) | your Audit Workbook |"* ]]'
+check "reader: the last gap row is the skipped step" '[[ "$rout" == *"| 2026-10-19 | Mike | Constraints: Skipped for now (feeds the constraints every design must honor) | your Audit Workbook |"* ]]'
+rm BUSINESS.md; readit
+check "reader: with no owner recorded yet the rows say the owner" '[[ "$rout" == *"| 2026-10-19 | the owner | Samples: No proposal (feeds proposal automation) | your Audit Workbook |"* ]]'
+intake; readit
+check "reader: an older intake document is complete and prints nothing more" '[[ $rrc -eq 0 && "$rout" == *"Audit Workbook: not in this document (an older package; nothing is missing)."* && "$rout" != *"=="* ]]'
+run
+check "workbook: the package check says an older document is fine" '[[ $rc -eq 0 && "$out" == *"Intake document: intake-doc.md (the booking answers only; no Audit Workbook sections, which is fine for an older package)."* ]]'
+printf '# BLUEPRINT INTAKE: Bare Co\n\n## SESSION\n**Session date:** 2026-08-08\n\n## SYSTEMS\n(none listed)\n\n## TEAM\n**People in the field:** \n**Office payroll, a month:** Prefer not to say\n**Champion:** \n\n## WORKFLOWS\n(none)\n\n## SAMPLES\n(no files)\n\n## GAPS\n(none)\n' > package/intake-doc.md; readit
+check "reader: empty Workbook sections count zero and print their empty lines" '[[ $rrc -eq 0 && "$rout" == *"Audit Workbook: here: 0 systems, 0 office roles, 0 workflows, 0 files, 0 gaps."* && "$rout" == *"(no systems listed)"* && "$rout" == *"(no workflows written up)"* && "$rout" == *"(no gaps: the owner filled in every step)"* ]]'
+check "reader: a blank field reads not given, a range is kept as written" '[[ "$rout" == *"- People in the field: not given"* && "$rout" == *"- Office payroll, a month: Prefer not to say"* ]]'
+rm package/intake-doc.md; readit
+check "reader: a missing document stops with the plain line" '[[ $rrc -eq 2 && "$rout" == *"Stop: the intake document (intake-doc.md, your booking answers) is not here."* ]]'
+intake
+check "the ingest skill runs the reader and names what each section becomes" 'grep -q "python3 os/bin/intake-read.py" "$HERE/.claude/skills/blueprint-ingest/SKILL.md" && grep -q "SYSTEMS seeds the systems ledger" "$HERE/.claude/skills/blueprint-ingest/SKILL.md" && grep -q "never opportunities on their" "$HERE/.claude/skills/blueprint-ingest/SKILL.md" && grep -q "GAPS go on the short list" "$HERE/.claude/skills/blueprint-ingest/SKILL.md"'
+check "the shipped settings allow the reader" 'grep -q "Bash(python3 os/bin/intake-read.py:\*)" "$HERE/.claude/settings.json"'
+check "the ledger template, its index, the waiting list and the manual know the Workbook" 'grep -q "not connected yet" "$HERE/os/templates/SYSTEMS.md" && grep -q "/blueprint ingest" "$HERE/os/templates/README.md" && grep -q "your Audit Workbook" "$HERE/os/templates/WAITING-ON-YOU.md" && grep -q "Audit Workbook" "$HERE/HOW-IT-WORKS.md" && grep -q "Audit Workbook" "$HERE/package/README.md"'
 
 # --- the state summary says what is in the package
 rm -rf package/*; printf '# BUSINESS.md: Harbor Point Roofing\n\n## SESSION\n**Owner:** Sam\n' > BUSINESS.md

@@ -19,11 +19,12 @@ printf '# BUSINESS.md: Acme Roofing\n\n## SESSION\n**Owner:** Sam\n**Session dat
 check "brief: still not due before the Blueprint is built (first boot seeds BUSINESS.md)" '! sh os/bin/brief.sh --due'
 printf '# Your Blueprint\n' > BLUEPRINT.md
 check "brief: due once the Blueprint exists" 'sh os/bin/brief.sh --due'
-printf '# SYSTEMS.md\n\n| What | Where it lives | Whose account | What it does | How to check it is healthy | Since |\n|---|---|---|---|---|---|\n| [name] | x | x | x | x | x |\n| Invoice reminder | n8n | Sam | sends reminders | open n8n | 2026-10-05 |\n| Quote folder watcher | the machine | Sam | builds quotes | file-fresh | 2026-10-08 |\n' > SYSTEMS.md
+printf '# SYSTEMS.md\n\n| What | Where it lives | Whose account | What it does | How to check it is healthy | Since |\n|---|---|---|---|---|---|\n| [name] | x | x | x | x | x |\n| Invoice reminder | n8n | Sam | sends reminders | open n8n | 2026-10-05 |\n| Quote folder watcher | the machine | Sam | builds quotes | file-fresh | 2026-10-08 |\n| QuickBooks | Desktop | Sam | accounting | not connected yet | 2026-10-01, from the Audit Workbook |\n' > SYSTEMS.md
 printf '# WAITING-ON-YOU.md\n\n| Since | Who | What | Where it came from |\n|---|---|---|---|\n| 2026-10-10 | Dana | sign in to n8n and click Allow | phase 1, plan 1 |\n' > WAITING-ON-YOU.md
 out="$(sh os/bin/brief.sh)"
 check "brief: header" '[[ "$out" == *"Your week, in one look"* ]]'
 check "brief: counts real systems, not the placeholder, and says what it counts" '[[ "$out" == *"Built or connected outside your Caddy: 2 thing(s)"* ]]'
+check "brief: a system listed from the Audit Workbook is counted apart, not as built" '[[ "$out" == *"Listed from your Audit Workbook, not connected yet: 1 system(s)"* ]]'
 check "brief: waiting rows, by name" '[[ "$out" == *"since 2026-10-10, Dana: sign in to n8n and click Allow"* ]]'
 check "brief: drop folder line" '[[ "$out" == *"Drop folder:"* ]]'
 check "brief: points to status" '[[ "$out" == *"/blueprint status"* ]]'
