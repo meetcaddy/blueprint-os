@@ -19,9 +19,11 @@ that in "Where we are", and make "What's next" the Deep Dive for Phase 1.
 
 > **Where we are.** Phase [X] of [Y]: [phase name]. [What's done, in their numbers where you
 > have them: "invoice reminders now go out on their own; that was four hours every Friday."]
-> [When `SYSTEMS.md` has rows: "[N] things are built or connected outside me." Say "runs on its
-> own" only about a piece whose design record shows a person saw it fire on a real event. A
-> count, never a party.]
+> [When `SYSTEMS.md` has connected rows (every row except the ones whose check cell says "not
+> connected yet"): "[N] things are built or connected outside me." When it also holds rows from
+> the Audit Workbook not yet connected: "[M] of your systems are listed and not connected yet."
+> Say "runs on its own" only about a piece whose design record shows a person saw it fire on a
+> real event. A count, never a party.]
 > [During Phase 1's first plan, from its **Build started** date: "Day [N] of 7 to your first
 > result; [K] card(s) stand between us and it." Past day seven: "We are past the first week;
 > here is what stands between us and the first result: [the one thing]." Calendar days. Once
@@ -76,7 +78,7 @@ engagement does not come from you. Ever.
 
 When ninety days have passed since the session date in `BUSINESS.md` (and every ninety after),
 or when the owner asks for "the quarter page", write `reports/quarter-[n].md` from
-`os/templates/quarterly-page.md`: what runs on its own (from `SYSTEMS.md`), the scoreboard rows
+`os/templates/quarterly-page.md`: what runs on its own (from `SYSTEMS.md`, connected rows only), the scoreboard rows
 with their measured before and after (a blank stays blank, with the measurement plan next to
 it), the owner's own words if they want to give some, and the next manual task worth taking
 over. Tell the owner it is there and that it is theirs to forward. Never send it, never

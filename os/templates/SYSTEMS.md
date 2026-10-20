@@ -13,3 +13,7 @@
 > `connections/bin/` check, or a script in the business's own `checks/` folder. Anything else in
 > the cell is read as words for a person. A check only looks: a web address that starts something
 > (a webhook) is never a check.
+>
+> Rows your Caddy copied from your Audit Workbook at ingest say "not connected yet" in the check
+> cell: those are systems the business runs, not things built, and they are counted apart until
+> your Caddy connects to one (the row gets its check then) or the plan replaces it.

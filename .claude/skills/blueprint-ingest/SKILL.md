@@ -42,7 +42,11 @@ You need two files, and there may be a third:
    >
    > Why: the recording page is made for people; I read the text file.
    > When you're back, I check that the whole session made it.
-2. **The intake document:** the form answers from booking (markdown with labeled fields).
+2. **The intake document:** the client's answers as markdown with labeled fields: the five
+   booking headings always, and, when the client filled in their Audit Workbook after paying,
+   its sections too (systems, team, money and volume, workflows, samples, customers and
+   communication, constraints, goals, gaps). An older document with the five headings alone is
+   complete; nothing is missing then. Step 1b says what each Workbook section becomes.
 3. **The roadmap brief (optional):** `package/roadmap-brief.md`, written by the Caddy team
    after the session, for you. Its shape is in Step 1a. When it is not there, nothing is
    missing: the team sends one with some packages, not all. Never ask the owner for it.
@@ -106,6 +110,44 @@ their systems (Step 6, section 2); a *replace* verdict shapes the design, so the
 a plain name for a file they never have to open. The brief stays out of git by construction,
 like the transcript; if git ever offers it, stop and say so.
 
+## Step 1b: The Audit Workbook (when the intake document carries it)
+
+Run `python3 os/bin/intake-read.py`. It reads `package/intake-doc.md` and prints plain blocks
+you copy in Steps 3 to 7c; it writes nothing. When the document carries the booking answers
+alone it says so and prints nothing more: go on, nothing is missing. To the owner the Workbook
+is "your Audit Workbook", the form they filled in after they paid.
+
+What each section becomes:
+- **SYSTEMS seeds the systems ledger.** Create `SYSTEMS.md` from `os/templates/SYSTEMS.md` and
+  paste the rows the script prints, one per system, each with "not connected yet" in its check
+  cell. These are systems the business runs, not things you built: status, the Monday brief and
+  `/blueprint health` count them apart from what is connected, and a row changes only when you
+  connect to that system (it gets its check then) or the plan replaces it. A system the Workbook
+  lists and the session never named is still not designed against (Step 3, P8): it waits in the
+  ledger until the session or the Deep Dive brings it into the plan.
+- **TEAM, MONEY AND VOLUME, CUSTOMERS AND COMMUNICATION, CONSTRAINTS and GOALS land in
+  `BUSINESS.md`** (Step 5), pasted as the script's "Business memory" block prints them: the
+  field headcount, the office roles with their headcounts and what they spend most time on, the
+  champion and the office payroll range in TEAM; the money and volume lines and the leads a week
+  in BASELINES ("not tracked" stays "not tracked" and is a week-one measurement, never a guess);
+  the other three in their own sections. The directives (Step 6b) carry the constraints as build
+  constraints where they touch a phase.
+- **WORKFLOWS are grounding-gate candidates beside the transcript, never opportunities on their
+  own.** A workflow the client wrote up (its name, its recording, its steps) that describes an
+  opportunity the session framed adds detail to that opportunity's section, quoted as "what you
+  showed us in your Audit Workbook". A workflow the session never framed goes to "Confirm with
+  your team" (Step 6, section 7) and to `WAITING-ON-YOU.md`, marked "from your Audit Workbook;
+  not in the plan until you say so". The session's numbered list never changes because of a
+  Workbook workflow.
+- **SAMPLES** are files the client sent the Caddy team, not files on this computer. Record their
+  names in `BUSINESS.md` NOTES, as the block prints them; the Deep Dive asks for copies into
+  `context/` first.
+- **GAPS go on the short list.** Each gap the client left (what is missing and what it feeds) is
+  one dated row in `WAITING-ON-YOU.md` with "your Audit Workbook" as where it came from, so the
+  owner can clear them in one sitting. Status reads that list.
+
+The transcript still wins every disagreement with the intake document (Step 3, rule 6).
+
 ## Step 2: Capture the session date
 
 The session date matters: it starts the owner's 30-day engagement credit window. Find it in
@@ -168,6 +210,9 @@ opportunity's section, for the Deep Dive.
    the transcript does not carry, cited to the brief. The check script's "In both", "From
    the brief only" and "Disagreement" lines are your starting list; the grounding gate
    (Step 4) decides what stays.
+8. **A Workbook workflow is read beside the transcript, never as a pattern.** It carries no
+   number and no frame, so it is never first-class on its own: match it to a framed opportunity
+   by what it describes and quote it there, or treat it as a candidate (rule 3).
 
 **Work in chunks.** A long transcript (a three-hour session runs to tens of thousands of
 words) will not fit in one pass. Process it in ordered
@@ -183,7 +228,9 @@ state and the target both. For a session item the source is the transcript; for 
 it is the brief's own block, which must carry the five facts. If a quote is missing, garbled,
 or does not support the claim, the item moves to "Confirm with your team." You never promote
 it back on your own; the owner's confirmation does. The brief's "Unconfirmed" list starts in
-"Confirm with your team" and never leaves it on its own.
+"Confirm with your team" and never leaves it on its own. A Workbook workflow is the same: it
+grounds detail inside an opportunity the session framed, or waits in "Confirm with your team";
+it never grounds a new one.
 
 The rule underneath: **if it is not in the conversation or the Caddy team's brief, it does
 not go in the plan.** And when the two disagree, the conversation decides.
@@ -193,7 +240,9 @@ not go in the plan.** And when the two disagree, the conversation decides.
 Build the machine's memory from three sources:
 1. **The transcript:** what the business is, who does what, their vocabulary (their words
    for jobs, stages, tools, record terms exactly as they say them), their systems.
-2. **The intake document:** team, tools, baselines (hours per week, open jobs), attendees.
+2. **The intake document:** team, tools, baselines (hours per week, open jobs), attendees;
+   and, when the Audit Workbook is there, everything Step 1b routes here, pasted as the
+   script's "Business memory" block prints it.
 3. **Online, public only:** their website and public listings/reviews, to fill in what the
    business looks like from outside. A few minutes, not a project. Never anything behind a
    login. If nothing useful is found, skip silently. The business's own marketing claims and
@@ -218,7 +267,9 @@ Write `BUSINESS.md` with exactly these sections:
 [3-6 plain sentences]
 
 ## TEAM
-[who does what, from transcript + intake]
+[who does what, from transcript + intake; when the Workbook is there: people in the field, the
+office roles with headcounts and what they spend most time on, the champion, the office payroll
+range]
 
 ## VOCABULARY
 [their term → what it means, one per line]
@@ -233,14 +284,29 @@ and the date checked; "not checked" when there is no brief), and which phase nee
 a system named only inside a struck opportunity is left out]
 
 ## BASELINES
-[the numbers from intake + transcript: hours, volumes, frequencies]
+[the numbers from intake + transcript: hours, volumes, frequencies; the Workbook's revenue band,
+gross margin band, average job size, jobs a month, days to get paid, overtime hours a month and
+leads a week; "not tracked" stays "not tracked", a week-one measurement]
+
+## CUSTOMERS AND COMMUNICATION
+[from the Workbook: lead sources, who answers first, leads a week, channels, what is sent and
+when; "Not in your package." when the intake document does not carry it]
+
+## CONSTRAINTS
+[from the Workbook: the flags and the details; "Not in your package." when absent. The session's
+constraints (P7) live with their opportunities, not here]
+
+## GOALS
+[from the Workbook: the 12-month goal, the exit horizon, who signs off on a build, what done
+looks like; "Not in your package." when absent]
 
 ## AUTONOMY GRANTS
 None yet. (Everything outbound gets the owner's look until they say otherwise.)
 
 ## NOTES
 [anything learned worth keeping; every place the brief and the session disagreed, with the
-session's version kept]
+session's version kept; the samples the client sent with their Workbook, by name, and the ones
+marked not available]
 ```
 
 Read BUSINESS.md at the start of every future session. Keep it current.
@@ -270,20 +336,23 @@ Ten sections, all required:
    to use it, and how you (the machine) use it.
 2. **Your business, as we heard it:** a narrative of their business in their words: what
    it is, how money comes in, the pressure they are under, how work really moves today.
-   Generous with their quotes. This section is why the plan feels THEIRS. When the brief
-   carries verdicts, close with a short table, "Your systems, as the Caddy team checked them on
+   Generous with their quotes, and with what they wrote in their Audit Workbook (their team,
+   their numbers, their goals), quoted the same way. This section is why the plan feels
+   THEIRS. When the brief carries verdicts, close with a short table, "Your systems, as the Caddy team checked them on
    [date]": each system, and in plain words whether it stays and gets connected, gets replaced,
    or gets worked around.
 3. **What today costs:** the baseline picture, assembled from every number they gave
-   (hours, misses, lags, borrowing). Never invent figures; where a number is missing, show
-   the blank and note that phase-start fills it.
+   (hours, misses, lags, borrowing; the Workbook's money and volume lines included). Never
+   invent figures; where a number is missing, show the blank and note that phase-start fills it.
 4. **The opportunities, in full:** one rich section each: the story as they told it (with
    quotes); the fix at framework level, in the solution-map shape (what goes in / what the
    machine does / what comes out / where you stay in the loop) with its right HOME named
    plainly (the machine, an always-on rail, a proper database, a tool they already own);
    what changes for them; what stays human and WHY; their stated constraints this design
-   honors; what "working" looks like, measurably; and **what your machine will ask at phase
-   start**, the named specifics deliberately deferred, listed so nothing feels vague and
+   honors (the session's, and the Workbook's where they touch it); what you showed us in your
+   Audit Workbook, where a Workbook workflow describes this opportunity (its steps or its
+   recording, quoted); what "working" looks like, measurably; and **what your machine will ask
+   at phase start**, the named specifics deliberately deferred, listed so nothing feels vague and
    everything feels scheduled. Each opportunity names its source in one line: "From your
    session", or "The Caddy team added this one after your session, from what we heard and
    checked" with the brief's block quoted; when the session and the notes disagreed about it,
@@ -298,7 +367,8 @@ Ten sections, all required:
    the machine.
 7. **Waiting on your word:** the confirm list, expanded: why each item surfaced, what
    confirming looks like, what it unlocks. Nothing schedules itself. The brief's unconfirmed
-   items sit here too, marked as the Caddy team's.
+   items sit here too, marked as the Caddy team's, and so do the Workbook workflows the session
+   never framed, marked as the owner's own write-up.
 8. **Keeping score:** the baseline-to-target table built from section 3, with blanks where
    phase-start measurement fills them.
 9. **Words we'll use:** a glossary: their terms recorded exactly, plus the handful of
@@ -351,7 +421,8 @@ fill every bracket. It carries:
      (nothing that makes money gets disrupted; the old way keeps running until the owner
      retires it); and the brief's verdicts where they touch this phase: a system marked
      replace is never connected to and its replacement is designed at phase start, a system
-     marked work around gets no connector
+     marked work around gets no connector; and the Workbook's constraints (`BUSINESS.md`
+     CONSTRAINTS) where they touch this phase, by name
    - *Verification duties:* what you must prove on real work, this week, before calling
      the phase done; the scoreboard rows this phase must move
    - *Exit criteria:* the owner's plain-language sign-off, plus the measured result
@@ -403,12 +474,13 @@ ingest there is nothing to validate yet.
 
 Before the save, write each confirm-list item (section 7) as one dated line in
 `WAITING-ON-YOU.md` (create it from `os/templates/WAITING-ON-YOU.md`): the idea in the owner's
-words, marked "said in passing; not in the plan until you say so". Status reads that list; it is
-the only place the confirm list is surfaced, and never as a nag.
+words, marked "said in passing; not in the plan until you say so". Then the Workbook's gaps, one
+row each, as the script's "Waiting on you" block prints them (Step 1b). Status reads that list;
+it is the only place the confirm list is surfaced, and never as a nag.
 
 Commit the workspace with a plain message (the repo is the backup): the files you wrote in
-Steps 5 to 6b, `WAITING-ON-YOU.md`, and `.base/` if git shows it unsaved (the engine's memory
-of this business belongs to the business). The transcript, the intake and the brief stay out of git by construction; if git ever
+Steps 5 to 6b, `SYSTEMS.md` when Step 1b seeded it, `WAITING-ON-YOU.md`, and `.base/` if git
+shows it unsaved (the engine's memory of this business belongs to the business). The transcript, the intake and the brief stay out of git by construction; if git ever
 offers them, stop and say so.
 
 ## Step 8: Tell the owner (the report)
@@ -423,14 +495,20 @@ Three parts, short:
 > session said different things; I kept what was said in the session: [one line each, plainly].]
 > [When the brief was set aside: The Caddy team's notes came in a shape I could not read, so I
 > built from your session alone; they can send a fixed copy.]
+> [When the Workbook is there: Your Audit Workbook gave me [Y] systems, your team and your
+> numbers; they are in my memory of the business. [When W is not zero: [W] workflow(s) you wrote
+> up [are quoted where your session framed them / wait on your word].] [When G is not zero: The
+> [G] item(s) you skipped in the Workbook are on your short list.]]
 
 The numbers, so they always add up: F is every opportunity framed with a number in the session
 (strikes included); M is what is in the plan after the strikes and updates, and M = T + B, where
 T came from the session and B from the brief alone; S is the struck ones (say that clause only
 when S is not zero); K is the unframed ideas in section 7, the brief's unconfirmed items
 included; D is the disagreements, counted by opportunity; P is the number of phases, one per
-phase hint, in the session's order. Every number comes from the transcript and the brief,
-never rounded, never guessed. To the owner the brief is "the Caddy team's notes".
+phase hint, in the session's order. Y is the Workbook's systems rows, W its workflows and G its
+GAPS lines, all from the intake document. Every number comes from the transcript, the brief and
+the intake document, never rounded, never guessed. To the owner the brief is "the Caddy team's
+notes" and the Workbook is "your Audit Workbook".
 >
 > The plan runs in [P] phases. But we start with the Deep Dive: a working conversation
 > where you show me the real thing, your documents, your screens, how it all actually
@@ -456,6 +534,8 @@ not it.
 - Never overwrites an in-progress build (Step 0 is absolute)
 - Never promotes unframed or unverified items into the plan
 - Never builds from the brief alone, and never lets the brief overrule the session
+- Never turns a Workbook workflow into an opportunity on its own, and never designs against a
+  system only the Workbook names
 - Never celebrates, the finish line comes much later, and it isn't yours
 - Never checks licenses, phones home, or collects anything (there is nothing to check)
 - Never uses a word the owner would have to look up

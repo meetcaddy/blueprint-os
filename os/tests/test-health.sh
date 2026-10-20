@@ -32,6 +32,7 @@ cat > SYSTEMS.md <<SYS
 | Link row | nowhere | x | x | check: \`bash os/checks/link.sh\` | 2026-10-11 |
 | Own check | the machine | Sam | x | check: \`bash checks/my-check.sh\` | 2026-10-12 |
 | Webhook row | n8n | Sam | x | check: \`bash os/checks/http-ok.sh hook https://example.invalid/webhook/abc\` | 2026-10-12 |
+| Listed system | Cloud | Dana | CRM | not connected yet | 2026-11-03, from the Audit Workbook |
 SYS
 start=$(date +%s); out="$(bash os/bin/health.sh)"; rc=$?; end=$(date +%s)
 check "placeholder row ignored" '[[ "$out" != *"placeholder"* ]]'
@@ -49,7 +50,8 @@ check "a link out of the folder is never run" '[[ "$out" == *"manual    Link row
 check "the business's own checks folder is allowed" '[[ "$out" == *"running   Own check: mine: ok"* ]]'
 check "a webhook address is refused as a check" '[[ "$out" == *"broken    Webhook row"*"starts something"* ]]'
 echo "      summary: $(printf '%s\n' "$out" | tail -1)"
-check "summary counts" '[[ "$out" == *"health: 12 system(s): 2 running, 1 need you, 5 broken, 4 manual"* ]]'
+check "a system listed from the Audit Workbook reads not yet and is never run" '[[ "$out" == *"not yet   Listed system: not connected yet"* ]]'
+check "summary counts" '[[ "$out" == *"health: 13 system(s): 2 running, 1 need you, 5 broken, 4 manual, 1 not connected yet"* ]]'
 check "exit code is non-zero when something is broken" '[[ $rc -ne 0 ]]'
 check "no key value ever printed" '[[ "$out" != *"N8N_API_KEY="* ]]'
 out="$(bash os/checks/http-ok.sh test http://10.255.255.1/ 2>&1)"; check "http-ok: dead host says no answer, exit 3" '[[ "$out" == *"no answer"* ]]'

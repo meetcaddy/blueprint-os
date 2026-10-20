@@ -58,7 +58,7 @@ If one lands there by mistake, your Caddy will not use it and will ask you to ma
 | You type | What happens |
 |---|---|
 | **/blueprint setup** | Puts the engine in place on this computer. The Caddy team ran it with you at your session. Safe to run again. |
-| **/blueprint ingest** | Reads your session package (the recording, your booking answers, and the Caddy team's notes when they sent some) and writes your Blueprint. |
+| **/blueprint ingest** | Reads your session package (the recording, your booking answers and your Audit Workbook, and the Caddy team's notes when they sent some) and writes your Blueprint. |
 | **/blueprint deep-dive** | Learns the real business, phase by phase, and gets your sign-off on each design. |
 | **/blueprint build** | Builds the signed-off phase with you, card by card. |
 | **/blueprint connect** and a tool's name | Connects your Caddy to one of your tools, following that tool's recipe. |
@@ -85,8 +85,8 @@ If one lands there by mistake, your Caddy will not use it and will ask you to ma
 - **BLUEPRINT-ONE-PAGE.md** is the plan at a glance, and **TEAM-NOTE.md** is a note in your
   name you can change and share with your team. Your Caddy never sends it.
 - **context/** is the drop folder; **package/** is where your Blueprint package lands: the
-  recording of your session, your booking answers, and sometimes the Caddy team's notes for
-  your Caddy.
+  recording of your session, your booking answers (with your Audit Workbook when you filled one
+  in), and sometimes the Caddy team's notes for your Caddy.
 - **training/** holds a three-step card for each role a built phase changed, for you to hand
   over. **reports/** holds the quarter page your Caddy writes every ninety days.
 - **connections/** holds the recipe for each tool.

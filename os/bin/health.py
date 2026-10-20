@@ -9,7 +9,8 @@ A row's "How to check it is healthy" cell may carry one check, written as
 The script must live inside one of those three folders (links and ".." do not count). It runs
 WITHOUT a shell, so nothing after a ";" or "|" or "$" in a row is ever interpreted. Each check gets
 20 seconds and is stopped together with everything it started. Only its last line is shown. Exit 0
-means running, 2 means it needs a person, anything else means broken.
+means running, 2 means it needs a person, anything else means broken. A row whose cell says
+"not connected yet" (a system listed from the Audit Workbook at ingest) is counted apart and never run.
 """
 import os
 import re
@@ -81,11 +82,15 @@ def main():
         return 0
     with open(path, encoding="utf-8", errors="replace") as fh:
         text = fh.read()
-    running = needs = broken = manual = total = 0
+    running = needs = broken = manual = listed = total = 0
     for name, cell in rows(text):
         if not name or name == "[name]":
             continue
         total += 1
+        if cell is not None and cell.strip().lower().startswith("not connected yet"):
+            listed += 1
+            print("not yet   %s: %s" % (name, cell))
+            continue
         if cell is None:
             manual += 1
             print("manual    %s: the row is missing its check column; open it by hand" % name)
@@ -113,7 +118,10 @@ def main():
         else:
             broken += 1
             print("broken    %s: %s" % (name, last or "the check failed"))
-    print("health: %d system(s): %d running, %d need you, %d broken, %d manual" % (total, running, needs, broken, manual))
+    line = "health: %d system(s): %d running, %d need you, %d broken, %d manual" % (total, running, needs, broken, manual)
+    if listed:
+        line += ", %d not connected yet" % listed
+    print(line)
     return 0 if broken == 0 else 1
 
 
