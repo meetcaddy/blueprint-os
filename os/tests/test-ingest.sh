@@ -242,6 +242,7 @@ workbook_intake(){ printf '# BLUEPRINT INTAKE \342\200\224 Summit Ridge Roofing\
 **Exit horizon:** 3 to 5 years
 **Who signs off on a build:** Chris
 **What done looks like:** No re-keying
+**Priorities, in order:** Enterprise value; Fewer people, or growth without adding people; More output and better quality
 
 ## GAPS
 - Workflows: 2 of 5 workflows (feeds the gap hunt covers only what you showed us)
@@ -269,7 +270,7 @@ check "reader: every ledger row is not connected yet" '[[ "$(printf "%s\n" "$rou
 check "reader: the team lines, roles with headcounts only" '[[ "$rout" == *"TEAM:"$'"'"'\n'"'"'"- People in the field: 13"$'"'"'\n'"'"'"- Office payroll, a month: \$25K to \$50K"$'"'"'\n'"'"'"- Champion: Dana"$'"'"'\n'"'"'"- Office manager: 1 (Billing)"$'"'"'\n'"'"'"- Permit runner: 1"* ]]'
 check "reader: not tracked stays not tracked and becomes a week-one measurement" '[[ "$rout" == *"- Overtime hours a month: not tracked (no number known: measure it in week one)"* ]]'
 check "reader: the money lines and the leads a week land in BASELINES" '[[ "$rout" == *"BASELINES:"*"- Revenue band: \$3M to \$10M"*"- Days to get paid: 47"*"- Leads a week: 25"* ]]'
-check "reader: customers, constraints and goals get their own blocks" '[[ "$rout" == *"CUSTOMERS AND COMMUNICATION:"*"- What is sent and when: Estimate within two days"*"CONSTRAINTS:"*"- Flags: Union rules"*"GOALS:"*"- Who signs off on a build: Chris"* ]]'
+check "reader: customers, constraints and goals get their own blocks" '[[ "$rout" == *"CUSTOMERS AND COMMUNICATION:"*"- What is sent and when: Estimate within two days"*"CONSTRAINTS:"*"- Flags: Union rules"*"GOALS:"*"- Who signs off on a build: Chris"*"- Priorities, in order: Enterprise value; Fewer people, or growth without adding people; More output and better quality"* ]]'
 check "reader: the samples go to NOTES by name, with what is not available" '[[ "$rout" == *"- Samples sent with the Workbook: An estimate (Estimate-1142.pdf), System screenshot (qb-billing.png). Not available: Safety program."* ]]'
 check "reader: workflows are candidates, with the recording or the steps" '[[ "$rout" == *"never opportunities on their own"*"1. Lead to signed proposal: a recording (https://www.loom.com/share/x), no written steps."*"2. Job close to paid invoice: 3 written steps."*"   2. Dana invoices"* ]]'
 check "reader: never frames a workflow as an opportunity" '[[ "$rout" != *"Blueprint opportunity"* && "$rout" != *"opportunity 1"* ]]'
