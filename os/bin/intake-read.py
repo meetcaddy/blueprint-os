@@ -30,7 +30,7 @@ MONEY = ("Revenue band", "Gross margin band", "Average job size", "Jobs a month"
          "Overtime hours a month")
 CUSTOMERS = ("Lead sources", "First response", "Leads a week", "Channels", "What is sent and when")
 CONSTRAINTS = ("Flags", "Details")
-GOALS = ("12-month goal", "Exit horizon", "Who signs off on a build", "What done looks like")
+GOALS = ("12-month goal", "Exit horizon", "Who signs off on a build", "What done looks like", "Priorities, in order")
 NOT_GIVEN = "not given"
 
 DASHES = "".join(chr(c) for c in (0x2014, 0x2013))  # the renderer's em dash, or an en dash; built here so this file carries none
